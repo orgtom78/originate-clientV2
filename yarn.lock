@@ -65,6 +65,15 @@
   dependencies:
     node-fetch "^2.6.1"
 
+"@aws-amplify/ai-constructs@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/ai-constructs/-/ai-constructs-0.2.0.tgz#91db9586d8e656a4ad7f2b0b539a2221a38124b2"
+  integrity sha512-aqmUrUvbWpebJcNCvoFywHLTQXNIlli8VE2i9+sSMlQXAG2zRiqcpDdRha+0NQnPNj09K2/DMLTe79ldwDaGkQ==
+  dependencies:
+    "@aws-amplify/plugin-types" "^1.0.1"
+    "@aws-sdk/client-bedrock-runtime" "^3.622.0"
+    "@smithy/types" "^3.3.0"
+
 "@aws-amplify/appsync-modelgen-plugin@2.13.2", "@aws-amplify/appsync-modelgen-plugin@^2.11.0":
   version "2.13.2"
   resolved "https://registry.yarnpkg.com/@aws-amplify/appsync-modelgen-plugin/-/appsync-modelgen-plugin-2.13.2.tgz#049bc76f302a7aabe766fe73b2f6cb429a83d7f9"
@@ -80,6 +89,25 @@
     pluralize "^8.0.0"
     strip-indent "^3.0.0"
     ts-dedent "^1.1.0"
+
+"@aws-amplify/auth-construct@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/auth-construct/-/auth-construct-1.3.1.tgz#41782f97348c33339829733b362eb358624593dd"
+  integrity sha512-1i2f5Wkv1fq4Eieb1UOaZfjchPAsExJxSZBOP89GnS2TU/PCceibZAFBUKUZ9FMqwItyxms/3fHUPHaBVlVqSA==
+  dependencies:
+    "@aws-amplify/backend-output-schemas" "^1.1.0"
+    "@aws-amplify/backend-output-storage" "^1.1.2"
+    "@aws-amplify/plugin-types" "^1.2.2"
+    "@aws-sdk/util-arn-parser" "^3.568.0"
+
+"@aws-amplify/backend-auth@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/backend-auth/-/backend-auth-1.2.0.tgz#1aad6ca1fe43fdc7e58f1e484e1d85ad6c8523c7"
+  integrity sha512-v1FYzq/NPuAlsGhUjNB+EdzxqcD3/MZKUlo+NC0kx++M0Bxt5V/I51ws7NL8EiB0nTr7GzZKl3fqK30vgJCJ9g==
+  dependencies:
+    "@aws-amplify/auth-construct" "^1.3.1"
+    "@aws-amplify/backend-output-storage" "^1.1.2"
+    "@aws-amplify/plugin-types" "^1.3.0"
 
 "@aws-amplify/backend-cli@^1.2.9":
   version "1.2.9"
@@ -113,6 +141,17 @@
     yargs "^17.7.2"
     zod "^3.22.2"
 
+"@aws-amplify/backend-data@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/backend-data/-/backend-data-1.1.4.tgz#0801108ccf424e46a9d5c6df31bab8f171f1ceb9"
+  integrity sha512-qKK/t4VSH01P8OBA4yoNwqPKjVleQeQGZMo2S9voHMNk7C2hqBj0ztggMjhdiiVTYw8ZGIFMN1MFm05zdOJPqQ==
+  dependencies:
+    "@aws-amplify/backend-output-schemas" "^1.1.0"
+    "@aws-amplify/backend-output-storage" "^1.1.2"
+    "@aws-amplify/data-construct" "^1.10.1"
+    "@aws-amplify/data-schema-types" "^1.1.1"
+    "@aws-amplify/plugin-types" "^1.2.2"
+
 "@aws-amplify/backend-deployer@^1.1.3":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@aws-amplify/backend-deployer/-/backend-deployer-1.1.4.tgz#a0a6995b89b4094738cfc3d57e2194492546db22"
@@ -123,10 +162,29 @@
     execa "^8.0.1"
     tsx "^4.6.1"
 
-"@aws-amplify/backend-output-schemas@^1.1.0", "@aws-amplify/backend-output-schemas@^1.2.0", "@aws-amplify/backend-output-schemas@^1.2.1":
+"@aws-amplify/backend-function@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/backend-function/-/backend-function-1.6.0.tgz#defb93a56ad0e232d29d42229284f9f58df73f28"
+  integrity sha512-nnxZK2tsNobNULVKT3uMICDkfisWxF8upeXinI6r6ZEy5USc5SGnl1bC8/UEp9wh3m5MyzWmbYk/9HgZchmGaA==
+  dependencies:
+    "@aws-amplify/backend-output-schemas" "^1.1.0"
+    "@aws-amplify/backend-output-storage" "^1.1.2"
+    "@aws-amplify/plugin-types" "^1.3.0"
+    execa "^8.0.1"
+
+"@aws-amplify/backend-output-schemas@^1.0.0", "@aws-amplify/backend-output-schemas@^1.1.0", "@aws-amplify/backend-output-schemas@^1.2.0", "@aws-amplify/backend-output-schemas@^1.2.1", "@aws-amplify/backend-output-schemas@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@aws-amplify/backend-output-schemas/-/backend-output-schemas-1.3.0.tgz#7d6338c806314d22a486ba67d512c999af950fc8"
   integrity sha512-uXzl0tnKY8zLpiLxdLd+hK5MtfABEKa0CxPuuDeiEh0ywQ+oGCtFwXXSkTP+fhnHehBuwOtjFmn/01vX+ufj6g==
+
+"@aws-amplify/backend-output-storage@^1.0.0", "@aws-amplify/backend-output-storage@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/backend-output-storage/-/backend-output-storage-1.1.2.tgz#39152a171227e759e0f0b72396801842473a2eed"
+  integrity sha512-pKeYg33znqxRTWTDHp4D+w4lymhLeAMMn5ttlrYo2Kj2aSyI7TZs9pyhRa8cukhHgMuI51YBIZRejizjhIVXVA==
+  dependencies:
+    "@aws-amplify/backend-output-schemas" "^1.2.0"
+    "@aws-amplify/platform-core" "^1.0.6"
+    "@aws-amplify/plugin-types" "^1.2.2"
 
 "@aws-amplify/backend-secret@^1.1.2":
   version "1.1.3"
@@ -136,6 +194,34 @@
     "@aws-amplify/platform-core" "^1.0.5"
     "@aws-amplify/plugin-types" "^1.2.2"
     "@aws-sdk/client-ssm" "^3.624.0"
+
+"@aws-amplify/backend-storage@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/backend-storage/-/backend-storage-1.2.1.tgz#e2ec577f99388236eb09e7b6bbba4f67a910462b"
+  integrity sha512-FmGs0rKy2G0El/LNepmOXP8wNNcpU/CmOOBBU+znd85TYONqTH1rpAgNKi1+xYWbNP2Y49YS3xRkWHoouNH/jg==
+  dependencies:
+    "@aws-amplify/backend-output-schemas" "^1.2.1"
+    "@aws-amplify/backend-output-storage" "^1.1.2"
+    "@aws-amplify/plugin-types" "^1.3.0"
+
+"@aws-amplify/backend@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/backend/-/backend-1.4.0.tgz#e8e5fdbd497c6116fe3c9ccb9bd7a495524104e3"
+  integrity sha512-vRH8H7gpXwW23Rh6nSVlzYoGbD1WLHGIF9Dmgb3ITZLryK4DNt5CFnhtD0G+ALTuXwX0mguvKytQ+BRCAoARgg==
+  dependencies:
+    "@aws-amplify/backend-auth" "^1.2.0"
+    "@aws-amplify/backend-data" "^1.1.4"
+    "@aws-amplify/backend-function" "^1.6.0"
+    "@aws-amplify/backend-output-schemas" "^1.3.0"
+    "@aws-amplify/backend-output-storage" "^1.1.2"
+    "@aws-amplify/backend-secret" "^1.1.2"
+    "@aws-amplify/backend-storage" "^1.2.1"
+    "@aws-amplify/client-config" "^1.4.0"
+    "@aws-amplify/data-schema" "^1.0.0"
+    "@aws-amplify/platform-core" "^1.1.0"
+    "@aws-amplify/plugin-types" "^1.3.0"
+    "@aws-sdk/client-amplify" "^3.624.0"
+    lodash.snakecase "^4.1.1"
 
 "@aws-amplify/cli-core@^1.1.3":
   version "1.1.3"
@@ -180,6 +266,154 @@
     change-case "^4.1.2"
     yup "^0.32.11"
 
+"@aws-amplify/data-construct@^1.10.1":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/data-construct/-/data-construct-1.11.0.tgz#be857c44d5959ced8abb021389e5e6a2a64c31a1"
+  integrity sha512-8BV/ObiT+j1iGQy021skOqdmVdNhkwpl7jGafwgiqMKoIRKaUQYQjwUxN5VwSKHlEPqWhP2yIk2FVTOfVlYmkQ==
+  dependencies:
+    "@aws-amplify/ai-constructs" "^0.2.0"
+    "@aws-amplify/backend-output-schemas" "^1.0.0"
+    "@aws-amplify/backend-output-storage" "^1.0.0"
+    "@aws-amplify/graphql-api-construct" "1.15.0"
+    "@aws-amplify/graphql-auth-transformer" "4.1.3"
+    "@aws-amplify/graphql-conversation-transformer" "0.3.0"
+    "@aws-amplify/graphql-default-value-transformer" "3.1.0"
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-function-transformer" "3.1.2"
+    "@aws-amplify/graphql-generation-transformer" "0.2.3"
+    "@aws-amplify/graphql-http-transformer" "3.0.5"
+    "@aws-amplify/graphql-index-transformer" "3.0.5"
+    "@aws-amplify/graphql-maps-to-transformer" "4.0.5"
+    "@aws-amplify/graphql-model-transformer" "3.0.5"
+    "@aws-amplify/graphql-predictions-transformer" "3.0.5"
+    "@aws-amplify/graphql-relational-transformer" "3.0.5"
+    "@aws-amplify/graphql-searchable-transformer" "3.0.5"
+    "@aws-amplify/graphql-sql-transformer" "0.4.5"
+    "@aws-amplify/graphql-transformer" "2.1.3"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    "@aws-amplify/platform-core" "^1.0.0"
+    "@aws-amplify/plugin-types" "^1.0.0"
+    "@aws-crypto/crc32" "5.2.0"
+    "@aws-crypto/sha256-browser" "5.2.0"
+    "@aws-crypto/sha256-js" "^5.2.0"
+    "@aws-crypto/supports-web-crypto" "^5.2.0"
+    "@aws-crypto/util" "^5.2.0"
+    "@aws-sdk/client-bedrock-runtime" "^3.622.0"
+    "@aws-sdk/client-sso" "3.637.0"
+    "@aws-sdk/client-sso-oidc" "3.637.0"
+    "@aws-sdk/client-sts" "^3.624.0"
+    "@aws-sdk/core" "3.635.0"
+    "@aws-sdk/credential-provider-env" "3.620.1"
+    "@aws-sdk/credential-provider-http" "3.635.0"
+    "@aws-sdk/credential-provider-ini" "3.637.0"
+    "@aws-sdk/credential-provider-node" "3.637.0"
+    "@aws-sdk/credential-provider-process" "3.620.1"
+    "@aws-sdk/credential-provider-sso" "3.637.0"
+    "@aws-sdk/credential-provider-web-identity" "3.621.0"
+    "@aws-sdk/middleware-host-header" "3.620.0"
+    "@aws-sdk/middleware-logger" "3.609.0"
+    "@aws-sdk/middleware-recursion-detection" "3.620.0"
+    "@aws-sdk/middleware-user-agent" "3.637.0"
+    "@aws-sdk/region-config-resolver" "3.614.0"
+    "@aws-sdk/token-providers" "3.614.0"
+    "@aws-sdk/types" "3.609.0"
+    "@aws-sdk/util-endpoints" "3.637.0"
+    "@aws-sdk/util-locate-window" "^3.0.0"
+    "@aws-sdk/util-user-agent-browser" "3.609.0"
+    "@aws-sdk/util-user-agent-node" "3.614.0"
+    "@smithy/abort-controller" "^3.1.1"
+    "@smithy/config-resolver" "^3.0.5"
+    "@smithy/core" "^2.4.0"
+    "@smithy/credential-provider-imds" "^3.2.0"
+    "@smithy/eventstream-codec" "^3.1.2"
+    "@smithy/eventstream-serde-browser" "^3.0.6"
+    "@smithy/eventstream-serde-config-resolver" "^3.0.3"
+    "@smithy/eventstream-serde-node" "^3.0.5"
+    "@smithy/eventstream-serde-universal" "^3.0.5"
+    "@smithy/fetch-http-handler" "^3.2.4"
+    "@smithy/hash-node" "^3.0.3"
+    "@smithy/invalid-dependency" "^3.0.3"
+    "@smithy/is-array-buffer" "^3.0.0"
+    "@smithy/middleware-content-length" "^3.0.5"
+    "@smithy/middleware-endpoint" "^3.1.0"
+    "@smithy/middleware-retry" "^3.0.15"
+    "@smithy/middleware-serde" "^3.0.3"
+    "@smithy/middleware-stack" "^3.0.3"
+    "@smithy/node-config-provider" "^3.1.4"
+    "@smithy/node-http-handler" "^3.1.4"
+    "@smithy/property-provider" "^3.1.3"
+    "@smithy/protocol-http" "^4.1.0"
+    "@smithy/querystring-builder" "^3.0.3"
+    "@smithy/querystring-parser" "^3.0.3"
+    "@smithy/service-error-classification" "^3.0.3"
+    "@smithy/shared-ini-file-loader" "^3.1.4"
+    "@smithy/signature-v4" "^4.1.0"
+    "@smithy/smithy-client" "^3.2.0"
+    "@smithy/types" "^3.3.0"
+    "@smithy/url-parser" "^3.0.3"
+    "@smithy/util-base64" "^3.0.0"
+    "@smithy/util-body-length-browser" "^3.0.0"
+    "@smithy/util-body-length-node" "^3.0.0"
+    "@smithy/util-buffer-from" "^3.0.0"
+    "@smithy/util-config-provider" "^3.0.0"
+    "@smithy/util-defaults-mode-browser" "^3.0.15"
+    "@smithy/util-defaults-mode-node" "^3.0.15"
+    "@smithy/util-endpoints" "^2.0.5"
+    "@smithy/util-hex-encoding" "^3.0.0"
+    "@smithy/util-middleware" "^3.0.3"
+    "@smithy/util-retry" "^3.0.3"
+    "@smithy/util-stream" "^3.1.3"
+    "@smithy/util-uri-escape" "^3.0.0"
+    "@smithy/util-utf8" "^3.0.0"
+    bowser "^2.11.0"
+    charenc "^0.0.2"
+    ci-info "^3.2.0"
+    crypt "^0.0.2"
+    fast-xml-parser "4.4.1"
+    fs-extra "^8.1.0"
+    graceful-fs "^4.2.0"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+    hjson "^3.2.2"
+    immer "^9.0.12"
+    is-buffer "~1.1.6"
+    is-ci "^3.0.1"
+    jsonfile "^4.0.0"
+    libphonenumber-js "1.9.47"
+    lodash "^4.17.21"
+    lodash.mergewith "^4.6.2"
+    md5 "^2.2.1"
+    object-hash "^3.0.0"
+    pluralize "8.0.0"
+    semver "^7.6.3"
+    strnum "^1.0.5"
+    ts-dedent "^2.0.0"
+    tslib "^2.6.2"
+    universalify "^0.1.0"
+    uuid "^9.0.1"
+    zod "^3.22.2"
+
+"@aws-amplify/data-schema-types@*", "@aws-amplify/data-schema-types@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/data-schema-types/-/data-schema-types-1.1.1.tgz#5b0331626321a9407d0438e4a29c715f6f4f4afe"
+  integrity sha512-WhWEEsztpSSxIY0lJ3Ge5iA4g3PBm66SQmy1fBH1FBq0T+cxUBijifOU8MNwf+tf6lGpArMX0RS54HRVF5fUSA==
+  dependencies:
+    graphql "15.8.0"
+    rxjs "^7.8.1"
+
+"@aws-amplify/data-schema@^1.0.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/data-schema/-/data-schema-1.10.0.tgz#016fe8e9e1f40d268d26867c1bd925d71e902a12"
+  integrity sha512-tp1dtpNmc5X8B9M3yg1TmkXvnMH10UicPrnfpNCVfsuCQZk7r/hNkzLaLlAyD8/f5/sXatpYl91zo7owbIuPPw==
+  dependencies:
+    "@aws-amplify/data-schema-types" "*"
+    "@smithy/util-base64" "^3.0.0"
+    "@types/aws-lambda" "^8.10.134"
+    "@types/json-schema" "^7.0.15"
+    rxjs "^7.8.1"
+
 "@aws-amplify/deployed-backend-client@^1.4.1":
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@aws-amplify/deployed-backend-client/-/deployed-backend-client-1.4.1.tgz#2d97465a5a19a1709b522a1caf16e9a768114fb7"
@@ -209,10 +443,189 @@
     node-fetch "^3.3.2"
     prettier "^2.8.7"
 
+"@aws-amplify/graphql-api-construct@1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-api-construct/-/graphql-api-construct-1.15.0.tgz#48f001b715c523184962ae3b60109d6b9b6cf76a"
+  integrity sha512-ueC7sRkqY4W+BkoVHokB4E+8E9nClx5RztzFmjXYUl8QCdYdr/ILvdEiBiT3s7cOwbUOdxj/0Qklx1q+imNCjw==
+  dependencies:
+    "@aws-amplify/ai-constructs" "^0.2.0"
+    "@aws-amplify/backend-output-schemas" "^1.0.0"
+    "@aws-amplify/backend-output-storage" "^1.0.0"
+    "@aws-amplify/graphql-auth-transformer" "4.1.3"
+    "@aws-amplify/graphql-conversation-transformer" "0.3.0"
+    "@aws-amplify/graphql-default-value-transformer" "3.1.0"
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-function-transformer" "3.1.2"
+    "@aws-amplify/graphql-generation-transformer" "0.2.3"
+    "@aws-amplify/graphql-http-transformer" "3.0.5"
+    "@aws-amplify/graphql-index-transformer" "3.0.5"
+    "@aws-amplify/graphql-maps-to-transformer" "4.0.5"
+    "@aws-amplify/graphql-model-transformer" "3.0.5"
+    "@aws-amplify/graphql-predictions-transformer" "3.0.5"
+    "@aws-amplify/graphql-relational-transformer" "3.0.5"
+    "@aws-amplify/graphql-searchable-transformer" "3.0.5"
+    "@aws-amplify/graphql-sql-transformer" "0.4.5"
+    "@aws-amplify/graphql-transformer" "2.1.3"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    "@aws-amplify/platform-core" "^1.0.0"
+    "@aws-amplify/plugin-types" "^1.0.0"
+    "@aws-crypto/crc32" "5.2.0"
+    "@aws-crypto/sha256-browser" "5.2.0"
+    "@aws-crypto/sha256-js" "^5.2.0"
+    "@aws-crypto/supports-web-crypto" "^5.2.0"
+    "@aws-crypto/util" "^5.2.0"
+    "@aws-sdk/client-bedrock-runtime" "^3.622.0"
+    "@aws-sdk/client-sso" "3.637.0"
+    "@aws-sdk/client-sso-oidc" "3.637.0"
+    "@aws-sdk/client-sts" "^3.624.0"
+    "@aws-sdk/core" "3.635.0"
+    "@aws-sdk/credential-provider-env" "3.620.1"
+    "@aws-sdk/credential-provider-http" "3.635.0"
+    "@aws-sdk/credential-provider-ini" "3.637.0"
+    "@aws-sdk/credential-provider-node" "3.637.0"
+    "@aws-sdk/credential-provider-process" "3.620.1"
+    "@aws-sdk/credential-provider-sso" "3.637.0"
+    "@aws-sdk/credential-provider-web-identity" "3.621.0"
+    "@aws-sdk/middleware-host-header" "3.620.0"
+    "@aws-sdk/middleware-logger" "3.609.0"
+    "@aws-sdk/middleware-recursion-detection" "3.620.0"
+    "@aws-sdk/middleware-user-agent" "3.637.0"
+    "@aws-sdk/region-config-resolver" "3.614.0"
+    "@aws-sdk/token-providers" "3.614.0"
+    "@aws-sdk/types" "3.609.0"
+    "@aws-sdk/util-endpoints" "3.637.0"
+    "@aws-sdk/util-locate-window" "^3.0.0"
+    "@aws-sdk/util-user-agent-browser" "3.609.0"
+    "@aws-sdk/util-user-agent-node" "3.614.0"
+    "@smithy/abort-controller" "^3.1.1"
+    "@smithy/config-resolver" "^3.0.5"
+    "@smithy/core" "^2.4.0"
+    "@smithy/credential-provider-imds" "^3.2.0"
+    "@smithy/eventstream-codec" "^3.1.2"
+    "@smithy/eventstream-serde-browser" "^3.0.6"
+    "@smithy/eventstream-serde-config-resolver" "^3.0.3"
+    "@smithy/eventstream-serde-node" "^3.0.5"
+    "@smithy/eventstream-serde-universal" "^3.0.5"
+    "@smithy/fetch-http-handler" "^3.2.4"
+    "@smithy/hash-node" "^3.0.3"
+    "@smithy/invalid-dependency" "^3.0.3"
+    "@smithy/is-array-buffer" "^3.0.0"
+    "@smithy/middleware-content-length" "^3.0.5"
+    "@smithy/middleware-endpoint" "^3.1.0"
+    "@smithy/middleware-retry" "^3.0.15"
+    "@smithy/middleware-serde" "^3.0.3"
+    "@smithy/middleware-stack" "^3.0.3"
+    "@smithy/node-config-provider" "^3.1.4"
+    "@smithy/node-http-handler" "^3.1.4"
+    "@smithy/property-provider" "^3.1.3"
+    "@smithy/protocol-http" "^4.1.0"
+    "@smithy/querystring-builder" "^3.0.3"
+    "@smithy/querystring-parser" "^3.0.3"
+    "@smithy/service-error-classification" "^3.0.3"
+    "@smithy/shared-ini-file-loader" "^3.1.4"
+    "@smithy/signature-v4" "^4.1.0"
+    "@smithy/smithy-client" "^3.2.0"
+    "@smithy/types" "^3.3.0"
+    "@smithy/url-parser" "^3.0.3"
+    "@smithy/util-base64" "^3.0.0"
+    "@smithy/util-body-length-browser" "^3.0.0"
+    "@smithy/util-body-length-node" "^3.0.0"
+    "@smithy/util-buffer-from" "^3.0.0"
+    "@smithy/util-config-provider" "^3.0.0"
+    "@smithy/util-defaults-mode-browser" "^3.0.15"
+    "@smithy/util-defaults-mode-node" "^3.0.15"
+    "@smithy/util-endpoints" "^2.0.5"
+    "@smithy/util-hex-encoding" "^3.0.0"
+    "@smithy/util-middleware" "^3.0.3"
+    "@smithy/util-retry" "^3.0.3"
+    "@smithy/util-stream" "^3.1.3"
+    "@smithy/util-uri-escape" "^3.0.0"
+    "@smithy/util-utf8" "^3.0.0"
+    bowser "^2.11.0"
+    charenc "^0.0.2"
+    ci-info "^3.2.0"
+    crypt "^0.0.2"
+    fast-xml-parser "4.4.1"
+    fs-extra "^8.1.0"
+    graceful-fs "^4.2.0"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+    hjson "^3.2.2"
+    immer "^9.0.12"
+    is-buffer "~1.1.6"
+    is-ci "^3.0.1"
+    jsonfile "^4.0.0"
+    libphonenumber-js "1.9.47"
+    lodash "^4.17.21"
+    lodash.mergewith "^4.6.2"
+    md5 "^2.2.1"
+    object-hash "^3.0.0"
+    pluralize "8.0.0"
+    semver "^7.6.3"
+    strnum "^1.0.5"
+    ts-dedent "^2.0.0"
+    tslib "^2.6.2"
+    universalify "^0.1.0"
+    uuid "^9.0.1"
+    zod "^3.22.2"
+
+"@aws-amplify/graphql-auth-transformer@4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-auth-transformer/-/graphql-auth-transformer-4.1.3.tgz#90dc4501559cc3820591730f44ea196b89981f0e"
+  integrity sha512-CZ037VwnCuWgpHh+U6NriI2BAD1BFoqHLh3UTZZTfALwZtd60KfZIm/rOwKpc+L2eTFIIXbKDKYk59/w3ci7tA==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-model-transformer" "3.0.5"
+    "@aws-amplify/graphql-relational-transformer" "3.0.5"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+    lodash "^4.17.21"
+    md5 "^2.3.0"
+
+"@aws-amplify/graphql-conversation-transformer@0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-conversation-transformer/-/graphql-conversation-transformer-0.3.0.tgz#725c9199469f8ea2e5e45dc4b773138cb6b8b016"
+  integrity sha512-IgjUXw+gAzvJBS9eXhpmwblcdi8bJUFODWNX7Ibwnvj0wT0BnXvGgUzVAHmTYgkqzV1gw1DL2fGaLUik3H9Qeg==
+  dependencies:
+    "@aws-amplify/ai-constructs" "^0.2.0"
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-index-transformer" "3.0.5"
+    "@aws-amplify/graphql-model-transformer" "3.0.5"
+    "@aws-amplify/graphql-relational-transformer" "3.0.5"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+    immer "^9.0.12"
+
+"@aws-amplify/graphql-default-value-transformer@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-default-value-transformer/-/graphql-default-value-transformer-3.1.0.tgz#de9e37b74cd13710ca815ac0ee3b853a032c7586"
+  integrity sha512-59i0C88hIhb0GNpokVKVix2ufcZH1Xb8PKYow5jUbVAsY/DWFXQRNMUjepeZPMmeMsnfjs2NpebvlSWlGhTt7w==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+    libphonenumber-js "1.9.47"
+
 "@aws-amplify/graphql-directives@1.1.0", "@aws-amplify/graphql-directives@^1.0.1":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-directives/-/graphql-directives-1.1.0.tgz#bc861ad1ddb9f7d0ee4694fe6c68734b912015f9"
   integrity sha512-rcGfm8DsnD7Em1wYgNoq7yO+cE22mM0ssFYRWnHGsZOMX9Lh25HP1Ympt633V+raaTK3ND0gAlbVLxXzCN8XOg==
+
+"@aws-amplify/graphql-directives@2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-directives/-/graphql-directives-2.3.0.tgz#ebb50d6383cb8d2157e041c9046d3381fa750b13"
+  integrity sha512-76nZY9qrALpBnd4eW/vCARkDgvU5iCiQWIhM0knx2vCofJsGgsS75uEy2G/p3ARvvEnl+RVWX27wGEtQJXLh3g==
 
 "@aws-amplify/graphql-docs-generator@4.2.1", "@aws-amplify/graphql-docs-generator@^4.1.0":
   version "4.2.1"
@@ -222,6 +635,31 @@
     graphql "^15.5.0"
     handlebars "4.7.7"
     yargs "^15.1.0"
+
+"@aws-amplify/graphql-function-transformer@3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-function-transformer/-/graphql-function-transformer-3.1.2.tgz#5417e5ec7b270fe654fcee77ff666752fb752bce"
+  integrity sha512-8uihvaBxlugzI+fELUweUd1AKs/cLBwrZspb5tLJdEs0nZsV5QKEp1xapobvdm6QHhPFN8i4DaApjaYt2LC+sQ==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+
+"@aws-amplify/graphql-generation-transformer@0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-generation-transformer/-/graphql-generation-transformer-0.2.3.tgz#0a3bb2a06760282b8acb89e1c035f0a9887a9cf4"
+  integrity sha512-NJEl0cOrR3kkVAqPeOV5dA2PUu1tnsiy7iwJj65DrntwaMaYB9aFNXA2zEQcGedTiJ6/0i7Aa1laPOHqM7lUqg==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+    immer "^9.0.12"
 
 "@aws-amplify/graphql-generator@^0.4.0":
   version "0.4.7"
@@ -236,6 +674,81 @@
     "@graphql-tools/apollo-engine-loader" "^8.0.0"
     graphql "^15.5.0"
     prettier "^1.19.1"
+
+"@aws-amplify/graphql-http-transformer@3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-http-transformer/-/graphql-http-transformer-3.0.5.tgz#e689bbfc17a752c5ca5e1bf239be3f1db12a7fa9"
+  integrity sha512-0Hbza82ITXP9H9R76pZmrzSi/gELCmUV9M2T/fIIyE5dgKHykR5zWGkivCYiHLvjN6uaJSBzdr15EFD2SQmx9g==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+
+"@aws-amplify/graphql-index-transformer@3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-index-transformer/-/graphql-index-transformer-3.0.5.tgz#c1dda2a311c3a7e4a42b3a60946d7dffc9ff97b3"
+  integrity sha512-CkMpp6z7i2R+Y/LquLi1XdsE5vOrkDJuk2HRmVUtxbqqHlX31stDceY8ApLtFee4lwF7aNmwTU5dPVFXrF9cdQ==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-model-transformer" "3.0.5"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+
+"@aws-amplify/graphql-maps-to-transformer@4.0.5":
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-maps-to-transformer/-/graphql-maps-to-transformer-4.0.5.tgz#c9f9821ded61f0e65fc572b2c44e05431ebea858"
+  integrity sha512-72OIxW6o/Au0bMJWyjiSJZe/vCMwsBAiHd1ZCvNkxRggPdxJ/afqbkaMBYOmFAihh1WoDxPBzjMuoY4/lCXPQg==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+
+"@aws-amplify/graphql-model-transformer@3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-model-transformer/-/graphql-model-transformer-3.0.5.tgz#c5508c842e3f2bab2957dcedee149366cf16f64f"
+  integrity sha512-Rro2pDr/YBe6AbN9Kzy01zkUSZxvTswqS2x5foO3lvFJGaEFpt8zyEywDWOkb5fmXA/W4kQU0D2FeQAG0uhFAw==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+
+"@aws-amplify/graphql-predictions-transformer@3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-predictions-transformer/-/graphql-predictions-transformer-3.0.5.tgz#b14fe75699c5803fdbee6bd1a2a9644e82e44fdb"
+  integrity sha512-/OfSYyWKWhDX4qtCTDMdRiHw6Id0U90JdAnse8tFCGXUPvVfyVz0MkEdQgQYRdFfKagZQb+I6qadSVTXB4DNWQ==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+
+"@aws-amplify/graphql-relational-transformer@3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-relational-transformer/-/graphql-relational-transformer-3.0.5.tgz#e2575cac784c0cbd7575d3540a0d41056f589297"
+  integrity sha512-SMWczI4e8bYo0E9hP+9cOfm3vIDttqFKTws7yDN0zU05v0iITxW5p99tBNXIH0mNJn6XhL70Cv7kVLUp9By9hg==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-index-transformer" "3.0.5"
+    "@aws-amplify/graphql-model-transformer" "3.0.5"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+    immer "^9.0.12"
 
 "@aws-amplify/graphql-schema-generator@^0.9.4":
   version "0.9.4"
@@ -259,6 +772,32 @@
     pluralize "^8.0.0"
     typescript "^4.8.4"
 
+"@aws-amplify/graphql-searchable-transformer@3.0.5":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-searchable-transformer/-/graphql-searchable-transformer-3.0.5.tgz#cd67c19d07f9d34aa4131bd14c87947ba4117171"
+  integrity sha512-uUFDd36EDH4dtwpE4zOXhiSP03OHey95nGn33S8AWb9B6i4AmuLMwLOysPxnnK8Z0CoA6ct+D04OrhOLAsztqQ==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-model-transformer" "3.0.5"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+
+"@aws-amplify/graphql-sql-transformer@0.4.5":
+  version "0.4.5"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-sql-transformer/-/graphql-sql-transformer-0.4.5.tgz#3fe7ec479c6c1a0594015f157a048d0a123c7e5e"
+  integrity sha512-iVN35aV3FPrQhg3IbVzkxwhO4nl49gVsR52Q5D50RZs0HB4DQ+yi4TL2NogVJKP7PDXkYUlbUIlQnN630wHQgQ==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-model-transformer" "3.0.5"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+
 "@aws-amplify/graphql-transformer-core@2.9.3":
   version "2.9.3"
   resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-core/-/graphql-transformer-core-2.9.3.tgz#9ab6bf8b58cf3481ec9680724bfe752b195dd9b8"
@@ -276,12 +815,57 @@
     object-hash "^3.0.0"
     ts-dedent "^2.0.0"
 
+"@aws-amplify/graphql-transformer-core@3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-core/-/graphql-transformer-core-3.2.0.tgz#3d401c4dca88889b2ed371d79a9eb5748a1bffea"
+  integrity sha512-QS1UbJx23xAS+qHijbXx4HzrUGUFo4sZW9utcGbwYXQV0K2av5zyQ2eQAAw6V9AEQGb4Aom9wWQJN7xj0cjHXA==
+  dependencies:
+    "@aws-amplify/graphql-directives" "2.3.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
+    fs-extra "^8.1.0"
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    graphql-transformer-common "5.0.1"
+    hjson "^3.2.2"
+    lodash "^4.17.21"
+    md5 "^2.3.0"
+    object-hash "^3.0.0"
+    ts-dedent "^2.0.0"
+
 "@aws-amplify/graphql-transformer-interfaces@3.10.1":
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-3.10.1.tgz#18283fe97be3abf58f8564f877b7871fc11f4b9b"
   integrity sha512-daf+cpOSw3lKiS+Tpc5Oo5H+FCkHi/8z+0mAR/greQGPJWzcHv9j2u1Jiy36UvI01ypOhHme58pAs/fKWLWDBQ==
   dependencies:
     graphql "^15.5.0"
+
+"@aws-amplify/graphql-transformer-interfaces@4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer-interfaces/-/graphql-transformer-interfaces-4.1.2.tgz#8a18d99bc28bd29e4342b0849d5172510da5d538"
+  integrity sha512-fW4BIo2stFYOc6LDrSDKW0NTKmBp/c+UJUG5YjDef5fUUTbE8RZMzUGgSjgzDgwXpAT8CyYuncqMLchVkQSFFQ==
+  dependencies:
+    graphql "^15.5.0"
+
+"@aws-amplify/graphql-transformer@2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@aws-amplify/graphql-transformer/-/graphql-transformer-2.1.3.tgz#6899fe15372d9e8321e839ce00572ca80e7c815e"
+  integrity sha512-Wps9VvA6hU4m4HH/cADVo+fTQ31lG2mQqETLHZJVAKDTS0TIE2SQUeT5bofJoyWApXx7bmy6XlFTdECtPVZxBQ==
+  dependencies:
+    "@aws-amplify/graphql-auth-transformer" "4.1.3"
+    "@aws-amplify/graphql-conversation-transformer" "0.3.0"
+    "@aws-amplify/graphql-default-value-transformer" "3.1.0"
+    "@aws-amplify/graphql-function-transformer" "3.1.2"
+    "@aws-amplify/graphql-generation-transformer" "0.2.3"
+    "@aws-amplify/graphql-http-transformer" "3.0.5"
+    "@aws-amplify/graphql-index-transformer" "3.0.5"
+    "@aws-amplify/graphql-maps-to-transformer" "4.0.5"
+    "@aws-amplify/graphql-model-transformer" "3.0.5"
+    "@aws-amplify/graphql-predictions-transformer" "3.0.5"
+    "@aws-amplify/graphql-relational-transformer" "3.0.5"
+    "@aws-amplify/graphql-searchable-transformer" "3.0.5"
+    "@aws-amplify/graphql-sql-transformer" "0.4.5"
+    "@aws-amplify/graphql-transformer-core" "3.2.0"
+    "@aws-amplify/graphql-transformer-interfaces" "4.1.2"
 
 "@aws-amplify/graphql-types-generator@3.6.0", "@aws-amplify/graphql-types-generator@^3.6.0":
   version "3.6.0"
@@ -321,7 +905,7 @@
     "@aws-sdk/types" "^3.609.0"
     graphql "^15.8.0"
 
-"@aws-amplify/platform-core@^1.0.5", "@aws-amplify/platform-core@^1.0.6", "@aws-amplify/platform-core@^1.0.7":
+"@aws-amplify/platform-core@^1.0.0", "@aws-amplify/platform-core@^1.0.5", "@aws-amplify/platform-core@^1.0.6", "@aws-amplify/platform-core@^1.0.7", "@aws-amplify/platform-core@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@aws-amplify/platform-core/-/platform-core-1.1.0.tgz#85002b14e37caeb8f90916554e57f7809582e94a"
   integrity sha512-9iOM+dpht1f52WUHPyaXyeF8Z27TNgqBS86JmIhcsqWltUsCqoQDKPVjaTj8No05oMzm+icWc96dPG/EZIE3jw==
@@ -334,7 +918,7 @@
     uuid "^9.0.1"
     zod "^3.22.2"
 
-"@aws-amplify/plugin-types@^1.2.1", "@aws-amplify/plugin-types@^1.2.2", "@aws-amplify/plugin-types@^1.3.0":
+"@aws-amplify/plugin-types@^1.0.0", "@aws-amplify/plugin-types@^1.0.1", "@aws-amplify/plugin-types@^1.2.1", "@aws-amplify/plugin-types@^1.2.2", "@aws-amplify/plugin-types@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@aws-amplify/plugin-types/-/plugin-types-1.3.0.tgz#9fba3eb2915fa58d11f1a6842e86b7c3d5927998"
   integrity sha512-MEDczuMiTm8Rer3LQQl3AgEpH3Ws/JH/1FkPTdHAwBie6toeyl624t6E9wuLQ3AikId/R7Pbi6DHr4YmCSus0g==
@@ -555,6 +1139,57 @@
     "@aws-sdk/util-user-agent-node" "3.669.0"
     "@smithy/config-resolver" "^3.0.9"
     "@smithy/core" "^2.4.8"
+    "@smithy/fetch-http-handler" "^3.2.9"
+    "@smithy/hash-node" "^3.0.7"
+    "@smithy/invalid-dependency" "^3.0.7"
+    "@smithy/middleware-content-length" "^3.0.9"
+    "@smithy/middleware-endpoint" "^3.1.4"
+    "@smithy/middleware-retry" "^3.0.23"
+    "@smithy/middleware-serde" "^3.0.7"
+    "@smithy/middleware-stack" "^3.0.7"
+    "@smithy/node-config-provider" "^3.1.8"
+    "@smithy/node-http-handler" "^3.2.4"
+    "@smithy/protocol-http" "^4.1.4"
+    "@smithy/smithy-client" "^3.4.0"
+    "@smithy/types" "^3.5.0"
+    "@smithy/url-parser" "^3.0.7"
+    "@smithy/util-base64" "^3.0.0"
+    "@smithy/util-body-length-browser" "^3.0.0"
+    "@smithy/util-body-length-node" "^3.0.0"
+    "@smithy/util-defaults-mode-browser" "^3.0.23"
+    "@smithy/util-defaults-mode-node" "^3.0.23"
+    "@smithy/util-endpoints" "^2.1.3"
+    "@smithy/util-middleware" "^3.0.7"
+    "@smithy/util-retry" "^3.0.7"
+    "@smithy/util-stream" "^3.1.9"
+    "@smithy/util-utf8" "^3.0.0"
+    tslib "^2.6.2"
+
+"@aws-sdk/client-bedrock-runtime@^3.622.0":
+  version "3.670.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-bedrock-runtime/-/client-bedrock-runtime-3.670.0.tgz#6379dbdcfcf40a4e1ebb021c6279d2dd13594e37"
+  integrity sha512-kDtXgyypCWc2cV8LJC0UXxlDWPBcs42b+NB1HiUn1U/jmPtDjPnIxnneRTnfJKZ03M3K2Ew20BOcpgXUXSZiiw==
+  dependencies:
+    "@aws-crypto/sha256-browser" "5.2.0"
+    "@aws-crypto/sha256-js" "5.2.0"
+    "@aws-sdk/client-sso-oidc" "3.670.0"
+    "@aws-sdk/client-sts" "3.670.0"
+    "@aws-sdk/core" "3.667.0"
+    "@aws-sdk/credential-provider-node" "3.670.0"
+    "@aws-sdk/middleware-host-header" "3.667.0"
+    "@aws-sdk/middleware-logger" "3.667.0"
+    "@aws-sdk/middleware-recursion-detection" "3.667.0"
+    "@aws-sdk/middleware-user-agent" "3.669.0"
+    "@aws-sdk/region-config-resolver" "3.667.0"
+    "@aws-sdk/types" "3.667.0"
+    "@aws-sdk/util-endpoints" "3.667.0"
+    "@aws-sdk/util-user-agent-browser" "3.670.0"
+    "@aws-sdk/util-user-agent-node" "3.669.0"
+    "@smithy/config-resolver" "^3.0.9"
+    "@smithy/core" "^2.4.8"
+    "@smithy/eventstream-serde-browser" "^3.0.10"
+    "@smithy/eventstream-serde-config-resolver" "^3.0.7"
+    "@smithy/eventstream-serde-node" "^3.0.9"
     "@smithy/fetch-http-handler" "^3.2.9"
     "@smithy/hash-node" "^3.0.7"
     "@smithy/invalid-dependency" "^3.0.7"
@@ -1137,6 +1772,51 @@
     "@smithy/util-utf8" "^3.0.0"
     tslib "^2.6.2"
 
+"@aws-sdk/client-sso-oidc@3.637.0":
+  version "3.637.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-sso-oidc/-/client-sso-oidc-3.637.0.tgz#d7e22ce6627c3285bf311e6c9e64c22b99bbd76a"
+  integrity sha512-27bHALN6Qb6m6KZmPvRieJ/QRlj1lyac/GT2Rn5kJpre8Mpp+yxrtvp3h9PjNBty4lCeFEENfY4dGNSozBuBcw==
+  dependencies:
+    "@aws-crypto/sha256-browser" "5.2.0"
+    "@aws-crypto/sha256-js" "5.2.0"
+    "@aws-sdk/core" "3.635.0"
+    "@aws-sdk/credential-provider-node" "3.637.0"
+    "@aws-sdk/middleware-host-header" "3.620.0"
+    "@aws-sdk/middleware-logger" "3.609.0"
+    "@aws-sdk/middleware-recursion-detection" "3.620.0"
+    "@aws-sdk/middleware-user-agent" "3.637.0"
+    "@aws-sdk/region-config-resolver" "3.614.0"
+    "@aws-sdk/types" "3.609.0"
+    "@aws-sdk/util-endpoints" "3.637.0"
+    "@aws-sdk/util-user-agent-browser" "3.609.0"
+    "@aws-sdk/util-user-agent-node" "3.614.0"
+    "@smithy/config-resolver" "^3.0.5"
+    "@smithy/core" "^2.4.0"
+    "@smithy/fetch-http-handler" "^3.2.4"
+    "@smithy/hash-node" "^3.0.3"
+    "@smithy/invalid-dependency" "^3.0.3"
+    "@smithy/middleware-content-length" "^3.0.5"
+    "@smithy/middleware-endpoint" "^3.1.0"
+    "@smithy/middleware-retry" "^3.0.15"
+    "@smithy/middleware-serde" "^3.0.3"
+    "@smithy/middleware-stack" "^3.0.3"
+    "@smithy/node-config-provider" "^3.1.4"
+    "@smithy/node-http-handler" "^3.1.4"
+    "@smithy/protocol-http" "^4.1.0"
+    "@smithy/smithy-client" "^3.2.0"
+    "@smithy/types" "^3.3.0"
+    "@smithy/url-parser" "^3.0.3"
+    "@smithy/util-base64" "^3.0.0"
+    "@smithy/util-body-length-browser" "^3.0.0"
+    "@smithy/util-body-length-node" "^3.0.0"
+    "@smithy/util-defaults-mode-browser" "^3.0.15"
+    "@smithy/util-defaults-mode-node" "^3.0.15"
+    "@smithy/util-endpoints" "^2.0.5"
+    "@smithy/util-middleware" "^3.0.3"
+    "@smithy/util-retry" "^3.0.3"
+    "@smithy/util-utf8" "^3.0.0"
+    tslib "^2.6.2"
+
 "@aws-sdk/client-sso-oidc@3.670.0":
   version "3.670.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/client-sso-oidc/-/client-sso-oidc-3.670.0.tgz#9696dd19d6c0018fa398a6efd4aabbc97b22e1a7"
@@ -1220,6 +1900,50 @@
     "@smithy/util-body-length-node" "^3.0.0"
     "@smithy/util-defaults-mode-browser" "^3.0.14"
     "@smithy/util-defaults-mode-node" "^3.0.14"
+    "@smithy/util-endpoints" "^2.0.5"
+    "@smithy/util-middleware" "^3.0.3"
+    "@smithy/util-retry" "^3.0.3"
+    "@smithy/util-utf8" "^3.0.0"
+    tslib "^2.6.2"
+
+"@aws-sdk/client-sso@3.637.0":
+  version "3.637.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/client-sso/-/client-sso-3.637.0.tgz#ae152759a5e1e576e1df6b8f4edaf59796e1758e"
+  integrity sha512-+KjLvgX5yJYROWo3TQuwBJlHCY0zz9PsLuEolmXQn0BVK1L/m9GteZHtd+rEdAoDGBpE0Xqjy1oz5+SmtsaRUw==
+  dependencies:
+    "@aws-crypto/sha256-browser" "5.2.0"
+    "@aws-crypto/sha256-js" "5.2.0"
+    "@aws-sdk/core" "3.635.0"
+    "@aws-sdk/middleware-host-header" "3.620.0"
+    "@aws-sdk/middleware-logger" "3.609.0"
+    "@aws-sdk/middleware-recursion-detection" "3.620.0"
+    "@aws-sdk/middleware-user-agent" "3.637.0"
+    "@aws-sdk/region-config-resolver" "3.614.0"
+    "@aws-sdk/types" "3.609.0"
+    "@aws-sdk/util-endpoints" "3.637.0"
+    "@aws-sdk/util-user-agent-browser" "3.609.0"
+    "@aws-sdk/util-user-agent-node" "3.614.0"
+    "@smithy/config-resolver" "^3.0.5"
+    "@smithy/core" "^2.4.0"
+    "@smithy/fetch-http-handler" "^3.2.4"
+    "@smithy/hash-node" "^3.0.3"
+    "@smithy/invalid-dependency" "^3.0.3"
+    "@smithy/middleware-content-length" "^3.0.5"
+    "@smithy/middleware-endpoint" "^3.1.0"
+    "@smithy/middleware-retry" "^3.0.15"
+    "@smithy/middleware-serde" "^3.0.3"
+    "@smithy/middleware-stack" "^3.0.3"
+    "@smithy/node-config-provider" "^3.1.4"
+    "@smithy/node-http-handler" "^3.1.4"
+    "@smithy/protocol-http" "^4.1.0"
+    "@smithy/smithy-client" "^3.2.0"
+    "@smithy/types" "^3.3.0"
+    "@smithy/url-parser" "^3.0.3"
+    "@smithy/util-base64" "^3.0.0"
+    "@smithy/util-body-length-browser" "^3.0.0"
+    "@smithy/util-body-length-node" "^3.0.0"
+    "@smithy/util-defaults-mode-browser" "^3.0.15"
+    "@smithy/util-defaults-mode-node" "^3.0.15"
     "@smithy/util-endpoints" "^2.0.5"
     "@smithy/util-middleware" "^3.0.3"
     "@smithy/util-retry" "^3.0.3"
@@ -1377,6 +2101,22 @@
     fast-xml-parser "4.4.1"
     tslib "^2.6.2"
 
+"@aws-sdk/core@3.635.0":
+  version "3.635.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/core/-/core-3.635.0.tgz#74b7d0d7fa3aa39f87ea5cf4e6c97d4d84f4ef14"
+  integrity sha512-i1x/E/sgA+liUE1XJ7rj1dhyXpAKO1UKFUcTTHXok2ARjWTvszHnSXMOsB77aPbmn0fUp1JTx2kHUAZ1LVt5Bg==
+  dependencies:
+    "@smithy/core" "^2.4.0"
+    "@smithy/node-config-provider" "^3.1.4"
+    "@smithy/property-provider" "^3.1.3"
+    "@smithy/protocol-http" "^4.1.0"
+    "@smithy/signature-v4" "^4.1.0"
+    "@smithy/smithy-client" "^3.2.0"
+    "@smithy/types" "^3.3.0"
+    "@smithy/util-middleware" "^3.0.3"
+    fast-xml-parser "4.4.1"
+    tslib "^2.6.2"
+
 "@aws-sdk/core@3.667.0":
   version "3.667.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/core/-/core-3.667.0.tgz#ecf93bf8e3ebea3bd972576a67b87dd291d7a90a"
@@ -1441,6 +2181,21 @@
     "@smithy/util-stream" "^3.1.3"
     tslib "^2.6.2"
 
+"@aws-sdk/credential-provider-http@3.635.0":
+  version "3.635.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/credential-provider-http/-/credential-provider-http-3.635.0.tgz#083439af1336693049958e4b61695e4712b30fd4"
+  integrity sha512-iJyRgEjOCQlBMXqtwPLIKYc7Bsc6nqjrZybdMDenPDa+kmLg7xh8LxHsu9088e+2/wtLicE34FsJJIfzu3L82g==
+  dependencies:
+    "@aws-sdk/types" "3.609.0"
+    "@smithy/fetch-http-handler" "^3.2.4"
+    "@smithy/node-http-handler" "^3.1.4"
+    "@smithy/property-provider" "^3.1.3"
+    "@smithy/protocol-http" "^4.1.0"
+    "@smithy/smithy-client" "^3.2.0"
+    "@smithy/types" "^3.3.0"
+    "@smithy/util-stream" "^3.1.3"
+    tslib "^2.6.2"
+
 "@aws-sdk/credential-provider-http@3.667.0":
   version "3.667.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/credential-provider-http/-/credential-provider-http-3.667.0.tgz#ff78b7f76715a7456976930bff6221dfac70afbc"
@@ -1466,6 +2221,23 @@
     "@aws-sdk/credential-provider-http" "3.622.0"
     "@aws-sdk/credential-provider-process" "3.620.1"
     "@aws-sdk/credential-provider-sso" "3.624.0"
+    "@aws-sdk/credential-provider-web-identity" "3.621.0"
+    "@aws-sdk/types" "3.609.0"
+    "@smithy/credential-provider-imds" "^3.2.0"
+    "@smithy/property-provider" "^3.1.3"
+    "@smithy/shared-ini-file-loader" "^3.1.4"
+    "@smithy/types" "^3.3.0"
+    tslib "^2.6.2"
+
+"@aws-sdk/credential-provider-ini@3.637.0":
+  version "3.637.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/credential-provider-ini/-/credential-provider-ini-3.637.0.tgz#dae0d8b05c8b9480da5a92beb4dd244985ecbd70"
+  integrity sha512-h+PFCWfZ0Q3Dx84SppET/TFpcQHmxFW8/oV9ArEvMilw4EBN+IlxgbL0CnHwjHW64szcmrM0mbebjEfHf4FXmw==
+  dependencies:
+    "@aws-sdk/credential-provider-env" "3.620.1"
+    "@aws-sdk/credential-provider-http" "3.635.0"
+    "@aws-sdk/credential-provider-process" "3.620.1"
+    "@aws-sdk/credential-provider-sso" "3.637.0"
     "@aws-sdk/credential-provider-web-identity" "3.621.0"
     "@aws-sdk/types" "3.609.0"
     "@smithy/credential-provider-imds" "^3.2.0"
@@ -1502,6 +2274,24 @@
     "@aws-sdk/credential-provider-ini" "3.624.0"
     "@aws-sdk/credential-provider-process" "3.620.1"
     "@aws-sdk/credential-provider-sso" "3.624.0"
+    "@aws-sdk/credential-provider-web-identity" "3.621.0"
+    "@aws-sdk/types" "3.609.0"
+    "@smithy/credential-provider-imds" "^3.2.0"
+    "@smithy/property-provider" "^3.1.3"
+    "@smithy/shared-ini-file-loader" "^3.1.4"
+    "@smithy/types" "^3.3.0"
+    tslib "^2.6.2"
+
+"@aws-sdk/credential-provider-node@3.637.0":
+  version "3.637.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/credential-provider-node/-/credential-provider-node-3.637.0.tgz#0ac6678ab31783adf5b1cf03add5d1da101ea946"
+  integrity sha512-yoEhoxJJfs7sPVQ6Is939BDQJZpZCoUgKr/ySse4YKOZ24t4VqgHA6+wV7rYh+7IW24Rd91UTvEzSuHYTlxlNA==
+  dependencies:
+    "@aws-sdk/credential-provider-env" "3.620.1"
+    "@aws-sdk/credential-provider-http" "3.635.0"
+    "@aws-sdk/credential-provider-ini" "3.637.0"
+    "@aws-sdk/credential-provider-process" "3.620.1"
+    "@aws-sdk/credential-provider-sso" "3.637.0"
     "@aws-sdk/credential-provider-web-identity" "3.621.0"
     "@aws-sdk/types" "3.609.0"
     "@smithy/credential-provider-imds" "^3.2.0"
@@ -1557,6 +2347,19 @@
   integrity sha512-A02bayIjU9APEPKr3HudrFHEx0WfghoSPsPopckDkW7VBqO4wizzcxr75Q9A3vNX+cwg0wCN6UitTNe6pVlRaQ==
   dependencies:
     "@aws-sdk/client-sso" "3.624.0"
+    "@aws-sdk/token-providers" "3.614.0"
+    "@aws-sdk/types" "3.609.0"
+    "@smithy/property-provider" "^3.1.3"
+    "@smithy/shared-ini-file-loader" "^3.1.4"
+    "@smithy/types" "^3.3.0"
+    tslib "^2.6.2"
+
+"@aws-sdk/credential-provider-sso@3.637.0":
+  version "3.637.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/credential-provider-sso/-/credential-provider-sso-3.637.0.tgz#13acf77579df026e89ced33501489defd06a0518"
+  integrity sha512-Mvz+h+e62/tl+dVikLafhv+qkZJ9RUb8l2YN/LeKMWkxQylPT83CPk9aimVhCV89zth1zpREArl97+3xsfgQvA==
+  dependencies:
+    "@aws-sdk/client-sso" "3.637.0"
     "@aws-sdk/token-providers" "3.614.0"
     "@aws-sdk/types" "3.609.0"
     "@smithy/property-provider" "^3.1.3"
@@ -1796,6 +2599,17 @@
     "@smithy/types" "^3.3.0"
     tslib "^2.6.2"
 
+"@aws-sdk/middleware-user-agent@3.637.0":
+  version "3.637.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/middleware-user-agent/-/middleware-user-agent-3.637.0.tgz#2b00de72b00953a477bcc02a68d8cbb5e9670c44"
+  integrity sha512-EYo0NE9/da/OY8STDsK2LvM4kNa79DBsf4YVtaG4P5pZ615IeFsD8xOHZeuJmUrSMlVQ8ywPRX7WMucUybsKug==
+  dependencies:
+    "@aws-sdk/types" "3.609.0"
+    "@aws-sdk/util-endpoints" "3.637.0"
+    "@smithy/protocol-http" "^4.1.0"
+    "@smithy/types" "^3.3.0"
+    tslib "^2.6.2"
+
 "@aws-sdk/middleware-user-agent@3.669.0":
   version "3.669.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/middleware-user-agent/-/middleware-user-agent-3.669.0.tgz#a313a4f1fcc9cc77eef3e04573ce0edade931a26"
@@ -1903,7 +2717,7 @@
     "@smithy/types" "^3.5.0"
     tslib "^2.6.2"
 
-"@aws-sdk/util-arn-parser@3.568.0":
+"@aws-sdk/util-arn-parser@3.568.0", "@aws-sdk/util-arn-parser@^3.568.0":
   version "3.568.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/util-arn-parser/-/util-arn-parser-3.568.0.tgz#6a19a8c6bbaa520b6be1c278b2b8c17875b91527"
   integrity sha512-XUKJWWo+KOB7fbnPP0+g/o5Ulku/X53t7i/h+sPHr5xxYTJJ9CYnbToo95mzxe7xWvkLrsNtJ8L+MnNn9INs2w==
@@ -1914,6 +2728,16 @@
   version "3.614.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/util-endpoints/-/util-endpoints-3.614.0.tgz#6564b0ffd7dc3728221e9f9821f5aab1cc58468e"
   integrity sha512-wK2cdrXHH4oz4IomV/yrGkftU9A+ITB6nFL+rxxyO78is2ifHJpFdV4aqk4LSkXYPi6CXWNru/Dqc7yiKXgJPw==
+  dependencies:
+    "@aws-sdk/types" "3.609.0"
+    "@smithy/types" "^3.3.0"
+    "@smithy/util-endpoints" "^2.0.5"
+    tslib "^2.6.2"
+
+"@aws-sdk/util-endpoints@3.637.0":
+  version "3.637.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/util-endpoints/-/util-endpoints-3.637.0.tgz#e20bcb69028039fdbc06e98a3028c7f8d8e8adaa"
+  integrity sha512-pAqOKUHeVWHEXXDIp/qoMk/6jyxIb6GGjnK1/f8dKHtKIEs4tKsnnL563gceEvdad53OPXIt86uoevCcCzmBnw==
   dependencies:
     "@aws-sdk/types" "3.609.0"
     "@smithy/types" "^3.3.0"
@@ -3482,7 +4306,7 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.10.4.tgz#427d5549943a9c6fce808e39ea64dbe60d4047f1"
   integrity sha512-WJgX9nzTqknM393q1QJDJmoW28kUfEnybeTfVNcNAPnIx210RXm2DiXiHzfNPJNIUUb1tJnz/l4QGtJ30PgWmA==
 
-"@smithy/abort-controller@^3.1.5":
+"@smithy/abort-controller@^3.1.1", "@smithy/abort-controller@^3.1.5":
   version "3.1.5"
   resolved "https://registry.yarnpkg.com/@smithy/abort-controller/-/abort-controller-3.1.5.tgz#ca7a86a3c6b20fabe59667143f58d9e198616d14"
   integrity sha512-DhNPnqTqPoG8aZ5dWkFOgsuY+i0GQ3CI6hMmvCoduNsnU9gUZWZBwGfDQsTTB7NvFPkom1df7jMIJWU90kuXXg==
@@ -3516,7 +4340,7 @@
     "@smithy/util-middleware" "^3.0.7"
     tslib "^2.6.2"
 
-"@smithy/core@^2.3.2", "@smithy/core@^2.4.8":
+"@smithy/core@^2.3.2", "@smithy/core@^2.4.0", "@smithy/core@^2.4.8":
   version "2.4.8"
   resolved "https://registry.yarnpkg.com/@smithy/core/-/core-2.4.8.tgz#397ac17dfa8ad658b77f96f19484f0eeaf22d397"
   integrity sha512-x4qWk7p/a4dcf7Vxb2MODIf4OIcqNbK182WxRvZ/3oKPrf/6Fdic5sSElhO1UtXpWKBazWfqg0ZEK9xN1DsuHA==
@@ -3543,7 +4367,7 @@
     "@smithy/url-parser" "^3.0.7"
     tslib "^2.6.2"
 
-"@smithy/eventstream-codec@^3.1.6":
+"@smithy/eventstream-codec@^3.1.2", "@smithy/eventstream-codec@^3.1.6":
   version "3.1.6"
   resolved "https://registry.yarnpkg.com/@smithy/eventstream-codec/-/eventstream-codec-3.1.6.tgz#70ca95aad82d5140522eb883fbc140f1f22dcb27"
   integrity sha512-SBiOYPBH+5wOyPS7lfI150ePfGLhnp/eTu5RnV9xvhGvRiKfnl6HzRK9wehBph+il8FxS9KTeadx7Rcmf1GLPQ==
@@ -3553,7 +4377,7 @@
     "@smithy/util-hex-encoding" "^3.0.0"
     tslib "^2.6.2"
 
-"@smithy/eventstream-serde-browser@^3.0.10", "@smithy/eventstream-serde-browser@^3.0.5":
+"@smithy/eventstream-serde-browser@^3.0.10", "@smithy/eventstream-serde-browser@^3.0.5", "@smithy/eventstream-serde-browser@^3.0.6":
   version "3.0.10"
   resolved "https://registry.yarnpkg.com/@smithy/eventstream-serde-browser/-/eventstream-serde-browser-3.0.10.tgz#ffca366a4edee5097be5a710f87627a5b2da5dec"
   integrity sha512-1i9aMY6Pl/SmA6NjvidxnfBLHMPzhKu2BP148pEt5VwhMdmXn36PE2kWKGa9Hj8b0XGtCTRucpCncylevCtI7g==
@@ -3570,7 +4394,7 @@
     "@smithy/types" "^3.5.0"
     tslib "^2.6.2"
 
-"@smithy/eventstream-serde-node@^3.0.4", "@smithy/eventstream-serde-node@^3.0.9":
+"@smithy/eventstream-serde-node@^3.0.4", "@smithy/eventstream-serde-node@^3.0.5", "@smithy/eventstream-serde-node@^3.0.9":
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/@smithy/eventstream-serde-node/-/eventstream-serde-node-3.0.9.tgz#e985340093c2ca6587ae2fdd0663e6845fbe9463"
   integrity sha512-JE0Guqvt0xsmfQ5y1EI342/qtJqznBv8cJqkHZV10PwC8GWGU5KNgFbQnsVCcX+xF+qIqwwfRmeWoJCjuOLmng==
@@ -3579,7 +4403,7 @@
     "@smithy/types" "^3.5.0"
     tslib "^2.6.2"
 
-"@smithy/eventstream-serde-universal@^3.0.9":
+"@smithy/eventstream-serde-universal@^3.0.5", "@smithy/eventstream-serde-universal@^3.0.9":
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/@smithy/eventstream-serde-universal/-/eventstream-serde-universal-3.0.9.tgz#1832b190a3018204e33487ba1f7f0f6e2fb0da34"
   integrity sha512-bydfgSisfepCufw9kCEnWRxqxJFzX/o8ysXWv+W9F2FIyiaEwZ/D8bBKINbh4ONz3i05QJ1xE7A5OKYvgJsXaw==
@@ -3681,7 +4505,7 @@
     "@smithy/util-middleware" "^3.0.7"
     tslib "^2.6.2"
 
-"@smithy/middleware-retry@^3.0.14", "@smithy/middleware-retry@^3.0.23":
+"@smithy/middleware-retry@^3.0.14", "@smithy/middleware-retry@^3.0.15", "@smithy/middleware-retry@^3.0.23":
   version "3.0.23"
   resolved "https://registry.yarnpkg.com/@smithy/middleware-retry/-/middleware-retry-3.0.23.tgz#ce5574e278dd14a7995afd5a4ed2a6c9891da8ed"
   integrity sha512-x9PbGXxkcXIpm6L26qRSCC+eaYcHwybRmqU8LO/WM2RRlW0g8lz6FIiKbKgGvHuoK3dLZRiQVSQJveiCzwnA5A==
@@ -3776,7 +4600,7 @@
     "@smithy/util-uri-escape" "^3.0.0"
     tslib "^2.6.2"
 
-"@smithy/querystring-parser@^3.0.7":
+"@smithy/querystring-parser@^3.0.3", "@smithy/querystring-parser@^3.0.7":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@smithy/querystring-parser/-/querystring-parser-3.0.7.tgz#936206d1e6da9d862384dae730b4bad042d6a948"
   integrity sha512-Fouw4KJVWqqUVIu1gZW8BH2HakwLz6dvdrAhXeXfeymOBrZw+hcqaWs+cS1AZPVp4nlbeIujYrKA921ZW2WMPA==
@@ -3784,7 +4608,7 @@
     "@smithy/types" "^3.5.0"
     tslib "^2.6.2"
 
-"@smithy/service-error-classification@^3.0.7":
+"@smithy/service-error-classification@^3.0.3", "@smithy/service-error-classification@^3.0.7":
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/@smithy/service-error-classification/-/service-error-classification-3.0.7.tgz#5bab4ad802d30bd3fa52b8134f6c171582358226"
   integrity sha512-91PRkTfiBf9hxkIchhRKJfl1rsplRDyBnmyFca3y0Z3x/q0JJN480S83LBd8R6sBCkm2bBbqw2FHp0Mbh+ecSA==
@@ -3821,7 +4645,7 @@
     "@smithy/util-utf8" "^3.0.0"
     tslib "^2.6.2"
 
-"@smithy/smithy-client@^3.1.12", "@smithy/smithy-client@^3.4.0":
+"@smithy/smithy-client@^3.1.12", "@smithy/smithy-client@^3.2.0", "@smithy/smithy-client@^3.4.0":
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/@smithy/smithy-client/-/smithy-client-3.4.0.tgz#ceffb92108a4ad60cbede3baf44ed224dc70b333"
   integrity sha512-nOfJ1nVQsxiP6srKt43r2My0Gp5PLWCW2ASqUioxIiGmu6d32v4Nekidiv5qOmmtzIrmaD+ADX5SKHUuhReeBQ==
@@ -3902,7 +4726,7 @@
   dependencies:
     tslib "^2.6.2"
 
-"@smithy/util-defaults-mode-browser@^3.0.14", "@smithy/util-defaults-mode-browser@^3.0.23":
+"@smithy/util-defaults-mode-browser@^3.0.14", "@smithy/util-defaults-mode-browser@^3.0.15", "@smithy/util-defaults-mode-browser@^3.0.23":
   version "3.0.23"
   resolved "https://registry.yarnpkg.com/@smithy/util-defaults-mode-browser/-/util-defaults-mode-browser-3.0.23.tgz#6920b473126ae8857a04dd6941793bbda12adc8b"
   integrity sha512-Y07qslyRtXDP/C5aWKqxTPBl4YxplEELG3xRrz2dnAQ6Lq/FgNrcKWmV561nNaZmFH+EzeGOX3ZRMbU8p1T6Nw==
@@ -3913,7 +4737,7 @@
     bowser "^2.11.0"
     tslib "^2.6.2"
 
-"@smithy/util-defaults-mode-node@^3.0.14", "@smithy/util-defaults-mode-node@^3.0.23":
+"@smithy/util-defaults-mode-node@^3.0.14", "@smithy/util-defaults-mode-node@^3.0.15", "@smithy/util-defaults-mode-node@^3.0.23":
   version "3.0.23"
   resolved "https://registry.yarnpkg.com/@smithy/util-defaults-mode-node/-/util-defaults-mode-node-3.0.23.tgz#d03d21816e8b2f586ccf4a87cd0b1cc55b4d75e0"
   integrity sha512-9Y4WH7f0vnDGuHUa4lGX9e2p+sMwODibsceSV6rfkZOvMC+BY3StB2LdO1NHafpsyHJLpwAgChxQ38tFyd6vkg==
@@ -4023,10 +4847,20 @@
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
+"@types/aws-lambda@^8.10.134":
+  version "8.10.145"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.145.tgz#b2d31a987f4888e5553ff1819f57cafa475594d9"
+  integrity sha512-dtByW6WiFk5W5Jfgz1VM+YPA21xMXTuSFoLYIDY0L44jDLLflVPtZkYuu3/YxpGcvjzKFBZLU+GyKjR0HOYtyw==
+
 "@types/js-cookie@^2.2.6":
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/@types/js-cookie/-/js-cookie-2.2.7.tgz#226a9e31680835a6188e887f3988e60c04d3f6a3"
   integrity sha512-aLkWa0C0vO5b4Sr798E26QgOkss68Un0bLjs7u9qxzPT5CG+8DuNTffWES58YzJs3hrVAOs1wonycqEBqNJubA==
+
+"@types/json-schema@^7.0.15":
+  version "7.0.15"
+  resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.15.tgz#596a1747233694d50f6ad8a7869fcb6f56cf5841"
+  integrity sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==
 
 "@types/json5@^0.0.29":
   version "0.0.29"
@@ -4901,7 +5735,7 @@ chardet@^0.7.0:
   resolved "https://registry.yarnpkg.com/chardet/-/chardet-0.7.0.tgz#90094849f0937f2eedc2425d0d28a9e5f0cbad9e"
   integrity sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==
 
-charenc@0.0.2:
+charenc@0.0.2, charenc@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/charenc/-/charenc-0.0.2.tgz#c0a1d2f3a7092e03774bfa83f14c0fc5790a8667"
   integrity sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==
@@ -5171,7 +6005,7 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crypt@0.0.2:
+crypt@0.0.2, crypt@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/crypt/-/crypt-0.0.2.tgz#88d7ff7ec0dfb86f713dc87bbb42d044d3e6c41b"
   integrity sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==
@@ -6521,6 +7355,11 @@ graphql-mapping-template@4.20.16:
   resolved "https://registry.yarnpkg.com/graphql-mapping-template/-/graphql-mapping-template-4.20.16.tgz#10e4f1164e09160862bffcb6292df428ba6c0545"
   integrity sha512-J+shdngmnAxBM4mS4ga2RGusbPRMMO/TfRiNuHNKHxEU8O85us9zC6l7kSQ9hkWQDrKISJfDaesNKO3Jo5GerA==
 
+graphql-mapping-template@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/graphql-mapping-template/-/graphql-mapping-template-5.0.1.tgz#327239097e2de1fd3e49d6ac00b0d6304245780d"
+  integrity sha512-hgFkXUS6Q35zE/uyPGIZYof2kutwTZmVqwJfnQofiCYWRRQS0zjzUdyqmOcCBkbJB4Zi7G7mXcl3fSIs5I5vgA==
+
 graphql-tag@^2.11.0:
   version "2.12.6"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.12.6.tgz#d441a569c1d2537ef10ca3d1633b48725329b5f1"
@@ -6537,6 +7376,21 @@ graphql-transformer-common@4.31.1, graphql-transformer-common@^4.25.1:
     graphql-mapping-template "4.20.16"
     md5 "^2.2.1"
     pluralize "8.0.0"
+
+graphql-transformer-common@5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/graphql-transformer-common/-/graphql-transformer-common-5.0.1.tgz#888716059cc6fe54d6414507ac7ff24cbdf26fca"
+  integrity sha512-WizHb7W5/NsM0qONQ781TcZUFdKSY3fVGy7EYCXT7lTS8TqFtdZ4oK8lEbDKk44O/0UW3hryhArEzpuPFE0suQ==
+  dependencies:
+    graphql "^15.5.0"
+    graphql-mapping-template "5.0.1"
+    md5 "^2.2.1"
+    pluralize "8.0.0"
+
+graphql@15.8.0:
+  version "15.8.0"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-15.8.0.tgz#33410e96b012fa3bdb1091cc99a94769db212b38"
+  integrity sha512-5gghUc24tP9HRznNpV2+FIoq3xKkj5dTQqf4v0CpdPbFVwFkWoxOM+o+2OC9ZSvjEMTjfmG9QT+gcvggTwW1zw==
 
 graphql@^15.5.0, graphql@^15.8.0:
   version "15.9.0"
@@ -6679,6 +7533,11 @@ ignore@^6.0.2:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-6.0.2.tgz#77cccb72a55796af1b6d2f9eb14fa326d24f4283"
   integrity sha512-InwqeHHN2XpumIkMvpl/DCJVrAHgCsG5+cn1XlnLWGwtZBm8QJfSusItfrwx81CTp5agNZqpKU2J/ccC5nGT4A==
+
+immer@^9.0.12:
+  version "9.0.21"
+  resolved "https://registry.yarnpkg.com/immer/-/immer-9.0.21.tgz#1e025ea31a40f24fb064f1fef23e931496330176"
+  integrity sha512-bc4NBHqOqSfRW7POMkHd51LvClaeMXpm8dx0e8oE2GORbq5aRK7Bxl4FyzVLdGtLmvLKL7BTDBG5ACQm4HWjTA==
 
 immutable@~3.7.6:
   version "3.7.6"
@@ -7269,6 +8128,11 @@ levn@^0.4.1:
     prelude-ls "^1.2.1"
     type-check "~0.4.0"
 
+libphonenumber-js@1.9.47:
+  version "1.9.47"
+  resolved "https://registry.yarnpkg.com/libphonenumber-js/-/libphonenumber-js-1.9.47.tgz#0cb3d6a3dd8d917d364da48a5355bc3b1d145f5b"
+  integrity sha512-FIWFLJ2jUJi8SCztgd2k/isQHZedh7xuxOVifqFLwG/ogZtdH9TXFK92w/KWFj1lwoadqVedtLO3Jqp0q67PZw==
+
 lilconfig@^2.0.5, lilconfig@^2.0.6, lilconfig@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/lilconfig/-/lilconfig-2.1.0.tgz#78e23ac89ebb7e1bfbf25b18043de756548e7f52"
@@ -7320,6 +8184,11 @@ lodash.mergewith@^4.6.2:
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/lodash.mergewith/-/lodash.mergewith-4.6.2.tgz#617121f89ac55f59047c7aec1ccd6654c6590f55"
   integrity sha512-GK3g5RPZWTRSeLSpgP8Xhra+pnjBC56q9FZYe1d5RN3TJ35dbkGy3YqBSMbyCrlbi+CM9Z3Jk5yTL7RCsqboyQ==
+
+lodash.snakecase@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/lodash.snakecase/-/lodash.snakecase-4.1.1.tgz#39d714a35357147837aefd64b5dcbb16becd8f8d"
+  integrity sha512-QZ1d4xoBHYUeuouhEq3lk3Uq7ldgyFXGBhg04+oRLnIz8o9T65Eh+8YdroUwn846zchkA9yDsDl5CVVaV2nqYw==
 
 lodash.truncate@^4.4.2:
   version "4.4.2"
@@ -8591,6 +9460,13 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
+rxjs@^7.8.1:
+  version "7.8.1"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.1.tgz#6f6f3d99ea8044291efd92e7c7fcf562c4057543"
+  integrity sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==
+  dependencies:
+    tslib "^2.1.0"
+
 safe-array-concat@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/safe-array-concat/-/safe-array-concat-1.1.2.tgz#81d77ee0c4e8b863635227c721278dd524c20edb"
@@ -9717,6 +10593,7 @@ wordwrap@^1.0.0:
   integrity sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==
 
 "wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
+  name wrap-ansi-cjs
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==

@@ -2,6 +2,7 @@
 import type { ReactElement } from 'react'
 
 // Next Imports
+// new
 import dynamic from 'next/dynamic'
 
 // Component Imports

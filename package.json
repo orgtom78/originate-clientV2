@@ -14,6 +14,7 @@
     "postinstall": "npm run build:icons"
   },
   "dependencies": {
+    "@aws-amplify/backend": "^1.4.0",
     "@aws-amplify/backend-cli": "^1.2.9",
     "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.4",
