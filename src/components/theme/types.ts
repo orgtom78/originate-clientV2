@@ -8,7 +8,14 @@
  */
 
 // MUI Imports
-import {} from '@mui/material/styles'
+import type { ComponentsOverrides } from '@mui/material/styles'
+
+// Type Imports
+import type {
+  CustomInputHorizontalProps,
+  CustomInputVerticalProps,
+  CustomInputImgProps
+} from '@core/components/custom-inputs/types'
 
 declare module '@mui/material/styles' {
   // eslint-disable-next-line lines-around-comment
@@ -82,6 +89,12 @@ declare module '@mui/material/styles' {
 
   // Palette
   interface Palette {
+    background: {
+      default: string
+      paper: string
+      defaultChannel: string
+      paperChannel: string
+    }
     customColors: {
       bodyBg: string
       chatBg: string
@@ -93,6 +106,12 @@ declare module '@mui/material/styles' {
     }
   }
   interface PaletteOptions {
+    background?: {
+      default?: string
+      paper?: string
+      defaultChannel?: string
+      paperChannel?: string
+    }
     customColors?: {
       bodyBg?: string
       chatBg?: string
@@ -101,6 +120,38 @@ declare module '@mui/material/styles' {
       tableHeaderBg?: string
       tooltipText?: string
       trackBg?: string
+    }
+  }
+  interface PalettePaperChannel {
+    paperChannel: string
+  }
+  interface TypeBackground extends PalettePaperChannel {}
+
+  // Components
+  interface ComponentNameToClassKey {
+    MuiCustomInputHorizontal: 'root' | 'title' | 'meta' | 'content' | 'input'
+    MuiCustomInputVertical: 'root' | 'title' | 'content' | 'input'
+    MuiCustomImage: 'root' | 'image' | 'input'
+  }
+
+  interface ComponentsPropsList {
+    MuiCustomInputHorizontal: CustomInputHorizontalProps
+    MuiCustomInputVertical: CustomInputVerticalProps
+    MuiCustomImage: CustomInputImgProps
+  }
+
+  interface Components {
+    MuiCustomInputHorizontal?: {
+      defaultProps?: ComponentsPropsList['MuiCustomInputHorizontal']
+      styleOverrides?: ComponentsOverrides<Theme>['MuiCustomInputHorizontal']
+    }
+    MuiCustomInputVertical?: {
+      defaultProps?: ComponentsPropsList['MuiCustomInputVertical']
+      styleOverrides?: ComponentsOverrides<Theme>['MuiCustomInputVertical']
+    }
+    MuiCustomImage?: {
+      defaultProps?: ComponentsPropsList['MuiCustomImage']
+      styleOverrides?: ComponentsOverrides<Theme>['MuiCustomImage']
     }
   }
 }

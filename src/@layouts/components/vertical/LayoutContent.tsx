@@ -6,6 +6,9 @@ import classnames from 'classnames'
 // Type Imports
 import type { ChildrenType } from '@core/types'
 
+// Hook Imports
+import { useSettings } from '@core/hooks/useSettings'
+
 // Util Imports
 import { verticalLayoutClasses } from '@layouts/utils/layoutClasses'
 
@@ -13,10 +16,20 @@ import { verticalLayoutClasses } from '@layouts/utils/layoutClasses'
 import StyledMain from '@layouts/styles/shared/StyledMain'
 
 const LayoutContent = ({ children }: ChildrenType) => {
+  // Hooks
+  const { settings } = useSettings()
+
+  // Vars
+  const contentCompact = settings.contentWidth === 'compact'
+  const contentWide = settings.contentWidth === 'wide'
+
   return (
     <StyledMain
-      isContentCompact={true}
-      className={classnames(verticalLayoutClasses.content, verticalLayoutClasses.contentCompact, 'flex-auto is-full')}
+      isContentCompact={contentCompact}
+      className={classnames(verticalLayoutClasses.content, 'flex-auto', {
+        [`${verticalLayoutClasses.contentCompact} is-full`]: contentCompact,
+        [verticalLayoutClasses.contentWide]: contentWide
+      })}
     >
       {children}
     </StyledMain>

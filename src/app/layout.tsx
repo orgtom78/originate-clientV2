@@ -10,18 +10,18 @@ import '@/app/globals.css'
 // Generated Icon CSS Imports
 import '@assets/iconify-icons/generated-icons.css'
 
+
 export const metadata = {
-  title: 'Demo: Materio - NextJS Dashboard Free',
-  description:
-    'Develop next-level web apps with Materio Dashboard Free - NextJS. Now, updated with lightning-fast routing powered by MUI and App router.'
+  title: 'Originate Capital - Investor',
+  description: 'Originate Capital - Investor Registration'
 }
 
 const RootLayout = ({ children }: ChildrenType) => {
   // Vars
   const direction = 'ltr'
-
+  
   return (
-    <html id='__next' dir={direction}>
+    <html id='__next' lang='en' dir={direction}>
       <body className='flex is-full min-bs-full flex-auto flex-col'>{children}</body>
     </html>
   )

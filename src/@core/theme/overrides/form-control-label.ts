@@ -9,7 +9,7 @@ const formControlLabel: Theme['components'] = {
       }),
       label: {
         '&, &.Mui-disabled': {
-          color: 'var(--mui-palette-text-primary)'
+          color: 'var(--mui-palette-text-primary) !important'
         },
         '&.Mui-disabled': {
           opacity: 0.45

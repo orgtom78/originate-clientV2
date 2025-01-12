@@ -5,10 +5,13 @@ const progress: Theme['components'] = {
   MuiLinearProgress: {
     styleOverrides: {
       root: ({ theme }) => ({
-        height: 6,
-        borderRadius: theme.shape.borderRadius,
+        blockSize: 6,
+        borderRadius: 'var(--mui-shape-borderRadius)',
         '& .MuiLinearProgress-bar': {
-          borderRadius: theme.shape.borderRadius
+          borderRadius: 'var(--mui-shape-borderRadius)'
+        },
+        '& .MuiLinearProgress-dashed': {
+          marginBlockStart: theme.spacing(0.2)
         }
       })
     }

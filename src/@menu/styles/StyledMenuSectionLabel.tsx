@@ -5,6 +5,8 @@ import styled from '@emotion/styled'
 import type { RootStylesType } from '../types'
 
 type StyledMenuSectionLabelProps = RootStylesType & {
+  isCollapsed?: boolean
+  isHovered?: boolean
   textTruncate?: boolean
 }
 
@@ -16,6 +18,12 @@ const StyledMenuSectionLabel = styled.span<StyledMenuSectionLabelProps>`
       text-overflow: ellipsis;
       white-space: nowrap;
     `};
+  ${({ isCollapsed, isHovered }) =>
+    !isCollapsed || (isCollapsed && isHovered)
+      ? `
+flex-grow: 1;
+`
+      : ''}
   ${({ rootStyles }) => rootStyles};
 `
 

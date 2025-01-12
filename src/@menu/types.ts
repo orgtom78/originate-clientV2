@@ -42,7 +42,10 @@ export type SubMenuItemElement =
   | 'subMenuExpandIcon'
 
 // Menu Button Props
-export type MenuButtonProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'prefix'> & Partial<ChildrenType>
+export type MenuButtonProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'prefix'> &
+  Partial<ChildrenType> & {
+    component?: string | ReactElement
+  }
 
 // Menu Item Styles Params Type
 export type MenuItemStylesParams = {

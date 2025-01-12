@@ -16,21 +16,25 @@ const alerts: Theme['components'] = {
     },
     styleOverrides: {
       root: ({ theme }) => ({
-        padding: theme.spacing(4),
+        borderRadius: 'var(--mui-shape-customBorderRadius-lg)',
+        padding: theme.spacing(3, 4),
         gap: theme.spacing(4),
         ...theme.typography.body1,
         '&:not(:has(.MuiAlertTitle-root))': {
           '& .MuiAlert-icon + .MuiAlert-message': {
             alignSelf: 'center'
+          },
+          '&:has(.MuiAlert-action) .MuiAlert-icon': {
+            marginBlockStart: 2
           }
         }
       }),
       icon: {
         padding: 0,
         margin: 0,
-        minWidth: 30,
-        height: 30,
-        borderRadius: 'var(--mui-shape-borderRadius)',
+        minInlineSize: 30,
+        blockSize: 30,
+        borderRadius: 'var(--mui-shape-customBorderRadius-lg)',
         alignItems: 'center',
         justifyContent: 'center',
         '& i, & svg': {
@@ -42,7 +46,7 @@ const alerts: Theme['components'] = {
       },
       action: {
         padding: 0,
-        marginRight: 0
+        marginInlineEnd: 0
       }
     },
     variants: [
@@ -87,7 +91,7 @@ const alerts: Theme['components'] = {
         style: {
           borderColor: 'var(--mui-palette-error-main)',
           '& .MuiAlert-icon': {
-            backgroundColor: 'var(--mui-palette-error-mainOpacity)',
+            backgroundColor: 'var(--mui-palette-error-lightOpacity)',
             color: 'var(--mui-palette-error-main)'
           }
         }
@@ -97,7 +101,7 @@ const alerts: Theme['components'] = {
         style: {
           borderColor: 'var(--mui-palette-warning-main)',
           '& .MuiAlert-icon': {
-            backgroundColor: 'var(--mui-palette-warning-mainOpacity)',
+            backgroundColor: 'var(--mui-palette-warning-lightOpacity)',
             color: 'var(--mui-palette-warning-main)'
           }
         }
@@ -107,7 +111,7 @@ const alerts: Theme['components'] = {
         style: {
           borderColor: 'var(--mui-palette-info-main)',
           '& .MuiAlert-icon': {
-            backgroundColor: 'var(--mui-palette-info-mainOpacity)',
+            backgroundColor: 'var(--mui-palette-info-lightOpacity)',
             color: 'var(--mui-palette-info-main)'
           }
         }
@@ -117,7 +121,7 @@ const alerts: Theme['components'] = {
         style: {
           borderColor: 'var(--mui-palette-success-main)',
           '& .MuiAlert-icon': {
-            backgroundColor: 'var(--mui-palette-success-mainOpacity)',
+            backgroundColor: 'var(--mui-palette-success-lightOpacity)',
             color: 'var(--mui-palette-success-main)'
           }
         }
@@ -168,8 +172,8 @@ const alerts: Theme['components'] = {
     styleOverrides: {
       root: ({ theme }) => ({
         ...theme.typography.h5,
-        marginTop: 0,
-        marginBottom: theme.spacing(1),
+        marginBlockStart: 0,
+        marginBlockEnd: theme.spacing(1),
         color: 'inherit'
       })
     }

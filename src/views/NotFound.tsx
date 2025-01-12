@@ -10,16 +10,13 @@ import Typography from '@mui/material/Typography'
 // Type Imports
 import type { Mode } from '@core/types'
 
-// Component Imports
-import Illustrations from '@components/Illustrations'
-
 // Hook Imports
 import { useImageVariant } from '@core/hooks/useImageVariant'
 
 const NotFound = ({ mode }: { mode: Mode }) => {
   // Vars
-  const darkImg = '/images/pages/misc-mask-dark.png'
-  const lightImg = '/images/pages/misc-mask-light.png'
+  const darkImg = '/images/pages/misc-mask-1-dark.png'
+  const lightImg = '/images/pages/misc-mask-1-light.png'
 
   // Hooks
   const miscBackground = useImageVariant(mode, lightImg, darkImg)
@@ -36,14 +33,14 @@ const NotFound = ({ mode }: { mode: Mode }) => {
         </div>
         <img
           alt='error-illustration'
-          src='/images/illustrations/characters/5.png'
+          src='/images/illustrations/characters/3.png'
           className='object-cover bs-[400px] md:bs-[450px] lg:bs-[500px]'
         />
         <Button href='/' component={Link} variant='contained'>
           Back to Home
         </Button>
       </div>
-      <Illustrations maskImg={{ src: miscBackground }} />
+      <img src={miscBackground} className='absolute bottom-0 z-[-1] is-full max-md:hidden' />
     </div>
   )
 }

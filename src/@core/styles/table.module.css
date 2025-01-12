@@ -21,7 +21,7 @@
       letter-spacing: 0.2px;
       line-height: 1.8462;
       text-align: start;
-      block-size: 56px;
+      block-size: 64px;
       background-color: var(--mui-palette-customColors-tableHeaderBg);
       &:not(:first-of-type):not(:last-of-type) {
         padding-block: 0.5rem;
@@ -33,6 +33,7 @@
           padding-inline: 1.25rem 1rem;
         }
         &:has(input[type='checkbox']) {
+          inline-size: 51px;
           padding-inline-start: 0.6875rem;
         }
       }

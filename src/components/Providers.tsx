@@ -5,12 +5,10 @@ import type { ChildrenType, Direction } from '@core/types'
 import { VerticalNavProvider } from '@menu/contexts/verticalNavContext'
 import { SettingsProvider } from '@core/contexts/settingsContext'
 import ThemeProvider from '@components/theme'
-
-// Component Imports
-import UpgradeToProButton from '@components/upgrade-to-pro-button'
+import ConfigureAmplifyClientSide from '@/context/configureAmplify'
 
 // Util Imports
-import { getMode, getSettingsFromCookie } from '@core/utils/serverHelpers'
+import { getMode, getSettingsFromCookie, getSystemMode } from '@core/utils/serverHelpers'
 
 type Props = ChildrenType & {
   direction: Direction
@@ -23,16 +21,19 @@ const Providers = (props: Props) => {
   // Vars
   const mode = getMode()
   const settingsCookie = getSettingsFromCookie()
+  const systemMode = getSystemMode()
 
   return (
+    <>
+    <ConfigureAmplifyClientSide />
     <VerticalNavProvider>
       <SettingsProvider settingsCookie={settingsCookie} mode={mode}>
-        <ThemeProvider direction={direction}>
+        <ThemeProvider direction={direction} systemMode={systemMode}>
           {children}
-          <UpgradeToProButton />
         </ThemeProvider>
       </SettingsProvider>
     </VerticalNavProvider>
+    </>
   )
 }
 

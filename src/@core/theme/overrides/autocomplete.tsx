@@ -28,24 +28,22 @@ const autocomplete = (skin: Skin): Theme['components'] => ({
           color: 'var(--mui-palette-action-disabled)'
         },
         '& .MuiOutlinedInput-input': {
-          height: '1.4375em'
+          blockSize: '1.534em'
         }
       },
       input: {
         '& + .MuiAutocomplete-endAdornment': {
           right: '1rem',
           '& i, & svg': {
-            fontSize: '1.5rem',
+            fontSize: '1.25rem',
             color: 'var(--mui-palette-text-primary)'
           },
           '& .MuiAutocomplete-clearIndicator': {
             padding: 2
           }
         },
-        '&.MuiInputBase-inputSizeSmall + .MuiAutocomplete-endAdornment': {
-          '& i, & svg': {
-            fontSize: '1.375rem'
-          }
+        '&.MuiOutlinedInput-input, &.MuiFilledInput-input': {
+          paddingInline: '0 !important'
         }
       },
       paper: {

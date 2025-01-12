@@ -28,6 +28,8 @@ const menu = (skin: Skin): Theme['components'] => ({
     styleOverrides: {
       root: ({ theme }) => ({
         paddingBlock: theme.spacing(2),
+        paddingInline: theme.spacing(5),
+        gap: theme.spacing(2),
         color: 'var(--mui-palette-text-primary)',
         '& i, & svg': {
           fontSize: '1.375rem'

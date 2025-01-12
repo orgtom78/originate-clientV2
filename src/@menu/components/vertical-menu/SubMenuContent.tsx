@@ -2,6 +2,9 @@
 import { forwardRef, useEffect, useState } from 'react'
 import type { ForwardRefRenderFunction, HTMLAttributes, MutableRefObject } from 'react'
 
+// Third-party Imports
+import PerfectScrollbar from 'react-perfect-scrollbar'
+
 // Type Imports
 import type { VerticalMenuContextProps } from './Menu'
 import type { ChildrenType, RootStylesType } from '../../types'
@@ -16,13 +19,30 @@ export type SubMenuContentProps = HTMLAttributes<HTMLDivElement> &
   RootStylesType &
   Partial<ChildrenType> & {
     open?: boolean
+    openWhenCollapsed?: boolean
+    openWhenHovered?: boolean
     transitionDuration?: VerticalMenuContextProps['transitionDuration']
+    isPopoutWhenCollapsed?: boolean
     level?: number
+    isCollapsed?: boolean
+    isHovered?: boolean
+    browserScroll?: boolean
   }
 
 const SubMenuContent: ForwardRefRenderFunction<HTMLDivElement, SubMenuContentProps> = (props, ref) => {
   // Props
-  const { children, open, level, transitionDuration, ...rest } = props
+  const {
+    children,
+    open,
+    level,
+    isCollapsed,
+    isHovered,
+    transitionDuration,
+    isPopoutWhenCollapsed,
+    openWhenCollapsed,
+    browserScroll,
+    ...rest
+  } = props
 
   // States
   const [mounted, setMounted] = useState(false)
@@ -32,7 +52,7 @@ const SubMenuContent: ForwardRefRenderFunction<HTMLDivElement, SubMenuContentPro
 
   useEffect(() => {
     if (mounted) {
-      if (open) {
+      if (open || (open && isHovered)) {
         const target = SubMenuContentRef?.current
 
         if (target) {
@@ -72,11 +92,32 @@ const SubMenuContent: ForwardRefRenderFunction<HTMLDivElement, SubMenuContentPro
 
   useEffect(() => {
     setMounted(true)
-  }, [])
+  }, [isHovered])
 
   return (
-    <StyledSubMenuContent ref={ref} level={level} open={open} transitionDuration={transitionDuration} {...rest}>
-      <ul className={styles.ul}>{children}</ul>
+    <StyledSubMenuContent
+      ref={ref}
+      level={level}
+      isCollapsed={isCollapsed}
+      isHovered={isHovered}
+      open={open}
+      openWhenCollapsed={openWhenCollapsed}
+      isPopoutWhenCollapsed={isPopoutWhenCollapsed}
+      transitionDuration={transitionDuration}
+      browserScroll={browserScroll}
+      {...rest}
+    >
+      {/* If browserScroll is false render PerfectScrollbar */}
+      {!browserScroll && level === 0 && isPopoutWhenCollapsed && isCollapsed ? (
+        <PerfectScrollbar
+          options={{ wheelPropagation: false, suppressScrollX: true }}
+          style={{ maxBlockSize: `calc((var(--vh, 1vh) * 100))` }}
+        >
+          <ul className={styles.ul}>{children}</ul>
+        </PerfectScrollbar>
+      ) : (
+        <ul className={styles.ul}>{children}</ul>
+      )}
     </StyledSubMenuContent>
   )
 }

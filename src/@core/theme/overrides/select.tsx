@@ -31,18 +31,12 @@ const select: Theme['components'] = {
     styleOverrides: {
       select: ({ theme, ownerState }) => ({
         ...(ownerState.variant === 'outlined' && {
-          minHeight: '1.5em'
+          minBlockSize: '1.5em'
         }),
         '&[aria-expanded="true"] ~ i, &[aria-expanded="true"] ~ svg': {
           transform: 'rotate(180deg)'
         },
         '& ~ i, & ~ svg': iconStyles(theme as Theme),
-        '&.MuiInputBase-inputSizeSmall': {
-          '& ~ i, & ~ svg': {
-            height: '1.375rem',
-            width: '1.375rem'
-          }
-        },
         '&:not(aria-label="Without label") ~ .MuiOutlinedInput-notchedOutline > legend > span': {
           paddingInline: '5px'
         }

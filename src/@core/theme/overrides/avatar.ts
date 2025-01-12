@@ -30,7 +30,10 @@ const avatar: Theme['components'] = {
         color: 'var(--mui-palette-text-primary)',
         fontSize: theme.typography.body1.fontSize,
         lineHeight: 1.2
-      })
+      }),
+      rounded: {
+        borderRadius: 'var(--mui-shape-customBorderRadius-lg)'
+      }
     }
   }
 }

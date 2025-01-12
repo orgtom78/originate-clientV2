@@ -12,7 +12,7 @@ const CustomIconButton = styled(MuiButton)(({ color, size, theme, variant }) => 
     ...(size === 'small'
       ? {
           fontSize: '20px',
-          padding: theme.spacing(variant === 'outlined' ? 1 : 1.25),
+          padding: theme.spacing(variant === 'outlined' ? 1.5 : 1.75),
           '& i, & svg': {
             fontSize: 'inherit'
           }
@@ -28,7 +28,7 @@ const CustomIconButton = styled(MuiButton)(({ color, size, theme, variant }) => 
               }
             : {
                 fontSize: '22px',
-                padding: theme.spacing(variant === 'outlined' ? 1.5 : 1.75),
+                padding: theme.spacing(variant === 'outlined' ? 1.75 : 2),
                 '& i, & svg': {
                   fontSize: 'inherit'
                 }
@@ -52,7 +52,7 @@ const CustomIconButton = styled(MuiButton)(({ color, size, theme, variant }) => 
         border: 'none !important',
         ...(size === 'small'
           ? {
-              padding: theme.spacing(1.5)
+              padding: theme.spacing(1.75)
             }
           : {
               ...(size === 'large'
@@ -60,7 +60,7 @@ const CustomIconButton = styled(MuiButton)(({ color, size, theme, variant }) => 
                     padding: theme.spacing(2.25)
                   }
                 : {
-                    padding: theme.spacing(1.75)
+                    padding: theme.spacing(2)
                   })
             })
       }),

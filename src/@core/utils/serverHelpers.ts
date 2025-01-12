@@ -1,7 +1,8 @@
-import 'server-only'
-
 // Next Imports
 import { cookies } from 'next/headers'
+
+// Third-party Imports
+import 'server-only'
 
 // Type Imports
 import type { Settings } from '@core/contexts/settingsContext'
@@ -28,13 +29,23 @@ export const getMode = () => {
 }
 
 export const getSystemMode = (): SystemMode => {
+  const cookieStore = cookies()
   const mode = getMode()
 
-  return mode
+  const colorPrefCookie = (cookieStore.get('colorPref')?.value || 'light') as SystemMode
+
+  return (mode === 'system' ? colorPrefCookie : mode) || 'light'
 }
 
 export const getServerMode = () => {
   const mode = getMode()
+  const systemMode = getSystemMode()
 
-  return mode
+  return mode === 'system' ? systemMode : mode
+}
+
+export const getSkin = () => {
+  const settingsCookie = getSettingsFromCookie()
+
+  return settingsCookie.skin || 'default'
 }

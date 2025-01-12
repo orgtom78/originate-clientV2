@@ -40,7 +40,7 @@ const tabs: Theme['components'] = {
                     })
               }),
           '& .MuiTabScrollButton-root': {
-            borderRadius: theme.shape.borderRadius
+            borderRadius: 'var(--mui-shape-customBorderRadius-lg)'
           }
         },
         '& ~ .MuiTabPanel-root': {
@@ -70,11 +70,17 @@ const tabs: Theme['components'] = {
         color: 'var(--mui-palette-text-primary)',
         '& > .MuiTab-iconWrapper': {
           fontSize: '1.125rem',
+          ...(ownerState.iconPosition === 'top' && {
+            marginBlockEnd: theme.spacing(2)
+          }),
+          ...(ownerState.iconPosition === 'bottom' && {
+            marginBlockStart: theme.spacing(2)
+          }),
           ...(ownerState.iconPosition === 'start' && {
-            marginInlineEnd: theme.spacing(1.5)
+            marginInlineEnd: theme.spacing(2)
           }),
           ...(ownerState.iconPosition === 'end' && {
-            marginInlineStart: theme.spacing(1.5)
+            marginInlineStart: theme.spacing(2)
           })
         }
       })

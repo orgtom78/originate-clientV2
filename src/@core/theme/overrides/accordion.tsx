@@ -55,8 +55,9 @@ const accordion = (skin: Skin): Theme['components'] => ({
       root: ({ theme }) => ({
         padding: theme.spacing(3, 5),
         color: 'var(--mui-palette-text-primary)',
+        minHeight: 46,
         '&.Mui-expanded': {
-          minHeight: 48
+          minHeight: 46
         },
         '& .MuiTypography-root': {
           color: 'inherit',

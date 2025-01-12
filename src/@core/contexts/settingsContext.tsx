@@ -5,10 +5,11 @@ import type { ReactNode } from 'react'
 import { createContext, useMemo, useState } from 'react'
 
 // Type Imports
-import type { Mode } from '@core/types'
+import type { Mode, Skin, Layout, LayoutComponentWidth } from '@core/types'
 
 // Config Imports
 import themeConfig from '@configs/themeConfig'
+import primaryColorConfig from '@configs/primaryColorConfig'
 
 // Hook Imports
 import { useObjectCookie } from '@core/hooks/useObjectCookie'
@@ -16,6 +17,13 @@ import { useObjectCookie } from '@core/hooks/useObjectCookie'
 // Settings type
 export type Settings = {
   mode?: Mode
+  skin?: Skin
+  semiDark?: boolean
+  layout?: Layout
+  navbarContentWidth?: LayoutComponentWidth
+  contentWidth?: LayoutComponentWidth
+  footerContentWidth?: LayoutComponentWidth
+  primaryColor?: string
 }
 
 // UpdateSettingsOptions type
@@ -45,7 +53,14 @@ export const SettingsContext = createContext<SettingsContextProps | null>(null)
 export const SettingsProvider = (props: Props) => {
   // Initial Settings
   const initialSettings: Settings = {
-    mode: themeConfig.mode
+    mode: themeConfig.mode,
+    skin: themeConfig.skin,
+    semiDark: themeConfig.semiDark,
+    layout: themeConfig.layout,
+    navbarContentWidth: themeConfig.navbar.contentWidth,
+    contentWidth: themeConfig.contentWidth,
+    footerContentWidth: themeConfig.footer.contentWidth,
+    primaryColor: primaryColorConfig[0].main
   }
 
   const updatedInitialSettings = {

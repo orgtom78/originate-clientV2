@@ -14,8 +14,8 @@ const switchOverrides: Theme['components'] = {
         ...(ownerState.size !== 'small'
           ? {
               width: 46,
-              height: 36,
-              padding: theme.spacing(2.25, 2)
+              height: 38,
+              padding: theme.spacing(2.5, 2)
             }
           : {
               width: 42,
@@ -34,9 +34,17 @@ const switchOverrides: Theme['components'] = {
               }
             })
       }),
-      switchBase: {
-        top: 2,
-        left: 1,
+      switchBase: ({ ownerState }) => ({
+        ...(ownerState.size !== 'small'
+          ? {
+              top: 3,
+              left: 1
+            }
+          : {
+              top: 2,
+              left: 1
+            }),
+
         '&.Mui-checked': {
           left: -7,
           color: 'var(--mui-palette-common-white)',
@@ -50,7 +58,7 @@ const switchOverrides: Theme['components'] = {
         '&:hover:not(:has(span.MuiTouchRipple-root))': {
           backgroundColor: 'transparent'
         }
-      },
+      }),
       thumb: {
         width: 14,
         height: 14,
@@ -60,7 +68,7 @@ const switchOverrides: Theme['components'] = {
         opacity: 1,
         borderRadius: 10,
         backgroundColor: 'var(--mui-palette-action-focus)',
-        boxShadow: `0 0 4px rgb(0 0 0 / 0.16) inset`
+        boxShadow: '0 0 4px rgb(0 0 0 / 0.16) inset'
       }
     }
   }

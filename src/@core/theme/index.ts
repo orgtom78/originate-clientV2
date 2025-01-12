@@ -5,7 +5,8 @@ import { Inter } from 'next/font/google'
 import type { Theme } from '@mui/material/styles'
 
 // Type Imports
-import type { SystemMode } from '@core/types'
+import type { Settings } from '@core/contexts/settingsContext'
+import type { Skin, SystemMode } from '@core/types'
 
 // Theme Options Imports
 import overrides from './overrides'
@@ -17,14 +18,14 @@ import typography from './typography'
 
 const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600', '700', '800', '900'] })
 
-const theme = (mode: SystemMode, direction: Theme['direction']): Theme => {
+const theme = (settings: Settings, mode: SystemMode, direction: Theme['direction']): Theme => {
   return {
     direction,
-    components: overrides(),
-    colorSchemes: colorSchemes(),
+    components: overrides(settings.skin as Skin),
+    colorSchemes: colorSchemes(settings.skin as Skin),
     ...spacing,
     shape: {
-      borderRadius: 6,
+      borderRadius: 10,
       customBorderRadius: {
         xs: 2,
         sm: 4,
@@ -37,10 +38,10 @@ const theme = (mode: SystemMode, direction: Theme['direction']): Theme => {
     typography: typography(inter.style.fontFamily),
     customShadows: customShadows(mode),
     mainColorChannels: {
-      light: '46 38 61',
-      dark: '231 227 252',
-      lightShadow: '46 38 61',
-      darkShadow: '19 17 32'
+      light: '38 43 67',
+      dark: '234 234 255',
+      lightShadow: '38 43 67',
+      darkShadow: '16 17 33'
     }
   } as Theme
 }

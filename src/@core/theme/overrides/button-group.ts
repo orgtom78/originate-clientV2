@@ -22,7 +22,9 @@ const buttonGroup: Theme['components'] = {
         props: { variant: 'text', color: 'primary' },
         style: {
           '& .MuiButtonGroup-firstButton, & .MuiButtonGroup-middleButton': {
-            borderColor: 'var(--mui-palette-primary-main)'
+            '&, &.Mui-disabled': {
+              borderColor: 'var(--mui-palette-primary-main)'
+            }
           }
         }
       },
@@ -30,7 +32,9 @@ const buttonGroup: Theme['components'] = {
         props: { variant: 'text', color: 'secondary' },
         style: {
           '& .MuiButtonGroup-firstButton, & .MuiButtonGroup-middleButton': {
-            borderColor: 'var(--mui-palette-secondary-main)'
+            '&, &.Mui-disabled': {
+              borderColor: 'var(--mui-palette-secondary-main)'
+            }
           }
         }
       },
@@ -38,7 +42,9 @@ const buttonGroup: Theme['components'] = {
         props: { variant: 'text', color: 'error' },
         style: {
           '& .MuiButtonGroup-firstButton, & .MuiButtonGroup-middleButton': {
-            borderColor: 'var(--mui-palette-error-main)'
+            '&, &.Mui-disabled': {
+              borderColor: 'var(--mui-palette-error-main)'
+            }
           }
         }
       },
@@ -46,7 +52,9 @@ const buttonGroup: Theme['components'] = {
         props: { variant: 'text', color: 'warning' },
         style: {
           '& .MuiButtonGroup-firstButton, & .MuiButtonGroup-middleButton': {
-            borderColor: 'var(--mui-palette-warning-main)'
+            '&, &.Mui-disabled': {
+              borderColor: 'var(--mui-palette-warning-main)'
+            }
           }
         }
       },
@@ -54,7 +62,9 @@ const buttonGroup: Theme['components'] = {
         props: { variant: 'text', color: 'info' },
         style: {
           '& .MuiButtonGroup-firstButton, & .MuiButtonGroup-middleButton': {
-            borderColor: 'var(--mui-palette-info-main)'
+            '&, &.Mui-disabled': {
+              borderColor: 'var(--mui-palette-info-main)'
+            }
           }
         }
       },
@@ -62,7 +72,9 @@ const buttonGroup: Theme['components'] = {
         props: { variant: 'text', color: 'success' },
         style: {
           '& .MuiButtonGroup-firstButton, & .MuiButtonGroup-middleButton': {
-            borderColor: 'var(--mui-palette-success-main)'
+            '&, &.Mui-disabled': {
+              borderColor: 'var(--mui-palette-success-main)'
+            }
           }
         }
       }

@@ -3,73 +3,75 @@ import type { SVGAttributes } from 'react'
 
 const Logo = (props: SVGAttributes<SVGElement>) => {
   return (
-    <svg width='1.2658em' height='1em' viewBox='0 0 100 79' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M4.92008 0.501904L22.662 11.4573C23.614 12.0451 24.1936 13.0844 24.1936 14.2036V64.2521C24.1936 65.3871 23.5976 66.4387 22.6241 67.0214L4.8822 77.6429C3.35344 78.5581 1.37254 78.0602 0.457741 76.5307C0.158194 76.0299 0 75.4572 0 74.8736V3.24818C0 1.46582 1.44424 0.0209274 3.22581 0.0209274C3.82422 0.0209274 4.41085 0.18746 4.92008 0.501904Z'
-        fill='currentColor'
+    <svg width='40' height='22' viewBox='0 0 40 22' fill='none' xmlns='http://www.w3.org/2000/svg' {...props}>
+      <rect
+        width='7.37565'
+        height='21.1131'
+        rx='3.68783'
+        transform='matrix(-0.865206 0.501417 0.498585 0.866841 28.4115 0)'
+        fill='var(--mui-palette-primary-main)'
       />
-      <path
-        opacity='0.077704'
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M0 26.1063L24.1936 39.9852V53.5915L0 26.1063Z'
-        fill='black'
+      <rect
+        width='7.37565'
+        height='21.1131'
+        rx='3.68783'
+        transform='matrix(-0.865206 0.501417 0.498585 0.866841 28.4869 0)'
+        fill='url(#paint0_linear_448_114254)'
+        fillOpacity='0.4'
       />
-      <path
-        opacity='0.077704'
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M0 26.1063L24.1936 39.6319V47.9438L0 26.1063Z'
-        fill='black'
+      <rect
+        width='7.37565'
+        height='21.1131'
+        rx='3.68783'
+        transform='matrix(0.865206 0.501417 -0.498585 0.866841 25.6563 0)'
+        fill='var(--mui-palette-primary-main)'
       />
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M95.084 0.489601L77.3421 11.4083C76.3878 11.9956 75.8064 13.0362 75.8064 14.1571V64.2526C75.8064 65.3875 76.4024 66.4391 77.3759 67.0219L95.1178 77.6433C96.6466 78.5585 98.6275 78.0606 99.5423 76.5312C99.8418 76.0303 100 75.4576 100 74.874V3.23842C100 1.45605 98.5558 0.0111618 96.7742 0.0111618C96.1774 0.0111618 95.5923 0.176782 95.084 0.489601Z'
-        fill='currentColor'
+      <rect
+        width='7.37565'
+        height='21.1131'
+        rx='3.68783'
+        transform='matrix(-0.865206 0.501417 0.498585 0.866841 14.3293 0)'
+        fill='var(--mui-palette-primary-main)'
       />
-      <path
-        opacity='0.077704'
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M100 26.1063L75.8064 39.956V54.0023L100 26.1063Z'
-        fill='black'
+      <rect
+        width='7.37565'
+        height='21.1131'
+        rx='3.68783'
+        transform='matrix(-0.865206 0.501417 0.498585 0.866841 14.3293 0)'
+        fill='url(#paint1_linear_448_114254)'
+        fillOpacity='0.4'
       />
-      <path
-        opacity='0.077704'
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M100 26.1063L75.8064 39.6199V48.3546L100 26.1063Z'
-        fill='black'
+      <rect
+        width='7.37565'
+        height='21.1131'
+        rx='3.68783'
+        transform='matrix(0.865206 0.501417 -0.498585 0.866841 11.5132 0)'
+        fill='var(--mui-palette-primary-main)'
       />
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M4.91149 0.475694L50 28.123V54.7479L0 26.0986V3.22726C0 1.44489 1.44424 0 3.22581 0C3.8208 0 4.4042 0.164633 4.91149 0.475694Z'
-        fill='currentColor'
-      />
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M4.91149 0.475694L50 28.123V54.7479L0 26.0986V3.22726C0 1.44489 1.44424 0 3.22581 0C3.8208 0 4.4042 0.164633 4.91149 0.475694Z'
-        fill='white'
-        fillOpacity='0.15'
-      />
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M95.0885 0.475694L50 28.123V54.7479L100 26.0986V3.22726C100 1.44489 98.5558 0 96.7742 0C96.1792 0 95.5958 0.164633 95.0885 0.475694Z'
-        fill='currentColor'
-      />
-      <path
-        fillRule='evenodd'
-        clipRule='evenodd'
-        d='M95.0885 0.475694L50 28.123V54.7479L100 26.0986V3.22726C100 1.44489 98.5558 0 96.7742 0C96.1792 0 95.5958 0.164633 95.0885 0.475694Z'
-        fill='white'
-        fillOpacity='0.3'
-      />
+      <defs>
+        <linearGradient
+          id='paint0_linear_448_114254'
+          x1='3.68783'
+          y1='0'
+          x2='3.68783'
+          y2='21.1131'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop />
+          <stop offset='1' stopOpacity='0' />
+        </linearGradient>
+        <linearGradient
+          id='paint1_linear_448_114254'
+          x1='3.68783'
+          y1='0'
+          x2='3.68783'
+          y2='21.1131'
+          gradientUnits='userSpaceOnUse'
+        >
+          <stop />
+          <stop offset='1' stopOpacity='0' />
+        </linearGradient>
+      </defs>
     </svg>
   )
 }

@@ -20,10 +20,33 @@ import coreTheme from '@core/theme'
 const mergedTheme = (settings: Settings, mode: SystemMode, direction: Theme['direction']) => {
   // Vars
   const userTheme = {
-    // Write your overrides here.
-  } as Theme
+      colorSchemes: {
+        light: {
+          palette: {
+            primary: {
+              main: "#071A52", // Deep Blue for main primary color
+              light: "#086972", // Secondary blue shade
+              dark: "#071A52", // Ensure contrast
+            },
+            secondary: {
+              main: "#17B978", // Vibrant green for secondary color
+              light: "#A7FF83", // Lighter green for highlights
+              dark: "#086972", // Complementary dark shade
+            },
+            background: {
+              default: "#FFFFFF", // White background
+              paper: "#F5F5F5", // Slightly muted white for cards
+            },
+            text: {
+              primary: "#071A52", // High contrast text
+              secondary: "#086972", // Muted text for secondary elements
+            },
+          },
+        },
+      }
+    } as Theme
 
-  return deepmerge(coreTheme(mode, direction), userTheme)
+  return deepmerge(coreTheme(settings, mode, direction), userTheme)
 }
 
 export default mergedTheme

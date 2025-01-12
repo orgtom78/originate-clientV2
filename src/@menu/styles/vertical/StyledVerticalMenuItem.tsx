@@ -14,6 +14,8 @@ import { menuButtonStyles } from '../../components/vertical-menu/MenuButton'
 type StyledVerticalMenuItemProps = Pick<MenuItemProps, 'rootStyles' | 'disabled'> & {
   level: number
   menuItemStyles?: CSSObject
+  isCollapsed?: boolean
+  isPopoutWhenCollapsed?: boolean
   buttonStyles?: CSSObject
 }
 
@@ -24,10 +26,12 @@ const StyledVerticalMenuItem = styled.li<StyledVerticalMenuItemProps>`
   ${({ rootStyles }) => rootStyles};
 
   > .${menuClasses.button} {
-    ${({ level, disabled }) =>
+    ${({ level, disabled, isCollapsed, isPopoutWhenCollapsed }) =>
       menuButtonStyles({
         level,
-        disabled
+        disabled,
+        isCollapsed,
+        isPopoutWhenCollapsed
       })};
     ${({ buttonStyles }) => buttonStyles};
   }

@@ -8,6 +8,7 @@ const snackbar = (skin: Skin): Theme['components'] => ({
   MuiSnackbarContent: {
     styleOverrides: {
       root: ({ theme }) => ({
+        borderRadius: 'var(--mui-shape-customBorderRadius-lg)',
         padding: theme.spacing(0, 4),
         ...(skin !== 'bordered'
           ? {

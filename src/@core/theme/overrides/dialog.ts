@@ -10,7 +10,7 @@ const dialog = (skin: Skin): Theme['components'] => ({
       paper: ({ theme }) => ({
         ...(skin !== 'bordered'
           ? {
-              boxShadow: 'var(--mui-customShadows-xl)'
+              boxShadow: 'var(--mui-customShadows-lg)'
             }
           : {
               boxShadow: 'none'
@@ -31,7 +31,7 @@ const dialog = (skin: Skin): Theme['components'] => ({
       root: ({ theme }) => ({
         padding: theme.spacing(5),
         '& + .MuiDialogActions-root': {
-          paddingTop: 0
+          paddingBlockStart: 0
         }
       })
     }
@@ -41,7 +41,7 @@ const dialog = (skin: Skin): Theme['components'] => ({
       root: ({ theme }) => ({
         padding: theme.spacing(5),
         '& + .MuiDialogContent-root, & + .MuiDialogActions-root': {
-          paddingTop: 0
+          paddingBlockStart: 0
         }
       })
     }

@@ -25,6 +25,9 @@ import classnames from 'classnames'
 // Type Imports
 import type { OptionsMenuType, OptionType, OptionMenuItemType } from './types'
 
+// Hook Imports
+import { useSettings } from '@core/hooks/useSettings'
+
 const IconButtonWrapper = (props: Pick<OptionsMenuType, 'tooltipProps'> & { children: ReactElement }) => {
   // Props
   const { tooltipProps, children } = props
@@ -53,6 +56,9 @@ const OptionMenu = (props: OptionsMenuType) => {
 
   // Refs
   const anchorRef = useRef<HTMLButtonElement>(null)
+
+  // Hooks
+  const { settings } = useSettings()
 
   const handleToggle = () => {
     setOpen(prevOpen => !prevOpen)
@@ -89,7 +95,7 @@ const OptionMenu = (props: OptionsMenuType) => {
       >
         {({ TransitionProps }) => (
           <Fade {...TransitionProps}>
-            <Paper className='shadow-lg'>
+            <Paper className={settings.skin === 'bordered' ? 'border shadow-none' : 'shadow-lg'}>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList autoFocusItem={open}>
                   {options.map((option: OptionType, index: number) => {

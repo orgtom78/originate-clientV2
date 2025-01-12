@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation'
 
 // Third-party Imports
 import classnames from 'classnames'
+import { FloatingTree } from '@floating-ui/react'
 import type { CSSObject } from '@emotion/styled'
 
 // Type Imports
@@ -19,6 +20,9 @@ import type {
   RenderExpandIconParams,
   RenderExpandedMenuItemIcon
 } from '../../types'
+
+// Hook Imports
+import useVerticalNav from '../../hooks/useVerticalNav'
 
 // Util Imports
 import { menuClasses } from '../../utils/menuClasses'
@@ -48,12 +52,19 @@ export type OpenSubmenu = {
 }
 
 export type VerticalMenuContextProps = {
+  browserScroll?: boolean
+  triggerPopout?: 'hover' | 'click'
   transitionDuration?: number
   menuSectionStyles?: MenuSectionStyles
   menuItemStyles?: MenuItemStyles
   subMenuOpenBehavior?: 'accordion' | 'collapse'
   renderExpandIcon?: (params: RenderExpandIconParams) => ReactElement
   renderExpandedMenuItemIcon?: RenderExpandedMenuItemIcon
+  collapsedMenuSectionLabel?: ReactNode
+  popoutMenuOffset?: {
+    mainAxis?: number | ((params: { level?: number }) => number)
+    alignmentAxis?: number | ((params: { level?: number }) => number)
+  }
   textTruncate?: boolean
 
   /**
@@ -75,7 +86,9 @@ export type VerticalMenuContextProps = {
 export type MenuProps = VerticalMenuContextProps &
   RootStylesType &
   Partial<ChildrenType> &
-  MenuHTMLAttributes<HTMLMenuElement>
+  MenuHTMLAttributes<HTMLMenuElement> & {
+    popoutWhenCollapsed?: boolean
+  }
 
 export const VerticalMenuContext = createContext({} as VerticalMenuContextProps)
 
@@ -89,8 +102,13 @@ const Menu: ForwardRefRenderFunction<HTMLMenuElement, MenuProps> = (props, ref) 
     renderExpandIcon,
     renderExpandedMenuItemIcon,
     menuSectionStyles,
+    browserScroll = false,
+    triggerPopout = 'hover',
+    popoutWhenCollapsed = false,
     subMenuOpenBehavior = 'accordion', // accordion, collapse
     transitionDuration = verticalSubMenuToggleDuration,
+    collapsedMenuSectionLabel = '-',
+    popoutMenuOffset = { mainAxis: 0 },
     textTruncate = true,
     ...rest
   } = props
@@ -103,6 +121,7 @@ const Menu: ForwardRefRenderFunction<HTMLMenuElement, MenuProps> = (props, ref) 
 
   // Hooks
   const pathname = usePathname()
+  const { updateVerticalNavState } = useVerticalNav()
 
   const toggleOpenSubmenu = useCallback(
     (...submenus: { level: number; label: ReactNode; active?: boolean; id: string }[]): void => {
@@ -149,8 +168,17 @@ const Menu: ForwardRefRenderFunction<HTMLMenuElement, MenuProps> = (props, ref) 
     openSubmenusRef.current = []
   }, [pathname])
 
+  // UseEffect, update verticalNav state to set initial values and update values on change
+  useEffect(() => {
+    updateVerticalNavState({
+      isPopoutWhenCollapsed: popoutWhenCollapsed
+    })
+  }, [popoutWhenCollapsed, updateVerticalNavState])
+
   const providerValue = useMemo(
     () => ({
+      browserScroll,
+      triggerPopout,
       transitionDuration,
       menuItemStyles,
       menuSectionStyles,
@@ -160,9 +188,13 @@ const Menu: ForwardRefRenderFunction<HTMLMenuElement, MenuProps> = (props, ref) 
       openSubmenusRef,
       toggleOpenSubmenu,
       subMenuOpenBehavior,
+      collapsedMenuSectionLabel,
+      popoutMenuOffset,
       textTruncate
     }),
     [
+      browserScroll,
+      triggerPopout,
       transitionDuration,
       menuItemStyles,
       menuSectionStyles,
@@ -172,20 +204,24 @@ const Menu: ForwardRefRenderFunction<HTMLMenuElement, MenuProps> = (props, ref) 
       openSubmenusRef,
       toggleOpenSubmenu,
       subMenuOpenBehavior,
+      collapsedMenuSectionLabel,
+      popoutMenuOffset,
       textTruncate
     ]
   )
 
   return (
     <VerticalMenuContext.Provider value={providerValue}>
-      <StyledVerticalMenu
-        ref={ref}
-        className={classnames(menuClasses.root, className)}
-        rootStyles={rootStyles}
-        {...rest}
-      >
-        <ul className={styles.ul}>{children}</ul>
-      </StyledVerticalMenu>
+      <FloatingTree>
+        <StyledVerticalMenu
+          ref={ref}
+          className={classnames(menuClasses.root, className)}
+          rootStyles={rootStyles}
+          {...rest}
+        >
+          <ul className={styles.ul}>{children}</ul>
+        </StyledVerticalMenu>
+      </FloatingTree>
     </VerticalMenuContext.Provider>
   )
 }

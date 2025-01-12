@@ -31,40 +31,44 @@ const button: Theme['components'] = {
   MuiButton: {
     styleOverrides: {
       root: ({ theme, ownerState }) => ({
+        borderRadius: 'var(--mui-shape-customBorderRadius-lg)',
+        '&.Mui-disabled': {
+          opacity: 0.45
+        },
         ...(ownerState.variant === 'text'
           ? {
               ...(ownerState.size === 'small' && {
-                padding: theme.spacing(2, 2.5)
+                padding: theme.spacing(2, 2.25)
               }),
               ...(ownerState.size === 'medium' && {
-                padding: theme.spacing(2, 3.5)
+                padding: theme.spacing(2, 3)
               }),
               ...(ownerState.size === 'large' && {
-                padding: theme.spacing(2, 4.5)
+                padding: theme.spacing(2, 5.5)
               })
             }
           : {
               ...(ownerState.variant === 'outlined'
                 ? {
                     ...(ownerState.size === 'small' && {
-                      padding: theme.spacing(1.75, 3.25)
+                      padding: theme.spacing(1.75, 2.75)
                     }),
                     ...(ownerState.size === 'medium' && {
-                      padding: theme.spacing(1.75, 4.25)
+                      padding: theme.spacing(1.75, 5.25)
                     }),
                     ...(ownerState.size === 'large' && {
-                      padding: theme.spacing(1.75, 5.25)
+                      padding: theme.spacing(1.75, 6.25)
                     })
                   }
                 : {
                     ...(ownerState.size === 'small' && {
-                      padding: theme.spacing(2, 3.5)
+                      padding: theme.spacing(2, 3)
                     }),
                     ...(ownerState.size === 'medium' && {
-                      padding: theme.spacing(2, 4.5)
+                      padding: theme.spacing(2, 5.5)
                     }),
                     ...(ownerState.size === 'large' && {
-                      padding: theme.spacing(2, 5.5)
+                      padding: theme.spacing(2, 6.5)
                     })
                   })
             })
@@ -83,12 +87,12 @@ const button: Theme['components'] = {
       sizeSmall: ({ theme }) => ({
         lineHeight: 1.38462,
         fontSize: theme.typography.body2.fontSize,
-        borderRadius: 'var(--mui-shape-customBorderRadius-sm)'
+        borderRadius: 'var(--mui-shape-customBorderRadius-md)'
       }),
       sizeLarge: {
         fontSize: '1.0625rem',
         lineHeight: 1.529412,
-        borderRadius: 'var(--mui-shape-customBorderRadius-lg)'
+        borderRadius: 'var(--mui-shape-customBorderRadius-xl)'
       },
       startIcon: ({ theme, ownerState }) => ({
         ...(ownerState.size === 'small'
@@ -132,7 +136,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-primary-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-primary-main)'
           }
         }
@@ -145,7 +148,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-secondary-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-secondary-main)'
           }
         }
@@ -158,7 +160,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-error-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-error-main)'
           }
         }
@@ -171,7 +172,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-warning-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-warning-main)'
           }
         }
@@ -184,7 +184,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-info-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-info-main)'
           }
         }
@@ -197,7 +196,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-success-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-success-main)'
           }
         }
@@ -211,7 +209,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-primary-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-primary-main)',
             borderColor: 'var(--mui-palette-primary-main)'
           }
@@ -226,7 +223,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-secondary-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-secondary-main)',
             borderColor: 'var(--mui-palette-secondary-main)'
           }
@@ -241,7 +237,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-error-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-error-main)',
             borderColor: 'var(--mui-palette-error-main)'
           }
@@ -256,7 +251,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-warning-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-warning-main)',
             borderColor: 'var(--mui-palette-warning-main)'
           }
@@ -271,7 +265,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-info-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-info-main)',
             borderColor: 'var(--mui-palette-info-main)'
           }
@@ -286,7 +279,6 @@ const button: Theme['components'] = {
               backgroundColor: 'var(--mui-palette-success-lighterOpacity)'
             },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-success-main)',
             borderColor: 'var(--mui-palette-success-main)'
           }
@@ -299,7 +291,6 @@ const button: Theme['components'] = {
             backgroundColor: 'var(--mui-palette-primary-dark)'
           },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-primary-contrastText)',
             backgroundColor: 'var(--mui-palette-primary-main)'
           }
@@ -312,7 +303,6 @@ const button: Theme['components'] = {
             backgroundColor: 'var(--mui-palette-secondary-dark)'
           },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-secondary-contrastText)',
             backgroundColor: 'var(--mui-palette-secondary-main)'
           }
@@ -325,7 +315,6 @@ const button: Theme['components'] = {
             backgroundColor: 'var(--mui-palette-error-dark)'
           },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-error-contrastText)',
             backgroundColor: 'var(--mui-palette-error-main)'
           }
@@ -338,7 +327,6 @@ const button: Theme['components'] = {
             backgroundColor: 'var(--mui-palette-warning-dark)'
           },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-warning-contrastText)',
             backgroundColor: 'var(--mui-palette-warning-main)'
           }
@@ -351,7 +339,6 @@ const button: Theme['components'] = {
             backgroundColor: 'var(--mui-palette-info-dark)'
           },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-info-contrastText)',
             backgroundColor: 'var(--mui-palette-info-main)'
           }
@@ -364,7 +351,6 @@ const button: Theme['components'] = {
             backgroundColor: 'var(--mui-palette-success-dark)'
           },
           '&.Mui-disabled': {
-            opacity: 0.45,
             color: 'var(--mui-palette-success-contrastText)',
             backgroundColor: 'var(--mui-palette-success-main)'
           }

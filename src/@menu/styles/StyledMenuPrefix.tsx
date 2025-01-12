@@ -4,11 +4,15 @@ import styled from '@emotion/styled'
 // Type Imports
 import type { RootStylesType } from '../types'
 
-type StyledMenuPrefixProps = RootStylesType
+type StyledMenuPrefixProps = RootStylesType & {
+  firstLevel?: boolean
+  isCollapsed?: boolean
+  isHovered?: boolean
+}
 
 const StyledMenuPrefix = styled.span<StyledMenuPrefixProps>`
   margin-inline-end: 5px;
-  display: flex;
+  display: ${({ firstLevel, isCollapsed, isHovered }) => (firstLevel && isCollapsed && !isHovered ? 'none' : 'flex')};
   ${({ rootStyles }) => rootStyles};
 `
 

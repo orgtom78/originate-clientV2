@@ -42,6 +42,7 @@ export type MenuItemProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'prefi
     disabled?: boolean
     target?: string
     rel?: string
+    component?: string | ReactElement
     onActiveChange?: (active: boolean) => void
 
     /**
@@ -62,6 +63,7 @@ const MenuItem: ForwardRefRenderFunction<HTMLLIElement, MenuItemProps> = (props,
     disabled = false,
     exactMatch = true,
     activeUrl,
+    component,
     onActiveChange,
     rootStyles,
     ...rest
@@ -74,7 +76,8 @@ const MenuItem: ForwardRefRenderFunction<HTMLLIElement, MenuItemProps> = (props,
   const pathname = usePathname()
   const { menuItemStyles, renderExpandedMenuItemIcon, textTruncate } = useVerticalMenu()
 
-  const { toggleVerticalNav, isToggled, isBreakpointReached } = useVerticalNav()
+  const { isCollapsed, isHovered, isPopoutWhenCollapsed, toggleVerticalNav, isToggled, isBreakpointReached } =
+    useVerticalNav()
 
   // Get the styles for the specified element.
   const getMenuItemStyles = (element: MenuItemElement): CSSObject | undefined => {
@@ -103,7 +106,7 @@ const MenuItem: ForwardRefRenderFunction<HTMLLIElement, MenuItemProps> = (props,
 
   // Change active state when the url changes
   useEffect(() => {
-    const href = rest.href
+    const href = rest.href || (component && typeof component !== 'string' && component.props.href)
 
     if (href) {
       // Check if the current url matches any of the children urls
@@ -131,6 +134,8 @@ const MenuItem: ForwardRefRenderFunction<HTMLLIElement, MenuItemProps> = (props,
         className
       )}
       level={level}
+      isCollapsed={isCollapsed}
+      isPopoutWhenCollapsed={isPopoutWhenCollapsed}
       disabled={disabled}
       buttonStyles={getMenuItemStyles('button')}
       menuItemStyles={getMenuItemStyles('root')}
@@ -138,6 +143,7 @@ const MenuItem: ForwardRefRenderFunction<HTMLLIElement, MenuItemProps> = (props,
     >
       <MenuButton
         className={classnames(menuClasses.button, { [menuClasses.active]: active })}
+        component={component}
         tabIndex={disabled ? -1 : 0}
         {...rest}
         onClick={e => {
@@ -158,7 +164,13 @@ const MenuItem: ForwardRefRenderFunction<HTMLLIElement, MenuItemProps> = (props,
 
         {/* Menu Item Prefix */}
         {prefix && (
-          <StyledMenuPrefix className={menuClasses.prefix} rootStyles={getMenuItemStyles('prefix')}>
+          <StyledMenuPrefix
+            isHovered={isHovered}
+            isCollapsed={isCollapsed}
+            firstLevel={level === 0}
+            className={menuClasses.prefix}
+            rootStyles={getMenuItemStyles('prefix')}
+          >
             {prefix}
           </StyledMenuPrefix>
         )}
@@ -174,7 +186,13 @@ const MenuItem: ForwardRefRenderFunction<HTMLLIElement, MenuItemProps> = (props,
 
         {/* Menu Item Suffix */}
         {suffix && (
-          <StyledMenuSuffix className={menuClasses.suffix} rootStyles={getMenuItemStyles('suffix')}>
+          <StyledMenuSuffix
+            isHovered={isHovered}
+            isCollapsed={isCollapsed}
+            firstLevel={level === 0}
+            className={menuClasses.suffix}
+            rootStyles={getMenuItemStyles('suffix')}
+          >
             {suffix}
           </StyledMenuSuffix>
         )}

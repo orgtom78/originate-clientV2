@@ -28,10 +28,10 @@ const pagination: Theme['components'] = {
         }
       },
       {
-        props: { variant: 'outlined', color: 'standard' },
+        props: { variant: 'outlined' },
         style: {
-          '& .MuiPaginationItem-root.Mui-selected.Mui-disabled': {
-            borderColor: 'var(--mui-palette-action-selected)'
+          '& .MuiPaginationItem-root': {
+            borderColor: 'var(--mui-palette-customColors-inputBorder)'
           }
         }
       },
@@ -40,8 +40,8 @@ const pagination: Theme['components'] = {
         style: {
           '& .MuiPaginationItem-root.Mui-selected.Mui-disabled': {
             color: 'var(--mui-palette-primary-main)',
-            backgroundColor: 'rgb(var(--mui-palette-primary-mainChannel) / var(--mui-palette-action-activatedOpacity))',
-            borderColor: 'rgba(var(--mui-palette-primary-mainChannel) / 0.5)'
+            backgroundColor: 'var(--mui-palette-primary-lightOpacity)',
+            borderColor: 'var(--mui-palette-primary-main)'
           }
         }
       },
@@ -50,9 +50,8 @@ const pagination: Theme['components'] = {
         style: {
           '& .MuiPaginationItem-root.Mui-selected.Mui-disabled': {
             color: 'var(--mui-palette-secondary-main)',
-            backgroundColor:
-              'rgb(var(--mui-palette-secondary-mainChannel) / var(--mui-palette-action-activatedOpacity))',
-            borderColor: 'rgba(var(--mui-palette-secondary-mainChannel) / 0.5)'
+            backgroundColor: 'var(--mui-palette-secondary-lightOpacity)',
+            borderColor: 'var(--mui-palette-secondary-main)'
           }
         }
       },
@@ -75,7 +74,7 @@ const pagination: Theme['components'] = {
             }
           },
           '& .MuiPaginationItem-root:hover:not(.Mui-selected):not(.MuiPaginationItem-ellipsis)': {
-            backgroundColor: 'var(--mui-palette-action-focus)'
+            backgroundColor: 'var(--mui-palette-action-disabledBackground)'
           },
           '& .MuiPaginationItem-root.Mui-selected.Mui-disabled': {
             backgroundColor: 'var(--mui-palette-primary-lightOpacity)',
@@ -121,7 +120,7 @@ const pagination: Theme['components'] = {
           },
           '& .MuiPaginationItem-root:hover:not(.Mui-selected):not(.MuiPaginationItem-ellipsis)': {
             backgroundColor: 'var(--mui-palette-secondary-mainOpacity)',
-            color: 'var(--mui-palette-secondary-main)'
+            color: 'var(--mui-palette-text-primary)'
           },
           '& .MuiPaginationItem-root.Mui-selected.Mui-disabled': {
             backgroundColor: 'var(--mui-palette-secondary-main)',
@@ -133,14 +132,33 @@ const pagination: Theme['components'] = {
   },
   MuiPaginationItem: {
     styleOverrides: {
-      root: ({ ownerState }) => ({
+      root: ({ ownerState, theme }) => ({
         ...(ownerState.size === 'medium' && {
           height: '2.375rem',
           minWidth: '2.375rem'
         }),
+        ...(ownerState.size === 'large' && {
+          ...theme.typography.body1
+        }),
         ...(ownerState.shape !== 'rounded' && {
           borderRadius: '50px'
         }),
+        '& i, & svg': {
+          ...(ownerState.size === 'small'
+            ? {
+                height: '1.25rem',
+                minWidth: '1.25rem'
+              }
+            : ownerState.size === 'large'
+              ? {
+                  height: '1.5rem',
+                  minWidth: '1.5rem'
+                }
+              : {
+                  height: '1.375rem',
+                  minWidth: '1.375rem'
+                })
+        },
         '&.Mui-selected.Mui-disabled': {
           color: 'var(--mui-palette-text-primary)',
           opacity: 0.45
@@ -150,13 +168,18 @@ const pagination: Theme['components'] = {
         },
         ...(ownerState.shape === 'rounded' &&
           ownerState.size === 'small' && {
-            borderRadius: 'var(--mui-shape-customBorderRadius-sm)'
+            borderRadius: 'var(--mui-shape-customBorderRadius-md)'
           }),
         ...(ownerState.shape === 'rounded' &&
-          ownerState.size === 'large' && {
+          ownerState.size === 'medium' && {
             borderRadius: 'var(--mui-shape-customBorderRadius-lg)'
           })
       }),
+      ellipsis: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      },
       sizeSmall: {
         height: '2.125rem',
         minWidth: '2.125rem'

@@ -48,6 +48,9 @@
       ],
       "@views/*": [
         "./src/views/*"
+      ],
+      "@data/*": [
+        "./src/data/*"
       ]
     }
   },
@@ -61,6 +64,6 @@
   ],
   "exclude": [
     "node_modules",
-    "amplify"
+    "amplify/**/*"
   ]
 }

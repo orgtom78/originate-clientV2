@@ -5,11 +5,12 @@ const toggleButton: Theme['components'] = {
   MuiToggleButtonGroup: {
     styleOverrides: {
       root: ({ ownerState }) => ({
+        borderRadius: 'var(--mui-shape-customBorderRadius-lg)',
         ...(ownerState.size === 'small' && {
-          borderRadius: 'var(--mui-shape-customBorderRadius-sm)'
+          borderRadius: 'var(--mui-shape-customBorderRadius-md)'
         }),
         ...(ownerState.size === 'large' && {
-          borderRadius: 'var(--mui-shape-customBorderRadius-lg)'
+          borderRadius: 'var(--mui-shape-borderRadius)'
         })
       })
     }
@@ -17,15 +18,16 @@ const toggleButton: Theme['components'] = {
   MuiToggleButton: {
     styleOverrides: {
       root: {
+        borderRadius: 'var(--mui-shape-customBorderRadius-lg)',
         '&:not(.Mui-selected):not(.Mui-disabled)': {
           color: 'var(--mui-palette-text-secondary)'
         }
       },
       sizeSmall: {
-        borderRadius: 'var(--mui-shape-customBorderRadius-sm)'
+        borderRadius: 'var(--mui-shape-customBorderRadius-md)'
       },
       sizeLarge: {
-        borderRadius: 'var(--mui-shape-customBorderRadius-lg)'
+        borderRadius: 'var(--mui-shape-borderRadius)'
       }
     }
   }

@@ -13,3 +13,4 @@ export const defaultBreakpoints: Record<BreakpointType, string> = {
 
 export const verticalNavToggleDuration = 300
 export const verticalSubMenuToggleDuration = 300
+export const horizontalSubMenuToggleDuration = 200

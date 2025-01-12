@@ -8,11 +8,11 @@ const slider: Theme['components'] = {
         boxSizing: 'border-box',
         ...(ownerState.orientation === 'horizontal'
           ? ownerState.size !== 'small'
-            ? { height: 6 }
-            : { height: 4 }
+            ? { blockSize: 6 }
+            : { blockSize: 4 }
           : ownerState.size !== 'small'
-            ? { width: 6 }
-            : { width: 4 }),
+            ? { inlineSize: 6 }
+            : { inlineSize: 4 }),
         '&.Mui-disabled': {
           opacity: 0.45,
           color: `var(--mui-palette-${ownerState.color}-main)`
@@ -21,8 +21,8 @@ const slider: Theme['components'] = {
       thumb: ({ ownerState }) => ({
         ...(ownerState.size === 'small'
           ? {
-              height: 14,
-              width: 14,
+              blockSize: 14,
+              inlineSize: 14,
               border: '2px solid currentColor',
               '&:hover, &.Mui-focusVisible': {
                 boxShadow: `0 0 0 7px var(--mui-palette-${ownerState.color}-lightOpacity)`
@@ -32,8 +32,8 @@ const slider: Theme['components'] = {
               }
             }
           : {
-              height: 22,
-              width: 22,
+              blockSize: 22,
+              inlineSize: 22,
               border: '4px solid currentColor'
             }),
         backgroundColor: 'var(--mui-palette-common-white)',
@@ -46,12 +46,12 @@ const slider: Theme['components'] = {
         '&:after': {
           ...(ownerState.size === 'small'
             ? {
-                height: 28,
-                width: 28
+                blockSize: 28,
+                inlineSize: 28
               }
             : {
-                height: 38,
-                width: 38
+                blockSize: 38,
+                inlineSize: 38
               })
         },
         '&:hover, &.Mui-focusVisible': {
@@ -78,7 +78,7 @@ const slider: Theme['components'] = {
           : {
               ...theme.typography.body2,
               fontWeight: theme.typography.fontWeightMedium,
-              borderRadius: 'var(--mui-shape-borderRadius)',
+              borderRadius: 'var(--mui-shape-customBorderRadius-md)',
               padding: theme.spacing(1, 2.5)
             }),
         color: 'var(--mui-palette-customColors-tooltipText)',

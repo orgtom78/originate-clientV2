@@ -69,6 +69,9 @@ const card = (skin: Skin): Theme['components'] => {
       styleOverrides: {
         root: ({ theme }) => ({
           padding: theme.spacing(5),
+          '& .MuiButtonBase-root:not(:first-of-type)': {
+            marginInlineStart: theme.spacing(4)
+          },
           '&:where(.card-actions-dense)': {
             padding: theme.spacing(2.5),
             '& .MuiButton-text': {

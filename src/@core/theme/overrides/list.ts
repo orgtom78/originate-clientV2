@@ -5,7 +5,7 @@ const list: Theme['components'] = {
   MuiListItem: {
     styleOverrides: {
       root: ({ theme }) => ({
-        gap: theme.spacing(4)
+        gap: theme.spacing(3)
       }),
       padding: ({ theme, ownerState }) => ({
         ...(!ownerState.dense && {
@@ -25,7 +25,7 @@ const list: Theme['components'] = {
   MuiListItemIcon: {
     styleOverrides: {
       root: {
-        minWidth: 0,
+        minInlineSize: 0,
         color: 'var(--mui-palette-text-primary)',
         fontSize: '1.375rem',
         '& > svg, & > i': {
@@ -37,7 +37,7 @@ const list: Theme['components'] = {
   MuiListItemButton: {
     styleOverrides: {
       root: ({ theme, ownerState }) => ({
-        gap: theme.spacing(4),
+        gap: theme.spacing(2),
         ...(!ownerState.dense && {
           paddingBlock: theme.spacing(2)
         }),

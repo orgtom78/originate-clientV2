@@ -4,27 +4,28 @@ import type { Theme } from '@mui/material/styles'
 const tooltip: Theme['components'] = {
   MuiTooltip: {
     styleOverrides: {
+      tooltip: ({ theme }) => ({
+        fontSize: theme.typography.subtitle2.fontSize,
+        lineHeight: 1.53846,
+        color: 'var(--mui-palette-customColors-tooltipText)',
+        borderRadius: 'var(--mui-shape-customBorderRadius-md)',
+        paddingInline: theme.spacing(3),
+        margin: 0
+      }),
       popper: {
         '&[data-popper-placement*="bottom"] .MuiTooltip-tooltip': {
-          marginTop: '6px !important'
+          marginBlockStart: '6px !important'
         },
         '&[data-popper-placement*="top"] .MuiTooltip-tooltip': {
-          marginBottom: '6px !important'
+          marginBlockEnd: '6px !important'
         },
         '&[data-popper-placement*="left"] .MuiTooltip-tooltip': {
-          marginRight: '6px !important'
+          marginInlineEnd: '6px !important'
         },
         '&[data-popper-placement*="right"] .MuiTooltip-tooltip': {
-          marginLeft: '6px !important'
+          marginInlineStart: '6px !important'
         }
-      },
-      tooltip: ({ theme }) => ({
-        borderRadius: 'var(--mui-shape-customBorderRadius-sm)',
-        fontSize: theme.typography.subtitle2.fontSize,
-        lineHeight: 1.539,
-        color: 'var(--mui-palette-customColors-tooltipText)',
-        paddingInline: theme.spacing(3)
-      })
+      }
     }
   }
 }

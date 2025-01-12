@@ -1,15 +1,13 @@
-// React Imports
-import React from 'react'
-
 // MUI Imports
 import type { Theme } from '@mui/material/styles'
 
 const Icon = () => {
   return (
-    <svg width='1em' height='1em' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+    <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24' fill='none'>
       <path
-        d='M8 4h8a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4Z'
+        d='M9 4H15C17.7614 4 20 6.23858 20 9V15C20 17.7614 17.7614 20 15 20H9C6.23858 20 4 17.7614 4 15V9C4 6.23858 6.23858 4 9 4Z'
         stroke='var(--mui-palette-text-secondary)'
+        strokeOpacity='0.7'
         strokeWidth='2'
       />
     </svg>
@@ -18,20 +16,26 @@ const Icon = () => {
 
 const IndeterminateIcon = () => {
   return (
-    <svg width='1em' height='1em' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M3 8a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8Z' fill='currentColor' />
-      <path d='M8.5 11.5h7v1h-7v-1Z' fill='var(--mui-palette-common-white)' />
+    <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24' fill='none'>
+      <path
+        d='M3 9C3 5.68629 5.68629 3 9 3H15C18.3137 3 21 5.68629 21 9V15C21 18.3137 18.3137 21 15 21H9C5.68629 21 3 18.3137 3 15V9Z'
+        fill='currentColor'
+      />
+      <path d='M16 11.5H8V12.5H16V11.5Z' fill='white' />
     </svg>
   )
 }
 
 const CheckedIcon = () => {
   return (
-    <svg width='1em' height='1em' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-      <path d='M3 8a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8Z' fill='currentColor' />
+    <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24' fill='none'>
       <path
-        d='m11 13.586 4.596-4.597.707.707L11 15l-3.182-3.182.707-.707L11 13.586Z'
-        fill='var(--mui-palette-common-white)'
+        d='M3 9C3 5.68629 5.68629 3 9 3H15C18.3137 3 21 5.68629 21 9V15C21 18.3137 18.3137 21 15 21H9C5.68629 21 3 18.3137 3 15V9Z'
+        fill='currentColor'
+      />
+      <path
+        d='M10.5001 14.0849L8.41508 11.9999L7.70508 12.7049L10.5001 15.4999L16.5001 9.49992L15.7951 8.79492L10.5001 14.0849Z'
+        fill='white'
       />
     </svg>
   )

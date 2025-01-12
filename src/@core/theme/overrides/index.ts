@@ -1,3 +1,6 @@
+// Type Imports
+import type { Skin } from '@core/types'
+
 // Override Imports
 import Accordion from './accordion'
 import Alerts from './alerts'
@@ -36,9 +39,7 @@ import toggleButton from './toggle-button'
 import tooltip from './tooltip'
 import typography from './typography'
 
-const overrides = () => {
-  const skin = 'default'
-
+const overrides = (skin: Skin) => {
   return Object.assign(
     {},
     Accordion(skin),

@@ -21,29 +21,29 @@ const FooterContent = () => {
       className={classnames(verticalLayoutClasses.footerContent, 'flex items-center justify-between flex-wrap gap-4')}
     >
       <p>
-        <span>{`© ${new Date().getFullYear()}, Made with `}</span>
+        <span className='text-textSecondary'>{`© ${new Date().getFullYear()}, Made with `}</span>
         <span>{`❤️`}</span>
-        <span>{` by `}</span>
-        <Link href='https://themeselection.com' target='_blank' className='text-primary'>
-          ThemeSelection
+        <span className='text-textSecondary'>{` by `}</span>
+        <Link href='https://pixinvent.com' target='_blank' className='text-primary capitalize'>
+          Pixinvent
         </Link>
       </p>
       {!isBreakpointReached && (
         <div className='flex items-center gap-4'>
-          <Link href='https://themeselection.com/license' target='_blank' className='text-primary'>
+          <Link href='https://themeforest.net/licenses/standard' target='_blank' className='text-primary'>
             License
           </Link>
-          <Link href='https://themeselection.com' target='_blank' className='text-primary'>
+          <Link href='https://themeforest.net/user/pixinvent/portfolio' target='_blank' className='text-primary'>
             More Themes
           </Link>
-          <Link href={process.env.NEXT_PUBLIC_DOCS_URL as string} target='_blank' className='text-primary'>
-            Documentation
-          </Link>
           <Link
-            href={`https://github.com/themeselection/${process.env.NEXT_PUBLIC_REPO_NAME}/issues`}
+            href='https://demos.pixinvent.com/materialize-nextjs-admin-template/documentation'
             target='_blank'
             className='text-primary'
           >
+            Documentation
+          </Link>
+          <Link href='https://pixinvent.ticksy.com' target='_blank' className='text-primary'>
             Support
           </Link>
         </div>

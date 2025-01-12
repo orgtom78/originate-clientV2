@@ -25,7 +25,20 @@ export const verticalNavClasses = {
   container: 'ts-vertical-nav-container',
   bgColorContainer: 'ts-vertical-nav-bg-color-container',
   header: 'ts-vertical-nav-header',
+  image: 'ts-vertical-nav-image',
   backdrop: 'ts-vertical-nav-backdrop',
+  collapsed: 'ts-collapsed',
   toggled: 'ts-toggled',
+  hovered: 'ts-hovered',
+  scrollWithContent: 'ts-scroll-with-content',
+  breakpointReached: 'ts-breakpoint-reached',
+  collapsing: 'ts-collapsing',
+  expanding: 'ts-expanding'
+}
+
+// Classes for horizontal navigation menu
+export const horizontalNavClasses = {
+  root: 'ts-horizontal-nav-root',
+  scrollWithContent: 'ts-scroll-with-content',
   breakpointReached: 'ts-breakpoint-reached'
 }
