@@ -24,6 +24,22 @@ const schema = a.schema({
       tin: a.string()
     })
     .authorization((allow) => [allow.publicApiKey()]),
+
+  Supplier: a.customType({
+      supplier_name: a.string()
+    }),
+      
+  getSupplier: a
+  .query()
+  .arguments({ id: a.id().required() })
+  .returns(a.ref("Supplier"))
+  .authorization(allow => [allow.authenticated()])
+  .handler(
+    a.handler.custom({
+      dataSource: "Supplier-inyjwyok2ralnd7utuj4ctspbi-test",
+      entry: "./getSupplier.js",
+    })
+  )
 });
 
 export type Schema = ClientSchema<typeof schema>;

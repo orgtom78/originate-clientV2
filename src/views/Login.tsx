@@ -18,7 +18,6 @@ import Divider from '@mui/material/Divider'
 import Alert from '@mui/material/Alert'
 
 // Third-party Imports
-import { Amplify } from 'aws-amplify'
 import { signIn } from 'aws-amplify/auth'
 import { Controller, useForm } from 'react-hook-form'
 import { valibotResolver } from '@hookform/resolvers/valibot'
@@ -40,33 +39,6 @@ import themeConfig from '@configs/themeConfig'
 import { useImageVariant } from '@core/hooks/useImageVariant'
 
 import { useSettings } from '@core/hooks/useSettings'
-
-Amplify.configure({
-  Auth: {
-    Cognito: {
-      userPoolId: 'us-east-2_XURmwWmvZ',
-      userPoolClientId: '138r25n639vvm2ng5crtnn33fp',
-      identityPoolId: 'us-east-2:ca8e2e12-f384-4b93-80d7-5d6754f31b1f',
-      loginWith: {
-        email: true
-      },
-      signUpVerificationMethod: 'code',
-      userAttributes: {
-        email: {
-          required: true
-        }
-      },
-      allowGuestAccess: false,
-      passwordFormat: {
-        minLength: 8,
-        requireLowercase: true,
-        requireUppercase: true,
-        requireNumbers: true,
-        requireSpecialCharacters: true
-      }
-    }
-  }
-})
 
 type ErrorType = {
   message: string[]

@@ -5,13 +5,15 @@ import { redirect } from 'next/navigation'
 
 import { getCurrentUser } from 'aws-amplify/auth/server'
 
-// Component Imports
-import AuthRedirect from '@components/AuthRedirect'
-
-import { runWithAmplifyServerContext } from '@/utils/amplifyServerUtils'
-
 // Type Imports
 import type { ChildrenType } from '@core/types'
+
+// Component Imports
+import AuthRedirect from '../components/AuthRedirect'
+
+import { runWithAmplifyServerContext } from '../utils/amplifyServerUtils'
+
+export const dynamic = 'force-dynamic';
 
 export default async function AuthGuard({ children }: ChildrenType) {
   try {
