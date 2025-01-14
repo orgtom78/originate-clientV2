@@ -52,7 +52,7 @@ export type Config = {
 const themeConfig: Config = {
   templateName: 'Originate Capital',
   homePageUrl: '/home',
-  settingsCookieName: 'materialize-mui-next-demo-1',
+  settingsCookieName: 'originate-capital-v2',
   mode: 'light', // 'system', 'light', 'dark'
   skin: 'default', // 'default', 'bordered'
   semiDark: false, // true, false

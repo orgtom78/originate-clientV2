@@ -22,6 +22,8 @@ export default async function AuthGuard({ children }: ChildrenType) {
       operation: contextSpec => getCurrentUser(contextSpec)
     })
 
+    console.log(user)
+
     return <>{NextResponse.json({ user }) ? children : <AuthRedirect />}</>
   } catch (error) {
     console.error(error)

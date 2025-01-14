@@ -16,7 +16,6 @@ import { generateClient } from "aws-amplify/data";
 // Component Imports
 import UserProfile from '@views/pages/user-profile'
 
-// Type Imports
 import type { Data } from '@/types/pages/profileTypes'
 
 import { runWithAmplifyServerContext } from '../../../../utils/amplifyServerUtils'
@@ -25,9 +24,11 @@ import { runWithAmplifyServerContext } from '../../../../utils/amplifyServerUtil
 // Data Imports
 import { getProfileData } from '@/app/server/actions'
 
-import { type Schema } from "../../../../../amplify/data/resource"
+// Import AWS Amplify data client
 
-const client = generateClient<Schema>();
+import { type Schema } from '../../../../../amplify/data/resource'
+
+const client = generateClient<Schema>()
 
 async function getUser() {
   try {
@@ -36,7 +37,7 @@ async function getUser() {
       operation: contextSpec => getCurrentUser(contextSpec)
     })
 
-  const userdata = NextResponse.json({ user })
+    const userdata = NextResponse.json({ user })
 
     return userdata
   } catch (error) {
@@ -46,21 +47,20 @@ async function getUser() {
 
 console.log(getUser())
 
-  // Function to check if user exists
-  const getSupplier = async (input: string): Promise<boolean> => {
-    try {
-      const { data: supplier } = await client.models.getSupplier.get({
-        filter: { id: { eq: input } },
-      });
+// Function to check if user exists
+const getSupplier = async (input: string): Promise<boolean> => {
+  try {
+    const { data: supplier } = await client.models.getSupplier.get({
+      filter: { id: { eq: input } }
+    })
 
-      return supplier.length > 0; // Return true if user exists
-    } catch (error) {
-      console.error("Error checking if user exists:", error);
-      
-      return false;
-    }
-  };
+    return supplier.length > 0 // Return true if user exists
+  } catch (error) {
+    console.error('Error checking if user exists:', error)
 
+    return false
+  }
+}
 
 const ProfileTab = dynamic(() => import('@views/pages/user-profile/profile'))
 const TeamsTab = dynamic(() => import('@views/pages/user-profile/teams'))
@@ -81,8 +81,16 @@ const tabContentList = (data?: Data): { [key: string]: ReactElement } => ({
  * ! Also, remove the above server action import and the action itself from the `src/app/server/actions.ts` file to clean up unused code
  * ! because we've used the server action for getting our static data.
  */
+/* const getProfileData = async () => {
+  // Vars
+  const res = await fetch(`${process.env.API_URL}/pages/profile`)
 
+  if (!res.ok) {
+    throw new Error('Failed to fetch profileData')
+  }
 
+  return res.json()
+} */
 
 const ProfilePage = async () => {
   // Vars

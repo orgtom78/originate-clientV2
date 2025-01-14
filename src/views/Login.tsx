@@ -70,7 +70,7 @@ const Login = ({ mode }: { mode: Mode }) => {
   const borderedLightIllustration = '/images/illustrations/auth/v2-login-light-border.png'
 
   // Hooks
-  
+
   const { settings } = useSettings()
 
   const {

@@ -1,4 +1,4 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from '@aws-amplify/backend'
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -23,8 +23,10 @@ const schema = a.schema({
       dob: a.string(),
       tin: a.string()
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization(allow => [allow.publicApiKey()])
+})
 
+<<<<<<< HEAD
   Supplier: a.customType({
       supplier_name: a.string()
     }),
@@ -43,14 +45,17 @@ const schema = a.schema({
 });
 
 export type Schema = ClientSchema<typeof schema>;
+=======
+export type Schema = ClientSchema<typeof schema>
+>>>>>>> c4c6b3445977ba3a7e79a282f394ab28e20cbf0a
 
 export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: 'apiKey',
     apiKeyAuthorizationMode: { expiresInDays: 30 }
-  },
-});
+  }
+})
 
 /*== STEP 2 ===============================================================
 Go to your frontend source code. From your client-side code, generate a
