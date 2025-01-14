@@ -1,5 +1,6 @@
 // React Imports
 import type { ReactElement } from 'react'
+
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
@@ -8,21 +9,23 @@ import dynamic from 'next/dynamic'
 
 import { getCurrentUser } from 'aws-amplify/auth/server'
 
+
+// Import AWS Amplify data client
+import { generateClient } from "aws-amplify/data";
+
+// Component Imports
+import UserProfile from '@views/pages/user-profile'
+
 // Type Imports
 import type { Data } from '@/types/pages/profileTypes'
 
 import { runWithAmplifyServerContext } from '../../../../utils/amplifyServerUtils'
 
-// Component Imports
-import UserProfile from '@views/pages/user-profile'
 
 // Data Imports
-//import { getProfileData } from '@/app/server/actions'
+import { getProfileData } from '@/app/server/actions'
 
-// Import AWS Amplify data client
-import { generateClient } from "aws-amplify/data";
-
-import { type Schema } from "../../../amplify/data/resource";
+import { type Schema } from "../../../../../amplify/data/resource"
 
 const client = generateClient<Schema>();
 
@@ -80,9 +83,6 @@ const tabContentList = (data?: Data): { [key: string]: ReactElement } => ({
  */
 
 
-const getProfileData = async () => {
-  // Vars
-} 
 
 const ProfilePage = async () => {
   // Vars

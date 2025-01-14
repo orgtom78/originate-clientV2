@@ -36,7 +36,7 @@ const schema = a.schema({
   .authorization(allow => [allow.authenticated()])
   .handler(
     a.handler.custom({
-      dataSource: "Supplier-inyjwyok2ralnd7utuj4ctspbi-test",
+      dataSource: "SupplierTable",
       entry: "./getSupplier.js",
     })
   )
