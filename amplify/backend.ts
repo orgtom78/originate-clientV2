@@ -21,7 +21,7 @@ const externalDataSourcesStack = backend.createStack("MyExternalDataSources");
 const externalTable = aws_dynamodb.Table.fromTableName(
   externalDataSourcesStack,
   "SupplierTable",
-  "SupplierTable"
+  "Supplier-inyjwyok2ralnd7utuj4ctspbi-test"
 );
 
 

@@ -23,11 +23,9 @@ const schema = a.schema({
       dob: a.string(),
       tin: a.string()
     })
-    .authorization(allow => [allow.publicApiKey()])
-})
+    .authorization(allow => [allow.publicApiKey()]),
 
-<<<<<<< HEAD
-  Supplier: a.customType({
+    Supplier: a.customType({
       supplier_name: a.string()
     }),
       
@@ -45,14 +43,11 @@ const schema = a.schema({
 });
 
 export type Schema = ClientSchema<typeof schema>;
-=======
-export type Schema = ClientSchema<typeof schema>
->>>>>>> c4c6b3445977ba3a7e79a282f394ab28e20cbf0a
 
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'apiKey',
+    defaultAuthorizationMode: 'userPool',
     apiKeyAuthorizationMode: { expiresInDays: 30 }
   }
 })

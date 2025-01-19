@@ -9,9 +9,8 @@ import dynamic from 'next/dynamic'
 
 import { getCurrentUser } from 'aws-amplify/auth/server'
 
-
 // Import AWS Amplify data client
-import { generateClient } from "aws-amplify/data";
+import { generateClient } from 'aws-amplify/data'
 
 // Component Imports
 import UserProfile from '@views/pages/user-profile'
@@ -19,7 +18,6 @@ import UserProfile from '@views/pages/user-profile'
 import type { Data } from '@/types/pages/profileTypes'
 
 import { runWithAmplifyServerContext } from '../../../../utils/amplifyServerUtils'
-
 
 // Data Imports
 import { getProfileData } from '@/app/server/actions'
@@ -45,22 +43,33 @@ async function getUser() {
   }
 }
 
-console.log(getUser())
+const authuser = await getUser()
+const userjson = authuser?.json()
+
+console.log(userjson)
 
 // Function to check if user exists
-const getSupplier = async (input: string): Promise<boolean> => {
+const getSupplier = async (input: string): Promise<any> => {
   try {
-    const { data: supplier } = await client.models.getSupplier.get({
-      filter: { id: { eq: input } }
-    })
+    const { data: supplier } = await client.queries.getSupplier(
+      {
+        id: input
+      },
 
-    return supplier.length > 0 // Return true if user exists
+      {
+        authMode: 'userPool'
+      }
+    )
+
+    return supplier // Return true if user exists
   } catch (error) {
     console.error('Error checking if user exists:', error)
 
     return false
   }
 }
+
+console.log(getSupplier('id'))
 
 const ProfileTab = dynamic(() => import('@views/pages/user-profile/profile'))
 const TeamsTab = dynamic(() => import('@views/pages/user-profile/teams'))
