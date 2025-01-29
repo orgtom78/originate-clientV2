@@ -25,11 +25,10 @@ const Providers = (props: Props) => {
 
   return (
     <>
-      <ConfigureAmplifyClientSide />
       <VerticalNavProvider>
         <SettingsProvider settingsCookie={settingsCookie} mode={mode}>
           <ThemeProvider direction={direction} systemMode={systemMode}>
-            {children}
+            <ConfigureAmplifyClientSide>{children}</ConfigureAmplifyClientSide>
           </ThemeProvider>
         </SettingsProvider>
       </VerticalNavProvider>

@@ -3,6 +3,8 @@
 // React Imports
 import { useState } from 'react'
 
+import { useRouter } from 'next/navigation' // For navigation after login
+
 // Next Imports
 import Link from 'next/link'
 
@@ -48,18 +50,14 @@ type FormData = InferInput<typeof schema>
 
 const schema = object({
   email: pipe(string(), minLength(1, 'This field is required'), email('Please enter a valid email address')),
-  password: pipe(
-    string()
-
-    //nonEmpty("This field is required"),
-    //minLength(5, "Password must be at least 5 characters long")
-  )
+  password: pipe(string())
 })
 
 const Login = ({ mode }: { mode: Mode }) => {
   // States
   const [isPasswordShown, setIsPasswordShown] = useState(false)
   const [errorState, setErrorState] = useState<ErrorType | null>(null)
+  const { push } = useRouter() // Used for navigation after login
 
   // Vars
   const darkImg = '/images/pages/auth-v2-mask-1-dark.png'
@@ -70,7 +68,6 @@ const Login = ({ mode }: { mode: Mode }) => {
   const borderedLightIllustration = '/images/illustrations/auth/v2-login-light-border.png'
 
   // Hooks
-
   const { settings } = useSettings()
 
   const {
@@ -98,11 +95,20 @@ const Login = ({ mode }: { mode: Mode }) => {
   const handleClickShowPassword = () => setIsPasswordShown(show => !show)
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-    console.log(data.email)
-    await signIn({
-      username: data.email,
-      password: data.password
-    })
+    try {
+      // Perform the sign-in operation
+      await signIn({
+        username: data.email,
+        password: data.password
+      })
+
+      // After successful login, navigate to a protected page
+      // This could be any protected route where AuthGuard is applied
+      push('/dashboard') // Replace '/dashboard' with your protected route
+    } catch (error) {
+      console.error('Login failed:', error)
+      setErrorState({ message: ['Login failed, please try again.'] })
+    }
   }
 
   return (
