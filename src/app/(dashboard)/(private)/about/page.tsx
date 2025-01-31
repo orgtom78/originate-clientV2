@@ -11,10 +11,11 @@ import { cookies } from 'next/headers'
 // AWS Amplify Imports
 import { getCurrentUser } from 'aws-amplify/auth/server'
 
-// AWS Amplify Data Client
 import { generateClient } from 'aws-amplify/data'
 
 import { runWithAmplifyServerContext } from '../../../../utils/amplifyServerUtils'
+
+// AWS Amplify Data Client
 
 // Component Imports
 import UserProfile from '@views/pages/user-profile'

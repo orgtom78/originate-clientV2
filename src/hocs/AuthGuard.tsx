@@ -2,7 +2,7 @@ import { cookies } from 'next/headers'
 
 import { redirect } from 'next/navigation'
 
-import { getCurrentUser } from 'aws-amplify/auth/server'
+import { fetchAuthSession } from 'aws-amplify/auth/server'
 
 import type { ChildrenType } from '@core/types'
 import AuthRedirect from '../components/AuthRedirect'
@@ -12,12 +12,12 @@ export const dynamic = 'force-dynamic'
 
 export default async function AuthGuard({ children }: ChildrenType) {
   try {
-    const currentUser = await runWithAmplifyServerContext({
+    const currentSession = await runWithAmplifyServerContext({
       nextServerContext: { cookies },
-      operation: contextSpec => getCurrentUser(contextSpec)
+      operation: contextSpec => fetchAuthSession(contextSpec)
     })
 
-    if (currentUser) {
+    if (currentSession) {
       return <>{children}</>
     }
 
