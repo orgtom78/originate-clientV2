@@ -25,31 +25,32 @@ const schema = a.schema({
     })
     .authorization(allow => [allow.publicApiKey()]),
 
-    Supplier: a.customType({
-      supplier_name: a.string()
-    }),
-      
-  getSupplier: a
-  .query()
-  .arguments({ id: a.id().required() })
-  .returns(a.ref("Supplier"))
-  .authorization(allow => [allow.authenticated()])
-  .handler(
-    a.handler.custom({
-      dataSource: "SupplierTable",
-      entry: "./getSupplier.js",
-    })
-  )
-});
+  Supplier: a.customType({
+    supplier_name: a.string()
+  }),
 
-export type Schema = ClientSchema<typeof schema>;
+  getSupplier: a
+    .query()
+    .arguments({ id: a.id().required() })
+    .returns(a.ref('Supplier'))
+    .authorization(allow => [allow.authenticated()])
+    .handler(
+      a.handler.custom({
+        dataSource: 'SupplierTable',
+        entry: './getSupplier.js'
+      })
+    )
+})
+
+export type Schema = ClientSchema<typeof schema>
 
 export const data = defineData({
   schema,
   authorizationModes: {
     defaultAuthorizationMode: 'userPool',
     apiKeyAuthorizationMode: { expiresInDays: 30 }
-  }
+  },
+  logging: true
 })
 
 /*== STEP 2 ===============================================================

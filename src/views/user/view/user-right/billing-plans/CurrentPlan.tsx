@@ -14,13 +14,17 @@ import LinearProgress from '@mui/material/LinearProgress'
 import type { ButtonProps } from '@mui/material/Button'
 
 // Type Imports
-import type { ThemeColor } from '@core/types'
-import type { PricingPlanType } from '@/types/pages/pricingTypes'
 
 // Component Imports
 import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
+
 import UpgradePlan from '@components/dialogs/upgrade-plan'
+
 import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
+
+import type { PricingPlanType } from '@/types/pages/pricingTypes'
+
+import type { ThemeColor } from '@core/types'
 
 const CurrentPlan = ({ data }: { data?: PricingPlanType[] }) => {
   // Vars

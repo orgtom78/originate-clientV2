@@ -17,6 +17,8 @@ export default async function AuthGuard({ children }: ChildrenType) {
       operation: contextSpec => fetchAuthSession(contextSpec)
     })
 
+    console.log(currentSession)
+
     if (currentSession) {
       return <>{children}</>
     }

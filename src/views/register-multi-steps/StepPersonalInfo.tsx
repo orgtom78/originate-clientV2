@@ -5,7 +5,7 @@ import { Grid, Button, TextField, Typography, FormControl, InputLabel, Select, M
 import { Controller, useForm } from 'react-hook-form'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { object, pipe, string, nonEmpty } from 'valibot'
-import type { SelectChangeEvent } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material'
 
 // Amplify Data Client Import
 import { generateClient } from 'aws-amplify/data'
@@ -160,7 +160,7 @@ const StepAccountDetails = ({ handleNext, handlePrev, formData, accountDetails, 
   const [accountType, setAccountType] = useState<string>(formData.accounttype || 'Individual')
 
   // Wrap `updateFormData` in `useCallback` to stabilize reference
-  const stableUpdateFormData = useCallback(updateFormData, [])
+  const stableUpdateFormData = useCallback(updateFormData, [updateFormData])
 
   // Update formData when account type changes
   useEffect(() => {
@@ -170,9 +170,9 @@ const StepAccountDetails = ({ handleNext, handlePrev, formData, accountDetails, 
   }, [accountType, formData.accounttype, stableUpdateFormData])
 
   const handleAccountTypeChange = (event: SelectChangeEvent) => {
-    setAccountType(event.target.value);
-  };
-  
+    setAccountType(event.target.value)
+  }
+
   // Trigger updateFormData and go to the previous step
   const handlePrevious = () => {
     const currentFormData = getValues()

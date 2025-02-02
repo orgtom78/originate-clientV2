@@ -8,12 +8,16 @@ import Button from '@mui/material/Button'
 import type { ButtonProps } from '@mui/material/Button'
 
 // Type Imports
-import type { ThemeColor } from '@core/types'
 
 // Component Imports
 import EditUserInfo from '@components/dialogs/edit-user-info'
+
 import ConfirmationDialog from '@components/dialogs/confirmation-dialog'
+
 import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
+
+import type { ThemeColor } from '@core/types'
+
 import CustomAvatar from '@core/components/mui/Avatar'
 
 // Vars

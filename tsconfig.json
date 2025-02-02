@@ -60,8 +60,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "amplify/data/getSupplier.js"  ],
+    ".next/types/**/*.ts",
+    "amplify/data/getSupplier.ts"
+  ],
   "exclude": [
     "node_modules",
     "amplify/**/*"

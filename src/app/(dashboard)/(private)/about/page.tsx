@@ -9,9 +9,13 @@ import { cookies } from 'next/headers'
 // Utility Imports
 
 // AWS Amplify Imports
-import { getCurrentUser } from 'aws-amplify/auth/server'
+//import { Amplify } from 'aws-amplify'
 
-import { generateClient } from 'aws-amplify/data'
+import { fetchAuthSession } from 'aws-amplify/auth/server'
+
+//import { generateClient } from 'aws-amplify/data'
+
+import { generateServerClientUsingCookies } from '@aws-amplify/adapter-nextjs/data'
 
 import { runWithAmplifyServerContext } from '../../../../utils/amplifyServerUtils'
 
@@ -29,7 +33,43 @@ import { getProfileData } from '@/app/server/actions'
 // AWS Amplify Data Client Configuration
 import { type Schema } from '../../../../../amplify/data/resource'
 
+import outputs from '../../../../../amplify_outputs.json'
+
+export const cookieBasedClient = generateServerClientUsingCookies<Schema>({
+  config: outputs,
+  cookies
+})
+
+/** 
+const existingConfig = Amplify.getConfig()
+
+if (!existingConfig.API) {
+  Amplify.configure({
+    ...existingConfig,
+    API: {
+      GraphQL: {
+        endpoint: outputs.data.url,
+        defaultAuthMode: 'apiKey'
+      }
+    }
+  })
+} else {
+  // Merge the existing API configuration with the new one
+  Amplify.configure({
+    ...existingConfig,
+    API: {
+      ...existingConfig.API,
+      GraphQL: {
+        ...existingConfig.API.REST,
+        endpoint: outputs.data.url,
+        defaultAuthMode: 'apiKey'
+      }
+    }
+  })
+}
+
 const client = generateClient<Schema>()
+*/
 
 // Dynamic imports for different tabs
 const ProfileTab = dynamic(() => import('@views/pages/user-profile/profile'))
@@ -42,7 +82,7 @@ const getUserProfileData = async () => {
   try {
     const user = await runWithAmplifyServerContext({
       nextServerContext: { cookies },
-      operation: contextSpec => getCurrentUser(contextSpec)
+      operation: contextSpec => fetchAuthSession(contextSpec)
     })
 
     return user
@@ -54,11 +94,13 @@ const getUserProfileData = async () => {
 }
 
 // Function to check if the supplier exists (assuming it's used somewhere else)
-const getSupplier = async (input: string): Promise<any> => {
+const supplier = async (input: string): Promise<any> => {
   try {
-    const { data: supplier } = await client.queries.getSupplier({ id: input }, { authMode: 'userPool' })
+    const { errors, data } = await cookieBasedClient.queries.getSupplier({ id: input }, { authMode: 'userPool' })
 
-    return supplier
+    console.log(errors, data)
+
+    return data
   } catch (error) {
     console.error('Error checking if user exists:', error)
 
@@ -66,7 +108,7 @@ const getSupplier = async (input: string): Promise<any> => {
   }
 }
 
-console.log(getSupplier('1'))
+console.log(supplier('f7b3b690-8bf6-4c52-b4ae-77ef2e97f663'))
 
 // Tab content setup
 const tabContentList = (data?: Data): { [key: string]: ReactElement } => ({
@@ -79,8 +121,6 @@ const tabContentList = (data?: Data): { [key: string]: ReactElement } => ({
 const ProfilePage = async () => {
   // Check for user authentication and fetch profile data
   const user = await getUserProfileData()
-
-  console.log(user)
 
   if (!user) {
     return <div>Redirecting...</div> // Show loading or redirecting state

@@ -1,7 +1,11 @@
-import * as ddb from "@aws-appsync/utils/dynamodb";
+import { util } from '@aws-appsync/utils'
 
 export function request(ctx) {
-  return ddb.get({ key: { id: ctx.args.id } });
+  return {
+    operation: 'getItem',
+    key: util.dynamodb.toMapValues({ key: { id: ctx.args.id } }),
+    consistentRead: true
+  }
 }
 
-export const response = (ctx) => ctx.result;
+export const response = ctx => ctx.result

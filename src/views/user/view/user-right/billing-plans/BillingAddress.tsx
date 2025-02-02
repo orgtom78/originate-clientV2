@@ -8,7 +8,8 @@ import Typography from '@mui/material/Typography'
 import type { ButtonProps } from '@mui/material/Button'
 
 // Component Imports
-import AddNewAddress from '@components/dialogs/add-edit-address'
+import AddNewAddress from '@components/dialogs/add-edit-address/index'
+
 import OpenDialogOnElementClick from '@components/dialogs/OpenDialogOnElementClick'
 
 // Vars
