@@ -61,7 +61,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "amplify/data/getSupplier.ts"
+    "amplify/data/supplier.js"
   ],
   "exclude": [
     "node_modules",

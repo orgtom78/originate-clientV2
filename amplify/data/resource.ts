@@ -2,7 +2,15 @@ import { type ClientSchema, a, defineData } from '@aws-amplify/backend'
 
 import * as models from './models'
 
-const schema = a.schema(models)
+import * as queries from './queries'
+
+import * as mutations from './mutations'
+
+const schema = a.schema({
+  ...models,
+  ...queries,
+  ...mutations
+})
 
 export type Schema = ClientSchema<typeof schema>
 
