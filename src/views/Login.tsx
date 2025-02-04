@@ -1,7 +1,7 @@
 'use client'
 
 // React Imports
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useRouter } from 'next/navigation' // For navigation after login
 
@@ -20,7 +20,9 @@ import Divider from '@mui/material/Divider'
 import Alert from '@mui/material/Alert'
 
 // Third-party Imports
-import { signIn } from 'aws-amplify/auth'
+import { signIn, signInWithRedirect, getCurrentUser } from 'aws-amplify/auth'
+import { Hub } from 'aws-amplify/utils'
+
 import { Controller, useForm } from 'react-hook-form'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { object, minLength, string, email, pipe } from 'valibot'
@@ -28,7 +30,6 @@ import type { SubmitHandler } from 'react-hook-form'
 import type { InferInput } from 'valibot'
 import classnames from 'classnames'
 
-// Type Imports
 import type { Mode } from '@core/types'
 
 // Component Imports
@@ -108,6 +109,37 @@ const Login = ({ mode }: { mode: Mode }) => {
     } catch (error) {
       console.error('Login failed:', error)
       setErrorState({ message: ['Login failed, please try again.'] })
+    }
+  }
+
+  useEffect(() => {
+    const unsubscribe = Hub.listen('auth', ({ payload }) => {
+      switch (payload.event) {
+        case 'signInWithRedirect':
+          getUser()
+          break
+        case 'signInWithRedirect_failure':
+          console.log('An error has occurred during the OAuth flow.')
+          break
+        case 'customOAuthState':
+          console.log(payload.data) // this is the customState provided on signInWithRedirect function
+          break
+      }
+    })
+
+    getUser()
+
+    return unsubscribe
+  }, [])
+
+  const getUser = async (): Promise<void> => {
+    try {
+      const currentUser = await getCurrentUser()
+
+      console.log(currentUser)
+    } catch (error) {
+      console.error(error)
+      console.log('Not signed in')
     }
   }
 
@@ -234,7 +266,7 @@ const Login = ({ mode }: { mode: Mode }) => {
             className='self-center text-textPrimary'
             startIcon={<img src='/images/logos/google.png' alt='Google' width={22} />}
             sx={{ '& .MuiButton-startIcon': { marginInlineEnd: 3 } }}
-            onClick={() => ''}
+            onClick={() => signInWithRedirect({ provider: 'Google' })}
           >
             Sign in with Google
           </Button>
