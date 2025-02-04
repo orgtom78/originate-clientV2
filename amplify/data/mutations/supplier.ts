@@ -10,6 +10,6 @@ export const deleteSupplier = a
   .handler(
     a.handler.custom({
       dataSource: 'SupplierTable',
-      entry: '../handlers/supplier/deleteSupplier.ts'
+      entry: '../handlers/supplier/deleteSupplier.js'
     })
   )
