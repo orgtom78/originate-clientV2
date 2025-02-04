@@ -1,18 +1,25 @@
-import type { HandlerContext } from '../common/types'
-import { handleError } from '../common/errors'
-import { deleteFromDatabase } from '../common/db'
+/* eslint-disable import/namespace */
+import { util } from '@aws-appsync/utils'
+import * as ddb from '@aws-appsync/utils/dynamodb'
 
-export async function handler(ctx: HandlerContext) {
-  try {
-    const { id } = ctx.arguments
-    const result = await deleteFromDatabase('Supplier', id)
+export function request(ctx) {
+  let condition = null
 
-    if (!result.success) {
-      throw result.error
+  if (ctx.args.expectedVersion) {
+    condition = {
+      or: [{ id: { attributeExists: false } }, { version: { eq: ctx.args.expectedVersion } }]
     }
-
-    return { id }
-  } catch (error) {
-    return handleError(error)
   }
+
+  return ddb.remove({ key: { id: ctx.args.id }, condition })
+}
+
+export function response(ctx) {
+  const { error, result } = ctx
+
+  if (error) {
+    util.appendError(error.message, error.type)
+  }
+
+  return result
 }

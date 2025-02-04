@@ -104,7 +104,7 @@ const Login = ({ mode }: { mode: Mode }) => {
 
       // After successful login, navigate to a protected page
       // This could be any protected route where AuthGuard is applied
-      push('/dashboard') // Replace '/dashboard' with your protected route
+      push('/about') // Replace '/dashboard' with your protected route
     } catch (error) {
       console.error('Login failed:', error)
       setErrorState({ message: ['Login failed, please try again.'] })

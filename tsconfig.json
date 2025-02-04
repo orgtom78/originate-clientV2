@@ -61,7 +61,10 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "amplify/data/handlers/supplier/getSupplier.js"
+    "amplify/data/handlers/supplier/getSupplier.js",
+    "amplify/data/handlers/supplier/updateSupplier.js",
+    "amplify/data/handlers/supplier/createSupplier.js",
+    "amplify/data/handlers/supplier/listSuppliers.js"
   ],
   "exclude": [
     "node_modules",

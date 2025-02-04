@@ -5,7 +5,8 @@ import { redirect } from 'next/navigation'
 import { fetchAuthSession } from 'aws-amplify/auth/server'
 
 import type { ChildrenType } from '@core/types'
-import AuthRedirect from '../components/AuthRedirect'
+
+//import AuthRedirect from '../components/AuthRedirect'
 import { runWithAmplifyServerContext } from '../utils/amplifyServerUtils'
 
 export const dynamic = 'force-dynamic'
@@ -19,14 +20,14 @@ export default async function AuthGuard({ children }: ChildrenType) {
 
     console.log(currentSession)
 
-    if (currentSession) {
-      return <>{children}</>
+    if (!currentSession?.tokens?.toString()) {
+      return redirect('/login')
     }
 
-    return <AuthRedirect />
+    return <>{children}</>
   } catch (error) {
     console.error('Error checking authentication:', error)
 
-    return redirect('/register')
+    return redirect('/login')
   }
 }

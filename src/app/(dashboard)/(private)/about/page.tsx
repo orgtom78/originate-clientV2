@@ -35,41 +35,10 @@ import { type Schema } from '../../../../../amplify/data/resource'
 
 import outputs from '../../../../../amplify_outputs.json'
 
-export const cookieBasedClient = generateServerClientUsingCookies<Schema>({
+const cookieBasedClient = generateServerClientUsingCookies<Schema>({
   config: outputs,
   cookies
 })
-
-/** 
-const existingConfig = Amplify.getConfig()
-
-if (!existingConfig.API) {
-  Amplify.configure({
-    ...existingConfig,
-    API: {
-      GraphQL: {
-        endpoint: outputs.data.url,
-        defaultAuthMode: 'apiKey'
-      }
-    }
-  })
-} else {
-  // Merge the existing API configuration with the new one
-  Amplify.configure({
-    ...existingConfig,
-    API: {
-      ...existingConfig.API,
-      GraphQL: {
-        ...existingConfig.API.REST,
-        endpoint: outputs.data.url,
-        defaultAuthMode: 'apiKey'
-      }
-    }
-  })
-}
-
-const client = generateClient<Schema>()
-*/
 
 // Dynamic imports for different tabs
 const ProfileTab = dynamic(() => import('@views/pages/user-profile/profile'))
