@@ -1,9 +1,8 @@
+// /amplify/data/resource.ts
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend'
 
 import * as models from './models'
-
 import * as queries from './queries'
-
 import * as mutations from './mutations'
 
 const schema = a.schema({
@@ -11,6 +10,8 @@ const schema = a.schema({
   ...queries,
   ...mutations
 })
+
+console.log(schema)
 
 export type Schema = ClientSchema<typeof schema>
 
