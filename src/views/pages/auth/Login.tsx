@@ -1,7 +1,7 @@
 'use client'
 
 // React Imports
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { useRouter } from 'next/navigation' // For navigation after login
 
@@ -20,8 +20,7 @@ import Divider from '@mui/material/Divider'
 import Alert from '@mui/material/Alert'
 
 // Third-party Imports
-import { signIn, signInWithRedirect, getCurrentUser } from 'aws-amplify/auth'
-import { Hub } from 'aws-amplify/utils'
+import { signIn, signInWithRedirect } from 'aws-amplify/auth'
 
 import { Controller, useForm } from 'react-hook-form'
 import { valibotResolver } from '@hookform/resolvers/valibot'
@@ -112,34 +111,16 @@ const Login = ({ mode }: { mode: Mode }) => {
     }
   }
 
-  useEffect(() => {
-    const unsubscribe = Hub.listen('auth', ({ payload }) => {
-      switch (payload.event) {
-        case 'signInWithRedirect':
-          getUser()
-          break
-        case 'signInWithRedirect_failure':
-          console.log('An error has occurred during the OAuth flow.')
-          break
-        case 'customOAuthState':
-          console.log(payload.data) // this is the customState provided on signInWithRedirect function
-          break
-      }
-    })
+  const [isLoading, setIsLoading] = useState(false)
 
-    getUser()
-
-    return unsubscribe
-  }, [])
-
-  const getUser = async (): Promise<void> => {
+  const handleGoogleLogin = async () => {
     try {
-      const currentUser = await getCurrentUser()
-
-      console.log(currentUser)
+      setIsLoading(true)
+      signInWithRedirect({ provider: 'Google' })
     } catch (error) {
-      console.error(error)
-      console.log('Not signed in')
+      console.error('Login failed:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -266,9 +247,10 @@ const Login = ({ mode }: { mode: Mode }) => {
             className='self-center text-textPrimary'
             startIcon={<img src='/images/logos/google.png' alt='Google' width={22} />}
             sx={{ '& .MuiButton-startIcon': { marginInlineEnd: 3 } }}
-            onClick={() => signInWithRedirect({ provider: 'Google' })}
+            disabled={isLoading}
+            onClick={handleGoogleLogin}
           >
-            Sign in with Google
+            {isLoading ? 'Signing in...' : 'Sign in with Google'}
           </Button>
         </div>
       </div>
