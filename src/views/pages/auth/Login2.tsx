@@ -15,11 +15,7 @@ import Alert from '@mui/material/Alert'
 import { OTPInput } from 'input-otp'
 import type { InferInput } from 'valibot'
 
-import { Amplify } from 'aws-amplify'
-
 import type { Mode } from '@core/types'
-
-console.log(Amplify.getConfig())
 
 type FormData = InferInput<typeof schema>
 
