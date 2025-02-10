@@ -1,3 +1,31 @@
+import { defineAuth } from '@aws-amplify/backend'
+
+/**
+ * Define and configure your auth resource
+ * @see https://docs.amplify.aws/gen2/build-a-backend/auth
+ */
+export const auth = defineAuth({
+  loginWith: {
+    email: true,
+    phone: true
+  },
+  multifactor: {
+    mode: 'OPTIONAL',
+    sms: true,
+    totp: false
+  },
+
+  // Important! The logic to resolve this value cannot determine whether email mfa is enabled when overriding the resource.
+  // Be sure to pick a recovery option appropriate for your application.
+  accountRecovery: 'EMAIL_AND_PHONE_WITHOUT_MFA',
+  senders: {
+    email: {
+      fromEmail: 'investor@originatecapital.co'
+    }
+  }
+})
+
+/**
 import { referenceAuth } from '@aws-amplify/backend'
 
 export const auth = referenceAuth({
@@ -7,3 +35,4 @@ export const auth = referenceAuth({
   unauthRoleArn: 'arn:aws:iam::361659031315:role/amplify-originateclient-test-115620-unauthRole',
   userPoolClientId: '138r25n639vvm2ng5crtnn33fp'
 })
+ */
