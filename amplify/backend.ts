@@ -1,31 +1,25 @@
-import { defineBackend } from '@aws-amplify/backend';
+import { defineBackend } from '@aws-amplify/backend'
 
-import { aws_dynamodb } from "aws-cdk-lib";
+import { aws_dynamodb } from 'aws-cdk-lib'
 
-import { auth } from './auth/resource';
+import { auth } from './auth/resource'
 
-import { data } from './data/resource';
-
+import { data } from './data/resource'
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
  */
 export const backend = defineBackend({
   auth,
-  data,
-});
+  data
+})
 
-
-const externalDataSourcesStack = backend.createStack("MyExternalDataSources");
+const externalDataSourcesStack = backend.createStack('MyExternalDataSources')
 
 const externalTable = aws_dynamodb.Table.fromTableName(
   externalDataSourcesStack,
-  "SupplierTable",
-  "Supplier-inyjwyok2ralnd7utuj4ctspbi-test"
-);
+  'SupplierTable',
+  'Supplier-inyjwyok2ralnd7utuj4ctspbi-test'
+)
 
-
-backend.data.addDynamoDbDataSource(
-  "SupplierTable",
-  externalTable
-);
+backend.data.addDynamoDbDataSource('SupplierTable', externalTable)
