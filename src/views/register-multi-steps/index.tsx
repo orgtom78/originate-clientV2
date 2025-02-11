@@ -17,24 +17,23 @@ import Logo from '@components/layout/shared/Logo'
 
 import StepperWrapper from '@core/styles/stepper'
 
-import StepAccountDetails from './StepAccountDetails'
+import StepLoanInformation from './StepLoanInformation'
 
-import StepPersonalInfo from './StepPersonalInfo'
+import StepLoanType from './StepLoanType'
 
-import StepBillingDetails from './StepBillingDetails'
-
+import StepLoanApplicant from './StepLoanApplicant'
 
 // Define types for form data
 interface FormData {
-  accountDetails: Record<string, string>
-  personalInfo: Record<string, string>
-  billingDetails: Record<string, string>
+  loanDetails: Record<string, string>
+  loanType: Record<string, string>
+  loanApplicant: Record<string, string>
 }
 
 const steps = [
-  { title: 'Account', subtitle: 'Account Details' },
-  { title: 'Investor', subtitle: 'Investor Information' },
-  { title: 'Subscription', subtitle: 'Purchase Agreement' }
+  { title: 'Amount', subtitle: 'Loan Details' },
+  { title: 'Type', subtitle: 'Loan Type' },
+  { title: 'Applicant', subtitle: 'Loan Applicant' }
 ]
 
 const Stepper = styled(MuiStepper)(({ theme }) => ({
@@ -50,9 +49,9 @@ const RegisterMultiSteps = () => {
   const [activeStep, setActiveStep] = useState(0)
 
   const initialFormData: FormData = {
-    accountDetails: {},
-    personalInfo: {},
-    billingDetails: {}
+    loanDetails: {},
+    loanType: {},
+    loanApplicant: {}
   }
 
   const [formData, setFormData] = useState<FormData>(initialFormData)
@@ -68,25 +67,25 @@ const RegisterMultiSteps = () => {
   }, [])
 
   const stepComponents = [
-    <StepAccountDetails
-      key='account'
+    <StepLoanInformation
+      key='amount'
       handleNext={handleNext}
-      formData={formData.accountDetails}
-      updateFormData={data => updateFormData('accountDetails', data)}
+      formData={formData.loanDetails}
+      updateFormData={data => updateFormData('loanDetails', data)}
     />,
-    <StepPersonalInfo
-      key='personal'
+    <StepLoanType
+      key='type'
       handleNext={handleNext}
       handlePrev={handlePrev}
-      formData={formData.personalInfo}
-      accountDetails={formData.accountDetails}
-      updateFormData={data => updateFormData('personalInfo', data)}
+      formData={formData.loanType}
+      loanDetails={formData.loanDetails}
+      updateFormData={data => updateFormData('loanType', data)}
     />,
-    <StepBillingDetails
-      key='billing'
+    <StepLoanApplicant
+      key='applicant'
       handlePrev={handlePrev}
-      formData={formData.billingDetails}
-      updateFormData={data => updateFormData('billingDetails', data)}
+      formData={formData.loanApplicant}
+      updateFormData={data => updateFormData('loanApplicant', data)}
     />
   ]
 
