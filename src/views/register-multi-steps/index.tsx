@@ -1,7 +1,5 @@
 'use client'
 
-import React, { useState, useCallback } from 'react'
-
 import Link from 'next/link'
 
 import MuiStepper from '@mui/material/Stepper'
@@ -11,6 +9,8 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 
 // Custom Components
+import { useRegisterFlow } from '../../hooks/useOnboardingFlow'
+
 import StepperCustomDot from '@components/stepper-dot'
 
 import Logo from '@components/layout/shared/Logo'
@@ -22,13 +22,6 @@ import StepLoanInformation from './StepLoanInformation'
 import StepLoanType from './StepLoanType'
 
 import StepLoanApplicant from './StepLoanApplicant'
-
-// Define types for form data
-interface FormData {
-  loanDetails: Record<string, string>
-  loanType: Record<string, string>
-  loanApplicant: Record<string, string>
-}
 
 const steps = [
   { title: 'Amount', subtitle: 'Loan Details' },
@@ -46,35 +39,19 @@ const Stepper = styled(MuiStepper)(({ theme }) => ({
 }))
 
 const RegisterMultiSteps = () => {
-  const [activeStep, setActiveStep] = useState(0)
-
-  const initialFormData: FormData = {
-    loanDetails: {},
-    loanType: {},
-    loanApplicant: {}
-  }
-
-  const [formData, setFormData] = useState<FormData>(initialFormData)
-
-  const handleNext = useCallback(() => setActiveStep(prev => prev + 1), [])
-  const handlePrev = useCallback(() => setActiveStep(prev => Math.max(prev - 1, 0)), [])
-
-  const updateFormData = useCallback((stepKey: keyof FormData, data: Record<string, string>) => {
-    setFormData(prev => ({
-      ...prev,
-      [stepKey]: { ...prev[stepKey], ...data }
-    }))
-  }, [])
+  const { flowId, activeStep, formData, handleNext, handlePrev, updateFormData } = useRegisterFlow()
 
   const stepComponents = [
     <StepLoanInformation
       key='amount'
+      flowId={flowId}
       handleNext={handleNext}
       formData={formData.loanDetails}
       updateFormData={data => updateFormData('loanDetails', data)}
     />,
     <StepLoanType
       key='type'
+      flowId={flowId}
       handleNext={handleNext}
       handlePrev={handlePrev}
       formData={formData.loanType}
@@ -83,6 +60,7 @@ const RegisterMultiSteps = () => {
     />,
     <StepLoanApplicant
       key='applicant'
+      flowId={flowId}
       handlePrev={handlePrev}
       formData={formData.loanApplicant}
       updateFormData={data => updateFormData('loanApplicant', data)}

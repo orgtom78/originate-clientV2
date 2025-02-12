@@ -9,7 +9,7 @@ export const deleteSupplier = a
   .authorization(allow => [allow.authenticated()])
   .handler(
     a.handler.custom({
-      dataSource: 'SupplierTable',
-      entry: '../handlers/supplier/deleteSupplier.js'
+      dataSource: 'supplierTable',
+      entry: '../handlers/item/deleteItem.js'
     })
   )

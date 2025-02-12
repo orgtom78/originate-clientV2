@@ -16,10 +16,18 @@ export const backend = defineBackend({
 
 const externalDataSourcesStack = backend.createStack('MyExternalDataSources')
 
-const externalTable = aws_dynamodb.Table.fromTableName(
+const usergroupTable = aws_dynamodb.Table.fromTableName(
   externalDataSourcesStack,
-  'SupplierTable',
+  'usergroupTable',
+  'Usergroup-inyjwyok2ralnd7utuj4ctspbi-test'
+)
+
+backend.data.addDynamoDbDataSource('usergroupTable', usergroupTable)
+
+const supplierTable = aws_dynamodb.Table.fromTableName(
+  externalDataSourcesStack,
+  'supplierTable',
   'Supplier-inyjwyok2ralnd7utuj4ctspbi-test'
 )
 
-backend.data.addDynamoDbDataSource('SupplierTable', externalTable)
+backend.data.addDynamoDbDataSource('supplierTable', supplierTable)

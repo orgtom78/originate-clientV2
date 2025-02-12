@@ -12,7 +12,14 @@ import type { SubmitHandler } from 'react-hook-form'
 import type { InferInput } from 'valibot'
 import LinearProgress from '@mui/material/LinearProgress'
 
+// Import AWS Amplify data client
+import { generateClient } from 'aws-amplify/data'
+
 import DirectionalIcon from '@components/DirectionalIcon'
+
+import { type Schema } from '../../../amplify/data/resource'
+
+const client = generateClient<Schema>()
 
 type FormData = InferInput<typeof schema>
 
@@ -21,12 +28,13 @@ const schema = object({
 })
 
 type StepProps = {
+  flowId: string
   handleNext: () => void
   formData: Record<string, string>
   updateFormData: (data: Record<string, string>) => void
 }
 
-const StepLoanInformation = ({ handleNext, formData, updateFormData }: StepProps) => {
+const StepLoanInformation = ({ flowId, handleNext, formData, updateFormData }: StepProps) => {
   const {
     control,
     handleSubmit,
@@ -36,6 +44,8 @@ const StepLoanInformation = ({ handleNext, formData, updateFormData }: StepProps
     resolver: valibotResolver(schema)
   })
 
+  console.log(flowId)
+
   // Prepopulate form fields with existing data
   useEffect(() => {
     Object.entries(formData).forEach(([key, value]) => {
@@ -43,10 +53,48 @@ const StepLoanInformation = ({ handleNext, formData, updateFormData }: StepProps
     })
   }, [formData, setValue])
 
+  const checkUserExists = async (email: string): Promise<string | null> => {
+    try {
+      const { data: users } = await client.models.Usergroup.list({
+        filter: { email: { eq: email } }
+      })
+
+      return users.length > 0 ? users[0].id : null
+    } catch (error) {
+      console.error('Error checking user existence:', error)
+
+      return null
+    }
+  }
+
+  const updateorcreateUserInDB = async (data: FormData): Promise<void> => {
+    try {
+      const userExists = await checkUserExists(data.loanamount)
+
+      if (userExists) {
+        const updates = {
+          loanamount: data.loanamount
+        }
+
+        const { errors } = await client.models.Usergroup.update({
+          id: userExists,
+          ...updates
+        })
+
+        if (errors) console.error('Error updating user:', errors)
+      } else {
+        console.log('User does not exist.')
+      }
+    } catch (error) {
+      console.error('Failed to update user in database:', error)
+    }
+  }
+
   const onSubmit: SubmitHandler<FormData> = async data => {
     console.log('Validated Data:', data)
     updateFormData(data)
-    handleNext() // Allow the user to proceed to the next step regardless
+    await updateorcreateUserInDB(data) // Assuming updateUserInDB exists
+    handleNext()
   }
 
   return (

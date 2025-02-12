@@ -30,12 +30,13 @@ const schema = object({
 })
 
 type StepProps = {
+  flowId: string
   handlePrev?: () => void
   formData: Record<string, string>
   updateFormData: (data: Record<string, string>) => void
 }
 
-const StepLoanApplicant = ({ handlePrev, formData, updateFormData }: StepProps) => {
+const StepLoanApplicant = ({ flowId, handlePrev, formData, updateFormData }: StepProps) => {
   const {
     control,
     handleSubmit,
@@ -44,6 +45,8 @@ const StepLoanApplicant = ({ handlePrev, formData, updateFormData }: StepProps) 
   } = useForm<FormData>({
     resolver: valibotResolver(schema)
   })
+
+  console.log(flowId)
 
   // Prepopulate form fields with existing data
   useEffect(() => {

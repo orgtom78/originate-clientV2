@@ -5,6 +5,10 @@ export const Usergroup = a.customType({
   groupId: a.string().required(),
 
   // Entity relationships
+  naturalpersonId: a.string(),
+  legalpersonId: a.string(),
+  onboardingId: a.string(),
+
   userId: a.string(),
   investorId: a.string(),
   supplierId: a.string(),

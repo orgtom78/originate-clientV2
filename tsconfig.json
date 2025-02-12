@@ -31,6 +31,9 @@
       "@core/*": [
         "./src/@core/*"
       ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
       "@layouts/*": [
         "./src/@layouts/*"
       ],
@@ -61,10 +64,10 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "amplify/data/handlers/supplier/getSupplier.js",
-    "amplify/data/handlers/supplier/updateSupplier.js",
-    "amplify/data/handlers/supplier/createSupplier.js",
-    "amplify/data/handlers/supplier/listSuppliers.js"
+    "amplify/data/handlers/item/getSupplier.js",
+    "amplify/data/handlers/item/updateSupplier.js",
+    "amplify/data/handlers/item/createSupplier.js",
+    "amplify/data/handlers/item/listSuppliers.js"
   ],
   "exclude": [
     "node_modules",

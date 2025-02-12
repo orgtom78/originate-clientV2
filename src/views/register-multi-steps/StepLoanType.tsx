@@ -52,6 +52,7 @@ const schema = object({
 type FormData = InferInput<typeof schema>
 
 type StepProps = {
+  flowId: string
   handleNext: () => void
   handlePrev: () => void
   formData: Record<string, string>
@@ -59,11 +60,11 @@ type StepProps = {
   updateFormData: (data: Record<string, string>) => void
 }
 
-const StepLoanType = ({ handleNext, handlePrev, formData, loanDetails, updateFormData }: StepProps) => {
+const StepLoanType = ({ flowId, handleNext, handlePrev, formData, loanDetails, updateFormData }: StepProps) => {
   const initialSelected = loanTypeData.filter(item => item.isSelected).map(item => item.value)
   const [selected, setSelected] = useState<string[]>(initialSelected)
 
-  console.log(loanDetails)
+  console.log(loanDetails, flowId)
 
   const {
     control,

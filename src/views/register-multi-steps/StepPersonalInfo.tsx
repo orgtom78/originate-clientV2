@@ -139,6 +139,7 @@ type FormData = {
 }
 
 type StepProps = {
+  flowId: string
   handleNext: () => void
   handlePrev: () => void
   formData: Record<string, string>
@@ -146,7 +147,14 @@ type StepProps = {
   updateFormData: (data: Record<string, string>) => void
 }
 
-const StepAccountDetails = ({ handleNext, handlePrev, formData, accountDetails, updateFormData }: StepProps) => {
+const StepAccountDetails = ({
+  flowId,
+  handleNext,
+  handlePrev,
+  formData,
+  accountDetails,
+  updateFormData
+}: StepProps) => {
   const {
     control,
     handleSubmit,
@@ -157,6 +165,7 @@ const StepAccountDetails = ({ handleNext, handlePrev, formData, accountDetails, 
     resolver: valibotResolver(schema)
   })
 
+  console.log(flowId)
   const [accountType, setAccountType] = useState<string>(formData.accounttype || 'Individual')
 
   // Wrap `updateFormData` in `useCallback` to stabilize reference
@@ -249,7 +258,7 @@ const StepAccountDetails = ({ handleNext, handlePrev, formData, accountDetails, 
 
   const checkUserExists = async (email: string): Promise<string | null> => {
     try {
-      const { data: users } = await client.models.User.list({
+      const { data: users } = await client.models.Usergroup.list({
         filter: { email: { eq: email } }
       })
 
