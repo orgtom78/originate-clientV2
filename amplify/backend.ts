@@ -2,17 +2,55 @@ import { defineBackend } from '@aws-amplify/backend'
 
 import { aws_dynamodb } from 'aws-cdk-lib'
 
-import { auth } from './auth/resource'
+import { Stream } from 'aws-cdk-lib/aws-kinesis'
+
+import { StartingPosition } from 'aws-cdk-lib/aws-lambda'
+
+import { KinesisEventSource } from 'aws-cdk-lib/aws-lambda-event-sources'
+
+import { Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam'
 
 import { data } from './data/resource'
+import { auth } from './auth/resource'
+
+import { myKinesisFunction } from './functions/kinesis-function/resource'
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
  */
 export const backend = defineBackend({
   auth,
-  data
+  data,
+  myKinesisFunction
 })
+
+const kinesisStack = backend.createStack('kinesis-stack')
+
+const kinesisStream = new Stream(kinesisStack, 'KinesisStream', {
+  streamName: 'myKinesisStream',
+  shardCount: 1
+})
+
+const eventSource = new KinesisEventSource(kinesisStream, {
+  startingPosition: StartingPosition.LATEST,
+  reportBatchItemFailures: true
+})
+
+backend.myKinesisFunction.resources.lambda.addEventSource(eventSource)
+
+// create a new policy to allow PutRecords to the Kinesis stream
+const kinesisPolicy = new Policy(kinesisStack, 'KinesisPolicy', {
+  statements: [
+    new PolicyStatement({
+      actions: ['kinesis:PutRecords'],
+      resources: [kinesisStream.streamArn]
+    })
+  ]
+})
+
+// apply the policy to the authenticated and unauthenticated roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(kinesisPolicy)
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(kinesisPolicy)
 
 /** 
 const { cfnResources } = backend.auth.resources

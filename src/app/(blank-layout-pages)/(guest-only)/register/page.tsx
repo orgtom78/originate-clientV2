@@ -1,7 +1,6 @@
 // Next Imports
 import type { Metadata } from 'next'
 
-// Component Imports
 import Register from '@views/register-multi-steps'
 
 import { ErrorBoundary } from '@/components/ErrorBoundary'

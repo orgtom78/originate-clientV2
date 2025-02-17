@@ -11,6 +11,10 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 
 // Custom Components
+import { record } from 'aws-amplify/analytics/kinesis'
+
+import { Amplify } from 'aws-amplify'
+
 import { useRegisterFlow } from '../../hooks/useOnboardingFlow'
 
 import StepperCustomDot from '@components/stepper-dot'
@@ -25,7 +29,15 @@ import StepLoanType from './StepLoanType'
 
 import StepLoanApplicant from './StepLoanApplicant'
 
-import { getProgress } from '../../app/api/register'
+console.log(Amplify.getConfig())
+
+record({
+  data: {
+    test: 'test'
+  },
+  partitionKey: 'myPartitionKey',
+  streamName: 'myKinesisStream'
+})
 
 const steps = [
   { title: 'Amount', subtitle: 'Loan Details' },
