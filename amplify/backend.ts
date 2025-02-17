@@ -31,3 +31,11 @@ const supplierTable = aws_dynamodb.Table.fromTableName(
 )
 
 backend.data.addDynamoDbDataSource('supplierTable', supplierTable)
+
+const onboardingTable = aws_dynamodb.Table.fromTableName(
+  externalDataSourcesStack,
+  'onboardingTable',
+  'Onboarding-inyjwyok2ralnd7utuj4ctspbi-test'
+)
+
+backend.data.addDynamoDbDataSource('onboardingTable', onboardingTable)

@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 
+import { useParams } from 'next/navigation'
+
 import MuiStepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
@@ -23,6 +25,8 @@ import StepLoanType from './StepLoanType'
 
 import StepLoanApplicant from './StepLoanApplicant'
 
+import { getProgress } from '../../app/api/register'
+
 const steps = [
   { title: 'Amount', subtitle: 'Loan Details' },
   { title: 'Type', subtitle: 'Loan Type' },
@@ -40,6 +44,9 @@ const Stepper = styled(MuiStepper)(({ theme }) => ({
 
 const RegisterMultiSteps = () => {
   const { flowId, activeStep, formData, handleNext, handlePrev, updateFormData } = useRegisterFlow()
+  const { tag } = useParams()
+
+  console.log(tag)
 
   const stepComponents = [
     <StepLoanInformation

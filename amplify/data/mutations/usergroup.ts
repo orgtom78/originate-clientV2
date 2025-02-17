@@ -26,7 +26,7 @@ export const createUsergroup = a
     group_contact_phone: a.string()
   })
   .returns(a.ref('Usergroup'))
-  .authorization(allow => [allow.authenticated()])
+  .authorization(allow => [allow.publicApiKey()])
   .handler(
     a.handler.custom({
       dataSource: 'usergroupTable',
