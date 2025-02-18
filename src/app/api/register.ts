@@ -46,36 +46,17 @@ export interface OnboardingData {
 
   // Add other fields as needed
 }
-interface ApiResponse {
-  data?: {
-    id: string
-    legalpersonId: string
-    loan_amount?: string | null
-
-    // ... other fields
-  } | null
-  errors?: Array<{ message: string }>
-}
-
-const convertApiResponse = (response: ApiResponse): OnboardingData => {
-  if (!response.data) {
-    throw new Error('No data in response')
-  }
-
-  const { id, legalpersonId, ...rest } = response.data
-
-  if (!id || !legalpersonId) {
-    throw new Error('Missing required fields in response')
-  }
-
-  return {
-    id,
-    legalpersonId,
-    ...Object.fromEntries(Object.entries(rest).map(([key, value]) => [key, value ?? '']))
-  } as OnboardingData
-}
 
 const client = generateClient<Schema>()
+
+interface ApiResponse<T = any> {
+  data?: {
+    createOnboarding?: T
+    updateOnboarding?: T
+    getOnboarding?: T
+  }
+  errors?: Array<{ message: string }>
+}
 
 export const saveProgress = async (
   id: string,
@@ -84,10 +65,10 @@ export const saveProgress = async (
   data: Record<string, string>
 ): Promise<OnboardingData> => {
   try {
-    const response = await client.mutations.createOnboarding(
+    const response = (await client.mutations.createOnboarding(
       {
         id,
-        legalpersonId: userId,
+        legalpersonId: data.loanamount,
         loan_amount: data.loanamount || '',
         naturalpersonId: data.loanamount || '',
 
@@ -128,9 +109,13 @@ export const saveProgress = async (
       {
         authMode: 'apiKey'
       }
-    )
+    )) as ApiResponse<OnboardingData>
 
-    return convertApiResponse(response as ApiResponse)
+    if (!response?.data?.createOnboarding) {
+      throw new Error('Failed to create onboarding record')
+    }
+
+    return response.data.createOnboarding
   } catch (error) {
     console.error('API Error:', error)
     throw new Error('Failed to save onboarding progress')
@@ -139,71 +124,43 @@ export const saveProgress = async (
 
 export const getProgress = async (id: string): Promise<OnboardingData | null> => {
   try {
-    const response = await client.queries.getOnboarding(
+    const response = (await client.queries.getOnboarding(
       { id },
       {
         authMode: 'apiKey'
       }
-    )
+    )) as ApiResponse<OnboardingData>
 
-    return convertApiResponse(response as ApiResponse)
+    return response?.data?.getOnboarding || null
   } catch (error) {
     console.error('API Error:', error)
     throw new Error('Failed to get onboarding progress')
   }
 }
 
-export const submitRegistration = async (id: string, data: Record<string, string>): Promise<OnboardingData> => {
+export const submitRegistration = async (id: string, data: Record<string, any>): Promise<OnboardingData> => {
+  console.log(data)
+
   try {
-    // Transform formData into API format
-    const apiData = {
-      id,
-      legalpersonId: data.userId,
-      loan_amount: data.loanamount || '',
-      naturalpersonId: data.loanamount || '',
+    // Remove undefined values from data
+    const cleanData = Object.fromEntries(Object.entries(data).filter(([, v]) => v != null))
 
-      // Address information
-      legalperson_address_city: data.loanamount || '',
-      legalpersonr_address_street: data.loanamount || '',
-      legalperson_address_number: data.loanamount || '',
-      legalperson_address_postalcode: data.loanamount || '',
-      legalperson_address_refinment: data.loanamount || '',
+    const response = (await client.mutations.updateOnboarding(
+      {
+        id,
+        ...cleanData
+      },
+      {
+        authMode: 'apiKey'
+      }
+    )) as ApiResponse<OnboardingData>
 
-      // Legal documents
-      legalperson_articles_of_association_attachment: data.loanamount || '',
-      legalperson_shareholder_list_attachment: data.loanamount || '',
-      legalperson_director_list_attachment: data.loanamount || '',
-      legalperson_registration_cert_attachment: data.loanamount || '',
-
-      // Company information
-      legalperson_description: data.loanamount || '',
-      legalperson_country: data.loanamount || '',
-      legalperson_industry: data.loanamount || '',
-      legalperson_industry_code: data.loanamount || '',
-      legalperson_logo: data.loanamount || '',
-      legalperson_name: data.loanamount || '',
-      legalperson_register_number: data.loanamount || '',
-      legalperson_register_number_type: data.loanamount || '',
-      legalperson_trading_name: data.loanamount || '',
-      legalperson_type: data.loanamount || '',
-      legalperson_website: data.loanamount || '',
-      legalperson_duns_number: data.loanamount || '',
-
-      // Contact information
-      legalperson_contact_name: data.loanamount || '',
-      legalperson_contact_email: data.loanamount || '',
-      legalperson_contact_phone: data.loanamount || '',
-      legalperson_contact_position: data.loanamount || '',
-      legalperson_date_of_incorporation: data.loanamount || ''
-
-      // Map other fields
+    if (!response?.data?.updateOnboarding) {
+      console.error('Update response:', response)
+      throw new Error('Failed to update onboarding record')
     }
 
-    const response = await client.mutations.updateOnboarding(apiData, {
-      authMode: 'apiKey'
-    })
-
-    return convertApiResponse(response as ApiResponse)
+    return response.data.updateOnboarding
   } catch (error) {
     console.error('API Error:', error)
     throw new Error('Failed to submit registration')

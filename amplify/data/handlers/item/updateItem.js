@@ -1,28 +1,62 @@
 import { util } from '@aws-appsync/utils'
-import * as ddb from '@aws-appsync/utils/dynamodb'
 
 export function request(ctx) {
-  const { id, expectedVersion, ...rest } = ctx.args
+  const { id, ...values } = ctx.args
 
-  const values = Object.entries(rest).reduce((obj, [key, value]) => {
-    obj[key] = value ?? ddb.operations.remove()
+  // Validate id
+  if (!id) {
+    util.error('Missing required field: id')
+  }
 
-    return obj
-  }, {})
+  // Remove null/undefined values and build expressions
+  const expNames = {}
+  const expValues = {}
+  const updateExpressions = []
 
-  return ddb.update({
-    key: { id },
-    condition: { version: { eq: expectedVersion } },
+  Object.entries(values).forEach(([key, value]) => {
+    if (value != null) {
+      const attrName = `#${key}`
+      const attrValue = `:${key}`
 
-    update: { ...values, version: ddb.operations.increment(1) }
+      expNames[attrName] = key
+      expValues[attrValue] = value
+      updateExpressions.push(`${attrName} = ${attrValue}`)
+    }
   })
+
+  // Add updated timestamp
+  expValues[':updatedAt'] = util.time.nowISO8601()
+  expNames['#updatedAt'] = 'updatedAt'
+  updateExpressions.push('#updatedAt = :updatedAt')
+
+  // Check if there are any updates
+  if (updateExpressions.length === 0) {
+    util.error('No valid update values provided')
+  }
+
+  return {
+    operation: 'UpdateItem',
+    key: util.dynamodb.toMapValues({ id }),
+    update: {
+      expression: `SET ${updateExpressions.join(', ')}`,
+      expressionNames: expNames,
+      expressionValues: util.dynamodb.toMapValues(expValues)
+    },
+    condition: {
+      expression: 'attribute_exists(id)'
+    }
+  }
 }
 
 export function response(ctx) {
   const { error, result } = ctx
 
   if (error) {
-    util.appendError(error.message, error.type)
+    if (error.type === 'DynamoDB:ConditionalCheckFailedException') {
+      util.error('Item not found', 'NotFound')
+    }
+
+    util.error(error.message, error.type)
   }
 
   return result

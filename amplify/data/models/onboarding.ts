@@ -2,7 +2,7 @@ import { a } from '@aws-amplify/backend'
 
 export const Onboarding = a.customType({
   // Required fields
-  id: a.string().required(),
+  id: a.id().required(),
 
   loan_amount: a.string(),
   loan_type: a.string(),

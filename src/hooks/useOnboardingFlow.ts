@@ -1,10 +1,11 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback } from 'react'
 
 import { v4 as uuidv4 } from 'uuid'
 
-import { saveProgress, getProgress, submitRegistration } from '../app/api/register'
-
+import { saveProgress, submitRegistration } from '../app/api/register'
 import type { OnboardingData } from '../app/api/register'
+
+type FormDataRecord = Record<string, string>
 
 interface FormData {
   loanDetails: FormDataRecord
@@ -12,48 +13,26 @@ interface FormData {
   loanApplicant: FormDataRecord
 }
 
-type FormDataRecord = Record<string, string>
-interface OnboardingFlowState {
-  flowId: string
-  id: string
-  activeStep: number
-  formData: FormData
-  isLoading: boolean
-  error: string | null
-  isInitialized: boolean
-}
-interface OnboardingFlowState {
-  flowId: string
-  id: string
-  activeStep: number
-  formData: FormData
-  isLoading: boolean
-  error: string | null
-  isInitialized: boolean
-}
+export const useOnboardingFlow = () => {
+  const [flowId] = useState(() => uuidv4()) // Generate UUID once when hook is initialized
+  const [activeStep, setActiveStep] = useState(0)
 
-const INITIAL_FORM_DATA: FormData = {
-  loanDetails: {},
-  loanType: {},
-  loanApplicant: {}
-}
+  const initialFormData: FormData = {
+    loanDetails: {},
+    loanType: {},
+    loanApplicant: {}
+  }
 
-export const useOnboardingFlow = (initialStep = 0) => {
-  const [state, setState] = useState<OnboardingFlowState>(() => ({
-    flowId: uuidv4(),
-    id: uuidv4(),
-    activeStep: initialStep,
-    formData: INITIAL_FORM_DATA,
-    isLoading: true,
-    error: null,
-    isInitialized: false
-  }))
+  const [formData, setFormData] = useState<FormData>(initialFormData)
+
+  const handleNext = useCallback(() => setActiveStep(prev => prev + 1), [])
+  const handlePrev = useCallback(() => setActiveStep(prev => Math.max(prev - 1, 0)), [])
 
   const mapFormDataToApi = useCallback(
     (stepKey: keyof FormData, data: FormDataRecord): Partial<OnboardingData> => {
       const baseData = {
-        id: state.id,
-        legalpersonId: state.flowId
+        id: flowId,
+        legalpersonId: data.flowId
       }
 
       switch (stepKey) {
@@ -79,141 +58,44 @@ export const useOnboardingFlow = (initialStep = 0) => {
           return baseData
       }
     },
-    [state.id, state.flowId]
+    [flowId]
   )
 
-  // Load existing progress
-  useEffect(() => {
-    const loadProgress = async () => {
-      try {
-        const progress = await getProgress(state.id)
-
-        if (progress) {
-          setState(prev => ({
-            ...prev,
-            formData: {
-              loanDetails: {
-                ...prev.formData.loanDetails,
-                loanamount: progress.loan_amount || ''
-              },
-              loanType: {
-                ...prev.formData.loanType,
-                type: progress.loan_type || '',
-                purpose: progress.loan_purpose || ''
-              },
-              loanApplicant: {
-                ...prev.formData.loanApplicant,
-                name: progress.legalperson_name || '',
-                email: progress.legalperson_contact_email || ''
-              }
-            },
-            isInitialized: true,
-            isLoading: false
-          }))
-        } else {
-          setState(prev => ({
-            ...prev,
-            isInitialized: true,
-            isLoading: false
-          }))
-        }
-      } catch (error) {
-        setState(prev => ({
-          ...prev,
-          error: 'Failed to load progress',
-          isLoading: false,
-          isInitialized: true
-        }))
-      }
-    }
-
-    if (!state.isInitialized) {
-      loadProgress()
-    }
-  }, [state.id, state.isInitialized])
-
-  const handleNext = useCallback(() => {
-    setState(prev => ({
-      ...prev,
-      activeStep: prev.activeStep + 1
-    }))
-  }, [])
-
-  const handlePrev = useCallback(() => {
-    setState(prev => ({
-      ...prev,
-      activeStep: Math.max(prev.activeStep - 1, 0)
-    }))
-  }, [])
-
   const updateFormData = useCallback(
-    async (stepKey: keyof FormData, data: FormDataRecord) => {
-      setState(prev => ({
+    async (stepKey: keyof FormData, data: Record<string, string>) => {
+      // Update local state
+      setFormData(prev => ({
         ...prev,
-        isLoading: true,
-        error: null
+        [stepKey]: { ...prev[stepKey], ...data }
       }))
 
+      const apiData = mapFormDataToApi(stepKey, data)
+
       try {
-        // Update local state immediately for better UX
-        const updatedFormData = {
-          ...state.formData,
-          [stepKey]: { ...state.formData[stepKey], ...data }
-        }
-
-        const apiData = mapFormDataToApi(stepKey, data)
-
-        if (state.isInitialized) {
+        if (activeStep !== 0) {
           // Update existing record
-          await submitRegistration(state.id, {
-            userId: state.flowId,
+          await submitRegistration(apiData.id || '', {
             ...apiData
           })
         } else {
           // Create new record
-          await saveProgress(state.id, state.flowId, stepKey, data)
+          await saveProgress(apiData.id || '', apiData.id || '', stepKey, data)
         }
-
-        setState(prev => ({
-          ...prev,
-          formData: updatedFormData,
-          isLoading: false
-        }))
       } catch (error) {
-        setState(prev => ({
-          ...prev,
-          error: 'Failed to save progress',
-          isLoading: false,
+        console.error('Failed to save progress:', error)
 
-          // Revert form data on error
-          formData: {
-            ...prev.formData,
-            [stepKey]: { ...prev.formData[stepKey] }
-          }
-        }))
+        // Handle error appropriately
       }
     },
-    [state.flowId, state.id, state.formData, state.isInitialized, mapFormDataToApi]
+    [mapFormDataToApi, activeStep]
   )
 
-  const resetError = useCallback(() => {
-    setState(prev => ({
-      ...prev,
-      error: null
-    }))
-  }, [])
-
   return {
-    flowId: state.flowId,
-    id: state.id,
-    activeStep: state.activeStep,
-    formData: state.formData,
-    isLoading: state.isLoading,
-    error: state.error,
-    isInitialized: state.isInitialized,
+    flowId,
+    activeStep,
+    formData,
     handleNext,
     handlePrev,
-    updateFormData,
-    resetError
+    updateFormData
   }
 }

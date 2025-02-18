@@ -3,7 +3,7 @@ import { a } from '@aws-amplify/backend'
 export const createOnboarding = a
   .mutation()
   .arguments({
-    id: a.string().required(),
+    id: a.id().required(),
 
     loan_amount: a.string(),
     loan_type: a.string(),
@@ -58,7 +58,7 @@ export const createOnboarding = a
 export const updateOnboarding = a
   .mutation()
   .arguments({
-    id: a.string().required(),
+    id: a.id().required(),
 
     loan_amount: a.string(),
     loan_type: a.string(),
