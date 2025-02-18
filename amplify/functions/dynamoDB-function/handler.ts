@@ -1,8 +1,8 @@
 import type { DynamoDBStreamHandler } from 'aws-lambda'
 import { Logger } from '@aws-lambda-powertools/logger'
-import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
+import { LambdaClient, InvokeCommand } from '@aws-sdk/client-lambda'
 
-const sesClient = new SESClient({ region: 'us-east-2' })
+const lambdaClient = new LambdaClient({ region: 'us-east-2' })
 
 // Define interfaces for your data
 export type Message = {
@@ -11,6 +11,23 @@ export type Message = {
   recipient: string
 }
 
+const invokeEmailSender = async (message: Message): Promise<void> => {
+  const command = new InvokeCommand({
+    FunctionName: process.env.EMAIL_SENDER_FUNCTION_NAME,
+    InvocationType: 'Event', // Asynchronous invocation
+    Payload: JSON.stringify(message)
+  })
+
+  try {
+    await lambdaClient.send(command)
+    logger.info('Email sender function invoked successfully')
+  } catch (error) {
+    logger.error('Failed to invoke email sender', { error })
+    throw error
+  }
+}
+
+/** 
 const sendEmail = async (message: Message): Promise<void> => {
   const command = new SendEmailCommand({
     Source: 'admin@originatecapital.co',
@@ -26,7 +43,7 @@ const sendEmail = async (message: Message): Promise<void> => {
   })
 
   try {
-    const result = await sesClient.send(command)
+    const result = await sendEmail(command)
 
     console.log(`Email sent to ${message.recipient}: ${result.MessageId}`)
   } catch (error) {
@@ -34,6 +51,7 @@ const sendEmail = async (message: Message): Promise<void> => {
     throw new Error(`Failed to send email to ${message.recipient}`, { cause: error })
   }
 }
+    */
 
 const logger = new Logger({
   logLevel: 'INFO',
@@ -50,7 +68,7 @@ export const handler: DynamoDBStreamHandler = async event => {
       logger.info(`New Image: ${JSON.stringify(record.dynamodb?.NewImage)}`)
       const message: Message = JSON.parse('{"body":"John", "subject":30, "recipient":"New York"}')
 
-      await sendEmail(message)
+      await invokeEmailSender(message)
     }
   }
 

@@ -2,8 +2,6 @@
 
 import Link from 'next/link'
 
-import { useParams } from 'next/navigation'
-
 import MuiStepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
@@ -11,7 +9,7 @@ import Typography from '@mui/material/Typography'
 import { styled } from '@mui/material/styles'
 
 // Custom Components
-import { useRegisterFlow } from '../../hooks/useOnboardingFlow'
+import { useOnboardingFlow } from '../../hooks/useOnboardingFlow'
 
 import StepperCustomDot from '@components/stepper-dot'
 
@@ -41,10 +39,7 @@ const Stepper = styled(MuiStepper)(({ theme }) => ({
 }))
 
 const RegisterMultiSteps = () => {
-  const { flowId, activeStep, formData, handleNext, handlePrev, updateFormData } = useRegisterFlow()
-  const { tag } = useParams()
-
-  console.log(tag)
+  const { flowId, activeStep, formData, handleNext, handlePrev, updateFormData } = useOnboardingFlow()
 
   const stepComponents = [
     <StepLoanInformation

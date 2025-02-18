@@ -17,6 +17,8 @@ import { myKinesisFunction } from './functions/kinesis-function/resource'
 
 import { myDynamoDBFunction } from './functions/dynamoDB-function/resource'
 
+import { myEmailSender } from './functions/email-sender/resource'
+
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
  */
@@ -25,13 +27,14 @@ export const backend = defineBackend({
   auth,
   data,
   myKinesisFunction,
-  myDynamoDBFunction
+  myDynamoDBFunction,
+  myEmailSender
 })
 
 const kinesisStack = backend.createStack('kinesis-stack')
 
-const kinesisStream = new Stream(kinesisStack, 'KinesisStream2', {
-  streamName: 'myKinesisStream2',
+const kinesisStream = new Stream(kinesisStack, 'KinesisStream', {
+  streamName: 'myKinesisStream',
   shardCount: 1
 })
 
@@ -131,6 +134,13 @@ const mapping = new EventSourceMapping(Stack.of(onTable), 'MyDynamoDBFunctionTod
 mapping.node.addDependency(policy)
 
 backend.myDynamoDBFunction.resources.lambda.addToRolePolicy(
+  new PolicyStatement({
+    actions: ['ses:SendEmail', 'ses:SendRawEmail', 'lambda:InvokeFunction'],
+    resources: ['*']
+  })
+)
+
+backend.myEmailSender.resources.lambda.addToRolePolicy(
   new PolicyStatement({
     actions: ['ses:SendEmail', 'ses:SendRawEmail'],
     resources: ['*']

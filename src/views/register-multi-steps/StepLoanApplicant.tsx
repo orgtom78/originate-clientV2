@@ -11,14 +11,7 @@ import { object, string, email, pipe, nonEmpty } from 'valibot'
 import type { SubmitHandler } from 'react-hook-form'
 import type { InferInput } from 'valibot'
 
-// Import AWS Amplify data client
-import { generateClient } from 'aws-amplify/data'
-
 import DirectionalIcon from '@components/DirectionalIcon'
-
-import { type Schema } from '../../../amplify/data/resource'
-
-const client = generateClient<Schema>()
 
 type FormData = InferInput<typeof schema>
 
@@ -55,51 +48,8 @@ const StepLoanApplicant = ({ flowId, handlePrev, formData, updateFormData }: Ste
     })
   }, [formData, setValue])
 
-  // Function to check if user exists
-  const checkUserExists = async (email: string): Promise<boolean> => {
-    try {
-      const { data: users } = await client.models.User.list({
-        filter: { email: { eq: email } }
-      })
-
-      return users.length > 0 // Return true if user exists
-    } catch (error) {
-      console.error('Error checking if user exists:', error)
-
-      return false
-    }
-  }
-
-  // Function to create user in the database
-  const createUserInDB = async (formData: FormData): Promise<void> => {
-    try {
-      const userExists = await checkUserExists(formData.email)
-
-      if (!userExists) {
-        // If user does not exist, create them
-        const { data, errors } = await client.models.User.create({
-          firstname: formData.firstname,
-          lastname: formData.lastname,
-          email: formData.email,
-          phone: formData.Mobile
-        })
-
-        if (errors) {
-          console.error('Error creating user:', errors)
-        } else {
-          console.log('User created successfully:', data)
-        }
-      } else {
-        console.log('User already exists, skipping creation.')
-      }
-    } catch (error) {
-      console.error('Failed to create user in the database:', error)
-    }
-  }
-
   const onSubmit: SubmitHandler<FormData> = async data => {
     console.log('Validated Data:', data)
-    await createUserInDB(data) // Attempt to create the user or skip if they exist
     updateFormData(data)
     alert('Submitted..!!') // Allow the user to proceed to the next step regardless
   }
