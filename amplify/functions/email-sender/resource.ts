@@ -2,6 +2,7 @@ import { defineFunction } from '@aws-amplify/backend'
 
 export const myEmailSender = defineFunction({
   name: 'email-function',
+  resourceGroupName: 'data',
   schedule: [
     // every tuesday at 9am
     '0 9 ? * 3 *',

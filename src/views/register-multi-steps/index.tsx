@@ -1,17 +1,12 @@
 'use client'
 
+import React, { useState } from 'react'
+
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 
-import MuiStepper from '@mui/material/Stepper'
-import Step from '@mui/material/Step'
-import StepLabel from '@mui/material/StepLabel'
-import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles'
-
 // Custom Components
 import { useOnboardingFlow } from '../../hooks/useOnboardingFlow'
-import StepperCustomDot from '@components/stepper-dot'
 import Logo from '@components/layout/shared/Logo'
 import StepperWrapper from '@core/styles/stepper'
 import StepLoanInformation from './StepLoanInformation'
@@ -21,24 +16,79 @@ import StepLoanApplicant from './StepLoanApplicant'
 const steps = [
   { title: 'Amount', subtitle: 'Loan Details' },
   { title: 'Type', subtitle: 'Loan Type' },
-  { title: 'Applicant', subtitle: 'Loan Applicant' }
+  { title: 'Applicant', subtitle: 'Loan Applicant' },
+  { title: 'Additional', subtitle: 'Optional Details', optional: true }
 ]
 
-const Stepper = styled(MuiStepper)(({ theme }) => ({
-  justifyContent: 'center',
-  '& .MuiStep-root': {
-    '&:first-of-type': { paddingInlineStart: 0 },
-    '&:last-of-type': { paddingInlineEnd: 0 },
-    [theme.breakpoints.down('md')]: { paddingInline: 0 }
-  }
-}))
+interface SuccessMessageProps {
+  onboardingId: string
+  onContinue: () => void
+}
+
+const SuccessMessage = ({ onboardingId, onContinue }: SuccessMessageProps) => (
+  <div className='space-y-6 p-6'>
+    {/* Success Alert */}
+    <div className='bg-green-50 border border-green-200 rounded-lg p-4'>
+      <div className='flex items-start'>
+        <div className='flex-shrink-0'>
+          <span className='text-green-600 text-xl'>✓</span>
+        </div>
+        <div className='ml-3'>
+          <h3 className='text-lg font-semibold text-green-800'>Application Submitted Successfully!</h3>
+          <p className='mt-2 text-sm text-green-700'>
+            Your application has been received. You will receive an email with further instructions.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {/* Application Details */}
+    <div className='space-y-2 bg-gray-50 p-4 rounded-lg'>
+      <p className='text-gray-600'>
+        Application ID: <span className='font-mono'>{onboardingId}</span>
+      </p>
+      <p className='text-sm text-gray-500'>
+        Please save this ID for your reference. A confirmation email will be sent shortly.
+      </p>
+    </div>
+
+    {/* Action Buttons */}
+    <div className='flex justify-between items-center pt-4'>
+      <button
+        onClick={() => (window.location.href = '/')}
+        className='px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 flex items-center gap-2'
+      >
+        <span className='text-sm'>←</span>
+        Return Home
+      </button>
+
+      <button
+        onClick={onContinue}
+        className='px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center gap-2'
+      >
+        Continue with Additional Info
+        <span className='text-sm'>→</span>
+      </button>
+    </div>
+  </div>
+)
+
+// Update the type definition for StepLoanApplicant props
+export interface StepProps {
+  onboardingId: string
+  handlePrev?: () => void
+  formData: Record<string, string>
+  updateFormData: (data: Record<string, string>) => Promise<void>
+  onSubmit?: () => Promise<void>
+}
 
 const RegisterMultiSteps = () => {
   const searchParams = useSearchParams()
-  const flowIdFromUrl = searchParams.get('flowId') || undefined
+  const onboardingIdFromUrl = searchParams.get('onboardingId') || undefined
+  const [showSuccess, setShowSuccess] = useState(false)
 
-  const { flowId, activeStep, formData, loading, error, handleNext, handlePrev, updateFormData } =
-    useOnboardingFlow(flowIdFromUrl)
+  const { onboardingId, activeStep, formData, loading, error, handleNext, handlePrev, updateFormData } =
+    useOnboardingFlow(onboardingIdFromUrl)
 
   // Show loading state while fetching existing data
   if (loading) {
@@ -54,9 +104,9 @@ const RegisterMultiSteps = () => {
     return (
       <div className='flex justify-center items-center min-h-screen'>
         <div className='text-center'>
-          <h2 className='text-xl font-semibold text-error mb-2'>Error Loading Form</h2>
-          <p className='text-muted'>{error.message}</p>
-          <Link href='/register' className='mt-4 text-primary hover:underline'>
+          <h2 className='text-xl font-semibold text-red-600 mb-2'>Error Loading Form</h2>
+          <p className='text-gray-600'>{error.message}</p>
+          <Link href='/register' className='mt-4 text-blue-600 hover:underline'>
             Start New Application
           </Link>
         </div>
@@ -64,17 +114,26 @@ const RegisterMultiSteps = () => {
     )
   }
 
+  const handleStepThreeComplete = async () => {
+    setShowSuccess(true)
+  }
+
+  const handleContinue = () => {
+    setShowSuccess(false)
+    handleNext()
+  }
+
   const stepComponents = [
     <StepLoanInformation
       key='amount'
-      flowId={flowId}
+      onboardingId={onboardingId}
       handleNext={handleNext}
       formData={formData.loanDetails}
       updateFormData={data => updateFormData('loanDetails', data)}
     />,
     <StepLoanType
       key='type'
-      flowId={flowId}
+      onboardingId={onboardingId}
       handleNext={handleNext}
       handlePrev={handlePrev}
       formData={formData.loanType}
@@ -83,10 +142,11 @@ const RegisterMultiSteps = () => {
     />,
     <StepLoanApplicant
       key='applicant'
-      flowId={flowId}
+      onboardingId={onboardingId}
       handlePrev={handlePrev}
       formData={formData.loanApplicant}
       updateFormData={data => updateFormData('loanApplicant', data)}
+      onSubmit={handleStepThreeComplete}
     />
   ]
 
@@ -100,22 +160,39 @@ const RegisterMultiSteps = () => {
           <Logo />
         </Link>
         <StepperWrapper className='p-6 sm:p-8 max-is-[740px] mbs-11 sm:mbs-14 lg:mbs-0'>
-          <Stepper className='mbe-6 md:mbe-12' activeStep={activeStep}>
-            {steps.map((step, index) => (
-              <Step key={index}>
-                <StepLabel StepIconComponent={StepperCustomDot}>
-                  <div className='step-label'>
-                    <Typography className='step-number'>{`0${index + 1}`}</Typography>
-                    <div>
-                      <Typography className='step-title'>{step.title}</Typography>
-                      <Typography className='step-subtitle'>{step.subtitle}</Typography>
+          {showSuccess ? (
+            <SuccessMessage onboardingId={onboardingId} onContinue={handleContinue} />
+          ) : (
+            <>
+              <div className='mb-6 md:mb-12'>
+                <div className='flex justify-between items-center'>
+                  {steps.map((step, index) => (
+                    <div
+                      key={index}
+                      className={`flex flex-col items-center ${
+                        index === activeStep ? 'text-blue-600' : 'text-gray-500'
+                      }`}
+                    >
+                      <div className='relative'>
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center border-2 
+                          ${index === activeStep ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}
+                        >
+                          {index + 1}
+                        </div>
+                      </div>
+                      <div className='text-center mt-2'>
+                        <div className='font-medium'>{step.title}</div>
+                        <div className='text-sm'>{step.subtitle}</div>
+                        {step.optional && <div className='text-xs text-gray-400'>(Optional)</div>}
+                      </div>
                     </div>
-                  </div>
-                </StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          {stepComponents[activeStep]}
+                  ))}
+                </div>
+              </div>
+              {stepComponents[activeStep]}
+            </>
+          )}
         </StepperWrapper>
       </div>
     </div>

@@ -9,9 +9,19 @@ import { Controller, useForm } from 'react-hook-form'
 import { valibotResolver } from '@hookform/resolvers/valibot'
 import { object, string, email, pipe, nonEmpty } from 'valibot'
 import type { SubmitHandler } from 'react-hook-form'
+
 import type { InferInput } from 'valibot'
 
 import DirectionalIcon from '@components/DirectionalIcon'
+
+// Import the StepProps interface
+export interface StepProps {
+  onboardingId: string
+  handlePrev?: () => void
+  formData: Record<string, string>
+  updateFormData: (data: Record<string, string>) => Promise<void>
+  onSubmit?: () => Promise<void>
+}
 
 type FormData = InferInput<typeof schema>
 
@@ -22,14 +32,7 @@ const schema = object({
   legalperson_contact_phone: pipe(string())
 })
 
-type StepProps = {
-  flowId: string
-  handlePrev?: () => void
-  formData: Record<string, string>
-  updateFormData: (data: Record<string, string>) => void
-}
-
-const StepLoanApplicant = ({ flowId, handlePrev, formData, updateFormData }: StepProps) => {
+const StepLoanApplicant = ({ onboardingId, handlePrev, formData, updateFormData, onSubmit }: StepProps) => {
   const {
     control,
     handleSubmit,
@@ -39,7 +42,7 @@ const StepLoanApplicant = ({ flowId, handlePrev, formData, updateFormData }: Ste
     resolver: valibotResolver(schema)
   })
 
-  console.log(flowId)
+  console.log(onboardingId)
 
   // Prepopulate form fields with existing data
   useEffect(() => {
@@ -48,14 +51,17 @@ const StepLoanApplicant = ({ flowId, handlePrev, formData, updateFormData }: Ste
     })
   }, [formData, setValue])
 
-  const onSubmit: SubmitHandler<FormData> = async data => {
-    console.log('Validated Data:', data)
-    updateFormData(data)
-    alert('Submitted..!!') // Allow the user to proceed to the next step regardless
+  const onFormSubmit: SubmitHandler<FormData> = async data => {
+    await updateFormData(data)
+
+    // Call onSubmit prop if provided
+    if (onSubmit) {
+      await onSubmit()
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onFormSubmit)}>
       <div className='mbe-5'>
         <Typography variant='h4' className='mbe-1'>
           Account Information
@@ -118,12 +124,12 @@ const StepLoanApplicant = ({ flowId, handlePrev, formData, updateFormData }: Ste
           <Controller
             name='legalperson_contact_phone'
             control={control}
-            defaultValue={formData.Mobile || ''}
+            defaultValue={formData.legalperson_contact_phone || ''}
             render={({ field }) => (
               <TextField
                 {...field}
                 fullWidth
-                type='number'
+                type='tel'
                 label='Mobile'
                 placeholder='123-456-7890'
                 error={!!errors.legalperson_contact_phone}
@@ -147,6 +153,7 @@ const StepLoanApplicant = ({ flowId, handlePrev, formData, updateFormData }: Ste
           <Button
             type='submit'
             variant='contained'
+            color='primary'
             endIcon={<DirectionalIcon ltrIconClass='ri-arrow-right-line' rtlIconClass='ri-arrow-left-line' />}
           >
             Submit

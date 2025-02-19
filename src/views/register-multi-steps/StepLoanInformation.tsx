@@ -21,13 +21,13 @@ const schema = object({
 })
 
 type StepProps = {
-  flowId: string
+  onboardingId: string
   handleNext: () => void
   formData: Record<string, string>
   updateFormData: (data: Record<string, string>) => void
 }
 
-const StepLoanInformation = ({ flowId, handleNext, formData, updateFormData }: StepProps) => {
+const StepLoanInformation = ({ onboardingId, handleNext, formData, updateFormData }: StepProps) => {
   const {
     control,
     handleSubmit,
@@ -37,7 +37,7 @@ const StepLoanInformation = ({ flowId, handleNext, formData, updateFormData }: S
     resolver: valibotResolver(schema)
   })
 
-  console.log(flowId)
+  console.log(onboardingId)
 
   // Prepopulate form fields with existing data
   useEffect(() => {

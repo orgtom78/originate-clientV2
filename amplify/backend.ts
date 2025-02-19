@@ -33,8 +33,8 @@ export const backend = defineBackend({
 
 const kinesisStack = backend.createStack('kinesis-stack')
 
-const kinesisStream = new Stream(kinesisStack, 'KinesisStream', {
-  streamName: 'myKinesisStream',
+const kinesisStream = new Stream(kinesisStack, 'KinesisStream2', {
+  streamName: 'myKinesisStream2',
   shardCount: 1
 })
 
@@ -135,7 +135,7 @@ mapping.node.addDependency(policy)
 
 backend.myDynamoDBFunction.resources.lambda.addToRolePolicy(
   new PolicyStatement({
-    actions: ['ses:SendEmail', 'ses:SendRawEmail', 'lambda:InvokeFunction'],
+    actions: ['lambda:InvokeFunction'],
     resources: ['*']
   })
 )

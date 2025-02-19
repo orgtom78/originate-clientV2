@@ -46,13 +46,13 @@ const loanTypeData: CustomInputVerticalData[] = [
 
 // Valibot schema
 const schema = object({
-  loanTypes: array(string())
+  loan_type: array(string())
 })
 
 type FormData = InferInput<typeof schema>
 
 type StepProps = {
-  flowId: string
+  onboardingId: string
   handleNext: () => void
   handlePrev: () => void
   formData: Record<string, string>
@@ -60,11 +60,11 @@ type StepProps = {
   updateFormData: (data: Record<string, string>) => void
 }
 
-const StepLoanType = ({ flowId, handleNext, handlePrev, formData, loanDetails, updateFormData }: StepProps) => {
+const StepLoanType = ({ onboardingId, handleNext, handlePrev, formData, loanDetails, updateFormData }: StepProps) => {
   const initialSelected = loanTypeData.filter(item => item.isSelected).map(item => item.value)
   const [selected, setSelected] = useState<string[]>(initialSelected)
 
-  console.log(loanDetails, flowId)
+  console.log(loanDetails, onboardingId)
 
   const {
     control,
@@ -74,17 +74,17 @@ const StepLoanType = ({ flowId, handleNext, handlePrev, formData, loanDetails, u
   } = useForm<FormData>({
     resolver: valibotResolver(schema),
     defaultValues: {
-      loanTypes: formData.loanTypes ? JSON.parse(formData.loanTypes) : initialSelected
+      loan_type: formData.loan_type ? JSON.parse(formData.loan_type) : initialSelected
     }
   })
 
   // Prepopulate form fields with existing data
   useEffect(() => {
-    if (formData.loanTypes) {
-      const parsedTypes = JSON.parse(formData.loanTypes)
+    if (formData.loan_type) {
+      const parsedTypes = JSON.parse(formData.loan_type)
 
       setSelected(parsedTypes)
-      setValue('loanTypes', parsedTypes)
+      setValue('loan_type', parsedTypes)
     }
   }, [formData, setValue])
 
@@ -92,17 +92,17 @@ const StepLoanType = ({ flowId, handleNext, handlePrev, formData, loanDetails, u
     const updatedSelected = selected.includes(value) ? selected.filter(item => item !== value) : [...selected, value]
 
     setSelected(updatedSelected)
-    setValue('loanTypes', updatedSelected)
+    setValue('loan_type', updatedSelected)
   }
 
   const handlePrevious = () => {
-    updateFormData({ ...formData, loanTypes: JSON.stringify(selected) })
+    updateFormData({ ...formData, loan_type: JSON.stringify(selected) })
     handlePrev()
   }
 
   const onSubmit: SubmitHandler<FormData> = async data => {
     console.log('Validated Data:', data)
-    updateFormData({ ...formData, loanTypes: JSON.stringify(data.loanTypes) })
+    updateFormData({ ...formData, loan_type: JSON.stringify(data.loan_type) })
     handleNext()
   }
 
@@ -113,7 +113,7 @@ const StepLoanType = ({ flowId, handleNext, handlePrev, formData, loanDetails, u
       </div>
       <Grid container spacing={5}>
         <Controller
-          name='loanTypes'
+          name='loan_type'
           control={control}
           render={() => (
             <Grid container spacing={3}>
@@ -139,8 +139,8 @@ const StepLoanType = ({ flowId, handleNext, handlePrev, formData, loanDetails, u
           )}
         />
 
-        <Typography variant='body1' color={errors.loanTypes ? 'error' : 'textPrimary'}>
-          {errors.loanTypes?.message || 'Please select all that apply.'}
+        <Typography variant='body1' color={errors.loan_type ? 'error' : 'textPrimary'}>
+          {errors.loan_type?.message || 'Please select all that apply.'}
         </Typography>
 
         <Grid item xs={12} sm={12}>

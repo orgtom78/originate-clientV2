@@ -25,12 +25,27 @@ const INITIAL_FORM_DATA: FormData = {
   loanApplicant: {}
 }
 
-export const useOnboardingFlow = (existingFlowId?: string) => {
-  const [flowId] = useState(() => existingFlowId || uuidv4())
+// Helper to safely convert to string array
+const sanitizeStringArray = (value: unknown): string[] | null => {
+  if (!value) return null
+
+  if (Array.isArray(value)) {
+    return value.filter((item): item is string => typeof item === 'string' && item !== null)
+  }
+
+  if (typeof value === 'string') {
+    return [value]
+  }
+
+  return null
+}
+
+export const useOnboardingFlow = (existingonboardingId?: string) => {
+  const [onboardingId] = useState(() => existingonboardingId || uuidv4())
   const [activeStep, setActiveStep] = useState(0)
 
   const [state, setState] = useState<OnboardingState>({
-    loading: !!existingFlowId,
+    loading: !!existingonboardingId,
     error: null,
     data: INITIAL_FORM_DATA
   })
@@ -41,7 +56,7 @@ export const useOnboardingFlow = (existingFlowId?: string) => {
         loan_amount: apiData.loan_amount || ''
       },
       loanType: {
-        loan_type: apiData.loan_type || ''
+        loan_type: sanitizeStringArray(apiData.loan_type)?.join(', ') || ''
       },
       loanApplicant: {
         legalperson_name: apiData.legalperson_name || '',
@@ -65,12 +80,12 @@ export const useOnboardingFlow = (existingFlowId?: string) => {
     }
   }
 
-  // Fetch existing data if flowId is provided
+  // Fetch existing data if onboardingId is provided
   useEffect(() => {
-    if (existingFlowId) {
+    if (existingonboardingId) {
       const fetchData = async () => {
         try {
-          const result = await getOnboardingData(existingFlowId)
+          const result = await getOnboardingData(existingonboardingId)
 
           if (result) {
             const newStep = getStepIndex(result.loan_progress_step)
@@ -93,13 +108,13 @@ export const useOnboardingFlow = (existingFlowId?: string) => {
 
       fetchData()
     }
-  }, [existingFlowId, transformApiDataToFormData])
+  }, [existingonboardingId, transformApiDataToFormData])
 
   const mapFormDataToApi = useCallback(
     (stepKey: keyof FormData, data: FormDataRecord): Partial<OnboardingData> => {
       const baseData = {
-        id: flowId,
-        legalpersonId: data.flowId
+        id: onboardingId,
+        legalpersonId: data.onboardingId
       }
 
       switch (stepKey) {
@@ -111,7 +126,7 @@ export const useOnboardingFlow = (existingFlowId?: string) => {
         case 'loanType':
           return {
             ...baseData,
-            loan_type: data.loan_type || ''
+            loan_type: sanitizeStringArray(data.loan_type)
           }
         case 'loanApplicant':
           return {
@@ -125,7 +140,7 @@ export const useOnboardingFlow = (existingFlowId?: string) => {
           return baseData
       }
     },
-    [flowId]
+    [onboardingId]
   )
 
   const handleNext = useCallback(() => setActiveStep(prev => prev + 1), [])
@@ -182,7 +197,7 @@ export const useOnboardingFlow = (existingFlowId?: string) => {
   }, [])
 
   return {
-    flowId,
+    onboardingId,
     activeStep,
     formData: state.data,
     loading: state.loading,

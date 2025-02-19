@@ -13,7 +13,7 @@ export type Message = {
 
 const invokeEmailSender = async (message: Message): Promise<void> => {
   const command = new InvokeCommand({
-    FunctionName: process.env.EMAIL_SENDER_FUNCTION_NAME,
+    FunctionName: 'amplify-originatecapital--emailfunctionlambda87FA1-L3JNSfG0XMH7',
     InvocationType: 'Event', // Asynchronous invocation
     Payload: JSON.stringify(message)
   })
