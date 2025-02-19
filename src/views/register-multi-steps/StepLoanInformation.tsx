@@ -17,7 +17,7 @@ import DirectionalIcon from '@components/DirectionalIcon'
 type FormData = InferInput<typeof schema>
 
 const schema = object({
-  loanamount: pipe(string(), nonEmpty('Amount is required'), minLength(6, 'Amount must be at least 100,000'))
+  loan_amount: pipe(string(), nonEmpty('Amount is required'), minLength(6, 'Amount must be at least 100,000'))
 })
 
 type StepProps = {
@@ -63,9 +63,9 @@ const StepLoanInformation = ({ flowId, handleNext, formData, updateFormData }: S
       <Grid container spacing={5}>
         <Grid item xs={12} sm={12}>
           <Controller
-            name='loanamount'
+            name='loan_amount'
             control={control}
-            defaultValue={formData.Mobile || ''}
+            defaultValue={formData.loan_amount || ''}
             render={({ field }) => (
               <TextField
                 {...field}
@@ -73,8 +73,8 @@ const StepLoanInformation = ({ flowId, handleNext, formData, updateFormData }: S
                 type='number'
                 label='Loan Amount'
                 placeholder='500,000'
-                error={!!errors.loanamount}
-                helperText={errors.loanamount?.message}
+                error={!!errors.loan_amount}
+                helperText={errors.loan_amount?.message}
                 InputProps={{
                   startAdornment: <InputAdornment position='start'>US $</InputAdornment>
                 }}

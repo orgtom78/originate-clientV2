@@ -33,8 +33,8 @@ export const backend = defineBackend({
 
 const kinesisStack = backend.createStack('kinesis-stack')
 
-const kinesisStream = new Stream(kinesisStack, 'KinesisStream2', {
-  streamName: 'myKinesisStream2',
+const kinesisStream = new Stream(kinesisStack, 'KinesisStream', {
+  streamName: 'myKinesisStream',
   shardCount: 1
 })
 

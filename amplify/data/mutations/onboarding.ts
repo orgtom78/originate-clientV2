@@ -6,15 +6,17 @@ export const createOnboarding = a
     id: a.id().required(),
 
     loan_amount: a.string(),
-    loan_type: a.string(),
+    loan_type: a.string().array(),
+    loan_progress_step: a.string(),
 
     // Identity and relationship fields
     legalpersonId: a.string(),
     naturalpersonId: a.string(),
 
     // Address information
+    legalperson_address: a.string(),
     legalperson_address_city: a.string(),
-    legalpersonr_address_street: a.string(),
+    legalperson_address_street: a.string(),
     legalperson_address_number: a.string(),
     legalperson_address_postalcode: a.string(),
     legalperson_address_refinment: a.string(),
@@ -61,15 +63,17 @@ export const updateOnboarding = a
     id: a.id().required(),
 
     loan_amount: a.string(),
-    loan_type: a.string(),
+    loan_type: a.string().array(),
+    loan_progress_step: a.string(),
 
     // Identity and relationship fields
     legalpersonId: a.string(),
     naturalpersonId: a.string(),
 
     // Address information
+    legalperson_address: a.string(),
     legalperson_address_city: a.string(),
-    legalpersonr_address_street: a.string(),
+    legalperson_address_street: a.string(),
     legalperson_address_number: a.string(),
     legalperson_address_postalcode: a.string(),
     legalperson_address_refinment: a.string(),

@@ -1,8 +1,8 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 import { v4 as uuidv4 } from 'uuid'
 
-import { saveProgress, submitRegistration } from '../app/api/register'
+import { saveProgress, submitRegistration, getOnboardingData } from '../app/api/register'
 import type { OnboardingData } from '../app/api/register'
 
 type FormDataRecord = Record<string, string>
@@ -13,20 +13,87 @@ interface FormData {
   loanApplicant: FormDataRecord
 }
 
-export const useOnboardingFlow = () => {
-  const [flowId] = useState(() => uuidv4()) // Generate UUID once when hook is initialized
+interface OnboardingState {
+  loading: boolean
+  error: Error | null
+  data: FormData
+}
+
+const INITIAL_FORM_DATA: FormData = {
+  loanDetails: {},
+  loanType: {},
+  loanApplicant: {}
+}
+
+export const useOnboardingFlow = (existingFlowId?: string) => {
+  const [flowId] = useState(() => existingFlowId || uuidv4())
   const [activeStep, setActiveStep] = useState(0)
 
-  const initialFormData: FormData = {
-    loanDetails: {},
-    loanType: {},
-    loanApplicant: {}
+  const [state, setState] = useState<OnboardingState>({
+    loading: !!existingFlowId,
+    error: null,
+    data: INITIAL_FORM_DATA
+  })
+
+  const transformApiDataToFormData = useCallback((apiData: OnboardingData): FormData => {
+    return {
+      loanDetails: {
+        loan_amount: apiData.loan_amount || ''
+      },
+      loanType: {
+        loan_type: apiData.loan_type || ''
+      },
+      loanApplicant: {
+        legalperson_name: apiData.legalperson_name || '',
+        legalperson_address: apiData.legalperson_address || '',
+        legalperson_contact_email: apiData.legalperson_contact_email || '',
+        legalperson_contact_phone: apiData.legalperson_contact_phone || ''
+      }
+    }
+  }, [])
+
+  const getStepIndex = (progress_step?: string | null): number => {
+    switch (progress_step) {
+      case 'loanDetails':
+        return 0
+      case 'loanType':
+        return 1
+      case 'loanApplicant':
+        return 2
+      default:
+        return 0
+    }
   }
 
-  const [formData, setFormData] = useState<FormData>(initialFormData)
+  // Fetch existing data if flowId is provided
+  useEffect(() => {
+    if (existingFlowId) {
+      const fetchData = async () => {
+        try {
+          const result = await getOnboardingData(existingFlowId)
 
-  const handleNext = useCallback(() => setActiveStep(prev => prev + 1), [])
-  const handlePrev = useCallback(() => setActiveStep(prev => Math.max(prev - 1, 0)), [])
+          if (result) {
+            const newStep = getStepIndex(result.loan_progress_step)
+
+            setActiveStep(newStep)
+            setState(prev => ({
+              ...prev,
+              loading: false,
+              data: transformApiDataToFormData(result)
+            }))
+          }
+        } catch (error) {
+          setState(prev => ({
+            ...prev,
+            loading: false,
+            error: error as Error
+          }))
+        }
+      }
+
+      fetchData()
+    }
+  }, [existingFlowId, transformApiDataToFormData])
 
   const mapFormDataToApi = useCallback(
     (stepKey: keyof FormData, data: FormDataRecord): Partial<OnboardingData> => {
@@ -39,20 +106,20 @@ export const useOnboardingFlow = () => {
         case 'loanDetails':
           return {
             ...baseData,
-            loan_amount: data.loanamount || ''
+            loan_amount: data.loan_amount || ''
           }
         case 'loanType':
           return {
             ...baseData,
-            loan_type: data.type || '',
-            loan_purpose: data.purpose || ''
+            loan_type: data.loan_type || ''
           }
         case 'loanApplicant':
           return {
             ...baseData,
-            legalperson_name: data.name || '',
-            legalperson_contact_email: data.email || '',
-            legalperson_contact_phone: data.phone || ''
+            legalperson_name: data.legalperson_name || '',
+            legalperson_contact_email: data.legalperson_contact_email || '',
+            legalperson_contact_phone: data.legalperson_contact_phone || '',
+            legalperson_address: data.legalperson_address || ''
           }
         default:
           return baseData
@@ -61,41 +128,68 @@ export const useOnboardingFlow = () => {
     [flowId]
   )
 
+  const handleNext = useCallback(() => setActiveStep(prev => prev + 1), [])
+
+  const handlePrev = useCallback(() => setActiveStep(prev => Math.max(prev - 1, 0)), [])
+
   const updateFormData = useCallback(
     async (stepKey: keyof FormData, data: Record<string, string>) => {
-      // Update local state
-      setFormData(prev => ({
-        ...prev,
-        [stepKey]: { ...prev[stepKey], ...data }
-      }))
-
-      const apiData = mapFormDataToApi(stepKey, data)
-
       try {
+        setState(prev => ({
+          ...prev,
+          loading: true,
+          error: null
+        }))
+
+        // Update local state immediately for better UX
+        setState(prev => ({
+          ...prev,
+          data: {
+            ...prev.data,
+            [stepKey]: { ...prev.data[stepKey], ...data }
+          }
+        }))
+
+        const apiData = mapFormDataToApi(stepKey, data)
+
         if (activeStep !== 0) {
-          // Update existing record
-          await submitRegistration(apiData.id || '', {
-            ...apiData
-          })
+          await submitRegistration(apiData.id || '', stepKey, apiData)
         } else {
-          // Create new record
-          await saveProgress(apiData.id || '', apiData.id || '', stepKey, data)
+          await saveProgress(apiData.id || '', stepKey, apiData)
         }
+
+        setState(prev => ({
+          ...prev,
+          loading: false
+        }))
       } catch (error) {
         console.error('Failed to save progress:', error)
-
-        // Handle error appropriately
+        setState(prev => ({
+          ...prev,
+          loading: false,
+          error: error as Error
+        }))
       }
     },
     [mapFormDataToApi, activeStep]
   )
 
+  const resetError = useCallback(() => {
+    setState(prev => ({
+      ...prev,
+      error: null
+    }))
+  }, [])
+
   return {
     flowId,
     activeStep,
-    formData,
+    formData: state.data,
+    loading: state.loading,
+    error: state.error,
     handleNext,
     handlePrev,
-    updateFormData
+    updateFormData,
+    resetError
   }
 }

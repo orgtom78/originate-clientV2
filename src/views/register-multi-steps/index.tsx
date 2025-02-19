@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 import MuiStepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
@@ -10,17 +11,11 @@ import { styled } from '@mui/material/styles'
 
 // Custom Components
 import { useOnboardingFlow } from '../../hooks/useOnboardingFlow'
-
 import StepperCustomDot from '@components/stepper-dot'
-
 import Logo from '@components/layout/shared/Logo'
-
 import StepperWrapper from '@core/styles/stepper'
-
 import StepLoanInformation from './StepLoanInformation'
-
 import StepLoanType from './StepLoanType'
-
 import StepLoanApplicant from './StepLoanApplicant'
 
 const steps = [
@@ -39,7 +34,35 @@ const Stepper = styled(MuiStepper)(({ theme }) => ({
 }))
 
 const RegisterMultiSteps = () => {
-  const { flowId, activeStep, formData, handleNext, handlePrev, updateFormData } = useOnboardingFlow()
+  const searchParams = useSearchParams()
+  const flowIdFromUrl = searchParams.get('flowId') || undefined
+
+  const { flowId, activeStep, formData, loading, error, handleNext, handlePrev, updateFormData } =
+    useOnboardingFlow(flowIdFromUrl)
+
+  // Show loading state while fetching existing data
+  if (loading) {
+    return (
+      <div className='flex justify-center items-center min-h-screen'>
+        <div className='animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent' />
+      </div>
+    )
+  }
+
+  // Show error state if data fetch failed
+  if (error) {
+    return (
+      <div className='flex justify-center items-center min-h-screen'>
+        <div className='text-center'>
+          <h2 className='text-xl font-semibold text-error mb-2'>Error Loading Form</h2>
+          <p className='text-muted'>{error.message}</p>
+          <Link href='/register' className='mt-4 text-primary hover:underline'>
+            Start New Application
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   const stepComponents = [
     <StepLoanInformation

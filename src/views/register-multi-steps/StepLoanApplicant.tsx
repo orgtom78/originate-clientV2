@@ -16,10 +16,10 @@ import DirectionalIcon from '@components/DirectionalIcon'
 type FormData = InferInput<typeof schema>
 
 const schema = object({
-  companyname: pipe(string(), nonEmpty('Company Name is required')),
-  address: pipe(string(), nonEmpty('Address is required')),
-  email: pipe(string(), nonEmpty('Email is required'), email('Please enter a valid email address')),
-  Mobile: pipe(string())
+  legalperson_name: pipe(string(), nonEmpty('Company Name is required')),
+  legalperson_address: pipe(string(), nonEmpty('Address is required')),
+  legalperson_contact_email: pipe(string(), nonEmpty('Email is required'), email('Please enter a valid email address')),
+  legalperson_contact_phone: pipe(string())
 })
 
 type StepProps = {
@@ -65,58 +65,58 @@ const StepLoanApplicant = ({ flowId, handlePrev, formData, updateFormData }: Ste
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6}>
           <Controller
-            name='email'
+            name='legalperson_contact_email'
             control={control}
-            defaultValue={formData.email || ''}
+            defaultValue={formData.legalperson_contact_email || ''}
             render={({ field }) => (
               <TextField
                 {...field}
                 fullWidth
                 label='Email'
                 placeholder='johndoe@gmail.com'
-                error={!!errors.email}
-                helperText={errors.email?.message}
+                error={!!errors.legalperson_contact_email}
+                helperText={errors.legalperson_contact_email?.message}
               />
             )}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <Controller
-            name='companyname'
+            name='legalperson_name'
             control={control}
-            defaultValue={formData.companyname || ''}
+            defaultValue={formData.legalperson_name || ''}
             render={({ field }) => (
               <TextField
                 {...field}
                 fullWidth
                 label='Company Name'
                 placeholder='John Doe LLC'
-                error={!!errors.companyname}
-                helperText={errors.companyname?.message}
+                error={!!errors.legalperson_name}
+                helperText={errors.legalperson_name?.message}
               />
             )}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <Controller
-            name='address'
+            name='legalperson_address'
             control={control}
-            defaultValue={formData.lastname || ''}
+            defaultValue={formData.legalperson_address || ''}
             render={({ field }) => (
               <TextField
                 {...field}
                 fullWidth
                 label='Address'
                 placeholder='123 Main St, New York'
-                error={!!errors.address}
-                helperText={errors.address?.message}
+                error={!!errors.legalperson_address}
+                helperText={errors.legalperson_address?.message}
               />
             )}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
           <Controller
-            name='Mobile'
+            name='legalperson_contact_phone'
             control={control}
             defaultValue={formData.Mobile || ''}
             render={({ field }) => (
@@ -126,8 +126,8 @@ const StepLoanApplicant = ({ flowId, handlePrev, formData, updateFormData }: Ste
                 type='number'
                 label='Mobile'
                 placeholder='123-456-7890'
-                error={!!errors.Mobile}
-                helperText={errors.Mobile?.message}
+                error={!!errors.legalperson_contact_phone}
+                helperText={errors.legalperson_contact_phone?.message}
                 InputProps={{
                   startAdornment: <InputAdornment position='start'>US (+1)</InputAdornment>
                 }}
