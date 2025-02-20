@@ -2,11 +2,12 @@ import { a } from '@aws-amplify/backend'
 
 export const Onboarding = a.customType({
   // Required fields
-  id: a.id().required(),
+  id: a.id(),
 
   loan_amount: a.string(),
   loan_type: a.string().array(),
   loan_progress_step: a.string(),
+  loan_follow_up_emails: a.string(),
 
   // Identity and relationship fields
   legalpersonId: a.string(),
@@ -46,4 +47,9 @@ export const Onboarding = a.customType({
   legalperson_contact_phone: a.string(),
   legalperson_contact_position: a.string(),
   legalperson_date_of_incorporation: a.string()
+})
+
+export const OnboardingConnection = a.customType({
+  items: a.ref('Onboarding').array(),
+  nextToken: a.string()
 })
