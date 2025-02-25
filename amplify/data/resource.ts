@@ -11,7 +11,17 @@ const schema = a
   .schema({
     ...models,
     ...queries,
-    ...mutations
+    ...mutations,
+
+    myEmailSender: a
+      .query()
+      .arguments({
+        onboardingId: a.string(),
+        type: a.enum(['direct', 'periodic'])
+      })
+      .returns(a.string())
+      .handler(a.handler.function(myEmailSender))
+      .authorization(allow => [allow.publicApiKey()])
   })
   .authorization(allow => [allow.resource(myEmailSender)])
 

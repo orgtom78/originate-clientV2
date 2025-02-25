@@ -4,18 +4,16 @@ import { aws_dynamodb, Stack } from 'aws-cdk-lib'
 
 import { Stream } from 'aws-cdk-lib/aws-kinesis'
 
-import { StartingPosition, EventSourceMapping } from 'aws-cdk-lib/aws-lambda'
+import { StartingPosition } from 'aws-cdk-lib/aws-lambda'
 
 import { KinesisEventSource } from 'aws-cdk-lib/aws-lambda-event-sources'
 
-import { Policy, PolicyStatement, Effect } from 'aws-cdk-lib/aws-iam'
+import { Policy, PolicyStatement } from 'aws-cdk-lib/aws-iam'
 
 import { data } from './data/resource'
 import { auth } from './auth/resource'
 
 import { myKinesisFunction } from './functions/kinesis-function/resource'
-
-import { myDynamoDBFunction } from './functions/dynamoDB-function/resource'
 
 import { myEmailSender } from './functions/email-sender/resource'
 
@@ -27,14 +25,13 @@ export const backend = defineBackend({
   auth,
   data,
   myKinesisFunction,
-  myDynamoDBFunction,
   myEmailSender
 })
 
 const kinesisStack = backend.createStack('kinesis-stack')
 
-const kinesisStream = new Stream(kinesisStack, 'KinesisStream2', {
-  streamName: 'myKinesisStream2',
+const kinesisStream = new Stream(kinesisStack, 'KinesisStream', {
+  streamName: 'myKinesisStream',
   shardCount: 1
 })
 
@@ -110,7 +107,9 @@ const onboardingTable = aws_dynamodb.Table.fromTableName(
   'Onboarding-inyjwyok2ralnd7utuj4ctspbi-test'
 )
 
-const onTable = backend.data.addDynamoDbDataSource('onboardingTable', onboardingTable)
+backend.data.addDynamoDbDataSource('onboardingTable', onboardingTable)
+
+/** 
 
 const policy = new Policy(Stack.of(onTable), 'MyDynamoDBFunctionStreamingPolicy', {
   statements: [
@@ -140,9 +139,31 @@ backend.myDynamoDBFunction.resources.lambda.addToRolePolicy(
   })
 )
 
+*/
+
 backend.myEmailSender.resources.lambda.addToRolePolicy(
   new PolicyStatement({
     actions: ['ses:SendEmail', 'ses:SendRawEmail'],
     resources: ['*']
   })
 )
+
+const emailPolicy = new Policy(Stack.of(backend.myEmailSender.resources.lambda), 'MyEmailSenderPolicy', {
+  statements: [
+    new PolicyStatement({
+      actions: [
+        'ses:SendEmail',
+        'ses:SendRawEmail',
+        'appsync:GraphQL',
+        'appsync:GetGraphqlApi',
+        'appsync:ListGraphqlApis',
+        'appsync:ListApiKeys'
+      ],
+      resources: ['*']
+    })
+  ]
+})
+
+// apply the policy to the authenticated and unauthenticated roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(emailPolicy)
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(emailPolicy)

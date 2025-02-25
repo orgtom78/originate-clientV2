@@ -57,6 +57,7 @@ type StepProps = {
   handlePrev: () => void
   formData: Record<string, string>
   loanDetails: Record<string, string>
+  allFormData?: Record<string, Record<string, string>>
   updateFormData: (data: Record<string, string>) => void
 }
 

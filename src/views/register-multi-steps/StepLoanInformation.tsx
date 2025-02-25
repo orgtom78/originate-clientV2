@@ -24,6 +24,7 @@ type StepProps = {
   onboardingId: string
   handleNext: () => void
   formData: Record<string, string>
+  allFormData?: Record<string, Record<string, string>>
   updateFormData: (data: Record<string, string>) => void
 }
 
