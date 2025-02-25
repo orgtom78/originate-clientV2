@@ -15,11 +15,17 @@ import StepperWrapper from '@core/styles/stepper'
 import StepLoanInformation from './StepLoanInformation'
 import StepLoanType from './StepLoanType'
 import StepLoanApplicant from './StepLoanApplicant'
+import StepLoanFinancials from './StepLoanFinancials'
+import StepLoanBusiness from './StepLoanBusiness'
+import StepLoanDocuments from './StepLoanDocuments'
 
 const steps = [
   { title: 'Amount', subtitle: 'Loan Details' },
   { title: 'Type', subtitle: 'Loan Type' },
   { title: 'Applicant', subtitle: 'Loan Applicant' },
+  { title: 'Business', subtitle: 'Business Details', optional: true },
+  { title: 'Financials', subtitle: 'Financial Details', optional: true },
+  { title: 'Documents', subtitle: 'Documents', optional: true },
   { title: 'Additional', subtitle: 'Optional Details', optional: true }
 ]
 
@@ -85,6 +91,7 @@ const RegisterMultiSteps = () => {
   const onboardingIdFromUrl = searchParams.get('onboardingId') || undefined
   const [showSuccess, setShowSuccess] = useState(false)
   const isProcessingSubmitRef = useRef(false)
+  const [showAllSteps, setShowAllSteps] = useState(false)
 
   const { onboardingId, activeStep, formData, loading, error, handleNext, handlePrev, updateFormData, resetError } =
     useOnboardingFlow(onboardingIdFromUrl)
@@ -147,6 +154,7 @@ const RegisterMultiSteps = () => {
 
       // Show success message
       setShowSuccess(true)
+      setShowAllSteps(true)
     } catch (error) {
       console.error('Error submitting form:', error)
     } finally {
@@ -192,6 +200,33 @@ const RegisterMultiSteps = () => {
       updateFormData={data => updateFormData('loanApplicant', data)}
       onSubmit={handleStepThreeComplete}
       allFormData={allFormData}
+    />,
+    <StepLoanBusiness
+      key='business'
+      onboardingId={onboardingId}
+      handleNext={handleNext}
+      handlePrev={handlePrev}
+      formData={formData.loanBusiness || {}}
+      updateFormData={data => updateFormData('loanBusiness', data)}
+      allFormData={allFormData}
+    />,
+    <StepLoanFinancials
+      key='financials'
+      onboardingId={onboardingId}
+      handlePrev={handlePrev}
+      handleNext={handleNext}
+      formData={formData.loanFinancials || {}}
+      updateFormData={data => updateFormData('loanFinancials', data)}
+      allFormData={allFormData}
+    />,
+    <StepLoanDocuments
+      key='documents'
+      onboardingId={onboardingId}
+      handlePrev={handlePrev}
+      formData={formData.loanDocuments || {}}
+      updateFormData={data => updateFormData('loanDocuments', data)}
+      allFormData={allFormData}
+      onSubmit={handleStepThreeComplete}
     />
   ]
 
@@ -211,28 +246,34 @@ const RegisterMultiSteps = () => {
             <>
               <div className='mb-6 md:mb-12'>
                 <div className='flex justify-between items-center'>
-                  {steps.map((step, index) => (
-                    <div
-                      key={index}
-                      className={`flex flex-col items-center ${
-                        index === activeStep ? 'text-blue-600' : 'text-gray-500'
-                      }`}
-                    >
-                      <div className='relative'>
-                        <div
-                          className={`w-8 h-8 rounded-full flex items-center justify-center border-2 
-                          ${index === activeStep ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}
-                        >
-                          {index + 1}
+                  {/* Only show the first 4 steps initially, or all steps after step 3 completion */}
+                  {(showAllSteps ? steps : steps.slice(0, 4)).map((step, index) => {
+                    // Adjust the index for display after transition to all steps
+                    const displayIndex = showAllSteps ? index : index
+
+                    return (
+                      <div
+                        key={index}
+                        className={`flex flex-col items-center ${
+                          displayIndex === activeStep ? 'text-blue-600' : 'text-gray-500'
+                        }`}
+                      >
+                        <div className='relative'>
+                          <div
+                            className={`w-8 h-8 rounded-full flex items-center justify-center border-2 
+                            ${displayIndex === activeStep ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}
+                          >
+                            {displayIndex + 1}
+                          </div>
+                        </div>
+                        <div className='text-center mt-2'>
+                          <div className='font-medium'>{step.title}</div>
+                          <div className='text-sm'>{step.subtitle}</div>
+                          {step.optional && <div className='text-xs text-gray-400'>(Optional)</div>}
                         </div>
                       </div>
-                      <div className='text-center mt-2'>
-                        <div className='font-medium'>{step.title}</div>
-                        <div className='text-sm'>{step.subtitle}</div>
-                        {step.optional && <div className='text-xs text-gray-400'>(Optional)</div>}
-                      </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
               {stepComponents[activeStep]}

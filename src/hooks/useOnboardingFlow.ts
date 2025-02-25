@@ -29,6 +29,9 @@ interface OnboardingFormData {
   loanDetails: LoanDetailsFormData
   loanType: LoanTypeFormData
   loanApplicant: LoanApplicantFormData
+  loanBusiness: LoanApplicantFormData
+  loanDocuments: LoanApplicantFormData
+  loanFinancials: LoanApplicantFormData
 }
 
 // State interface
@@ -80,6 +83,24 @@ export const useOnboardingFlow = (existingonboardingId?: string) => {
         legalperson_address: '',
         legalperson_contact_email: '',
         legalperson_contact_phone: ''
+      },
+      loanBusiness: {
+        legalperson_name: '',
+        legalperson_address: '',
+        legalperson_contact_email: '',
+        legalperson_contact_phone: ''
+      },
+      loanFinancials: {
+        legalperson_name: '',
+        legalperson_address: '',
+        legalperson_contact_email: '',
+        legalperson_contact_phone: ''
+      },
+      loanDocuments: {
+        legalperson_name: '',
+        legalperson_address: '',
+        legalperson_contact_email: '',
+        legalperson_contact_phone: ''
       }
     }
   })
@@ -103,13 +124,29 @@ export const useOnboardingFlow = (existingonboardingId?: string) => {
         legalperson_address: apiData.legalperson_address || '',
         legalperson_contact_email: apiData.legalperson_contact_email || '',
         legalperson_contact_phone: apiData.legalperson_contact_phone || ''
+      },
+      loanBusiness: {
+        legalperson_name: apiData.legalperson_name || '',
+        legalperson_address: apiData.legalperson_address || '',
+        legalperson_contact_email: apiData.legalperson_contact_email || '',
+        legalperson_contact_phone: apiData.legalperson_contact_phone || ''
+      },
+      loanFinancials: {
+        legalperson_name: apiData.legalperson_name || '',
+        legalperson_address: apiData.legalperson_address || '',
+        legalperson_contact_email: apiData.legalperson_contact_email || '',
+        legalperson_contact_phone: apiData.legalperson_contact_phone || ''
+      },
+      loanDocuments: {
+        legalperson_name: apiData.legalperson_name || '',
+        legalperson_address: apiData.legalperson_address || '',
+        legalperson_contact_email: apiData.legalperson_contact_email || '',
+        legalperson_contact_phone: apiData.legalperson_contact_phone || ''
       }
     }
   }, [])
 
   const getStepIndex = (progress_step?: string | null): number => {
-    console.log('Current progress step from API:', progress_step) // Add logging
-
     switch (progress_step) {
       case 'loanDetails':
         return 0
@@ -117,11 +154,15 @@ export const useOnboardingFlow = (existingonboardingId?: string) => {
         return 1
       case 'loanApplicant':
         return 2
+      case 'loanBusiness':
+        return 3
+      case 'loanFinancials':
+        return 4
+      case 'loanDocuments':
+        return 5
       case 'completed':
-        return 3 // Handle completed case if you want to show success screen
+        return 5 // Show the last step if completed
       default:
-        console.log('Unknown progress step, defaulting to 0:', progress_step)
-
         return 0
     }
   }
