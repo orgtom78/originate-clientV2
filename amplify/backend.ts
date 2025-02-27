@@ -16,6 +16,7 @@ import { auth } from './auth/resource'
 import { myKinesisFunction } from './functions/kinesis-function/resource'
 
 import { myEmailSender } from './functions/email-sender/resource'
+import { myEmailSenderBuyer } from './functions/email-sender-buyer/resource'
 
 /**
  * @see https://docs.amplify.aws/react/build-a-backend/ to add storage, functions, and more
@@ -25,7 +26,8 @@ export const backend = defineBackend({
   auth,
   data,
   myKinesisFunction,
-  myEmailSender
+  myEmailSender,
+  myEmailSenderBuyer
 })
 
 const kinesisStack = backend.createStack('kinesis-stack')
@@ -167,3 +169,30 @@ const emailPolicy = new Policy(Stack.of(backend.myEmailSender.resources.lambda),
 // apply the policy to the authenticated and unauthenticated roles
 backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(emailPolicy)
 backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(emailPolicy)
+
+backend.myEmailSenderBuyer.resources.lambda.addToRolePolicy(
+  new PolicyStatement({
+    actions: ['ses:SendEmail', 'ses:SendRawEmail'],
+    resources: ['*']
+  })
+)
+
+const emailPolicyBuyer = new Policy(Stack.of(backend.myEmailSenderBuyer.resources.lambda), 'MyEmailSenderBuyerPolicy', {
+  statements: [
+    new PolicyStatement({
+      actions: [
+        'ses:SendEmail',
+        'ses:SendRawEmail',
+        'appsync:GraphQL',
+        'appsync:GetGraphqlApi',
+        'appsync:ListGraphqlApis',
+        'appsync:ListApiKeys'
+      ],
+      resources: ['*']
+    })
+  ]
+})
+
+// apply the policy to the authenticated and unauthenticated roles
+backend.auth.resources.authenticatedUserIamRole.attachInlinePolicy(emailPolicyBuyer)
+backend.auth.resources.unauthenticatedUserIamRole.attachInlinePolicy(emailPolicyBuyer)

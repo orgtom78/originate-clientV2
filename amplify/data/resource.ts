@@ -2,6 +2,7 @@
 import { type ClientSchema, a, defineData } from '@aws-amplify/backend'
 
 import { myEmailSender } from '../functions/email-sender/resource'
+import { myEmailSenderBuyer } from '../functions/email-sender-buyer/resource'
 
 import * as models from './models'
 import * as queries from './queries'
@@ -21,6 +22,16 @@ const schema = a
       })
       .returns(a.string())
       .handler(a.handler.function(myEmailSender))
+      .authorization(allow => [allow.publicApiKey()]),
+
+    myEmailSenderBuyer: a
+      .query()
+      .arguments({
+        onboardingId: a.string(),
+        type: a.enum(['direct', 'periodic'])
+      })
+      .returns(a.string())
+      .handler(a.handler.function(myEmailSenderBuyer))
       .authorization(allow => [allow.publicApiKey()])
   })
   .authorization(allow => [allow.resource(myEmailSender)])

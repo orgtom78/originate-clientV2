@@ -1,10 +1,7 @@
-// email-sender/handler.ts
+// email-sender-buyer/handler.ts
 import { Logger } from '@aws-lambda-powertools/logger'
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses'
 import type { RequestInfo, RequestInit, Response } from 'node-fetch'
-
-// eslint-disable-next-line import/no-unresolved
-import { env } from '$amplify/env/email-function'
 
 const fetch = (...args: [RequestInfo, RequestInit?]): Promise<Response> =>
   import('node-fetch').then(({ default: fetch }) => fetch(...args))
@@ -13,7 +10,7 @@ const sesClient = new SESClient({ region: 'us-east-2' })
 
 const logger = new Logger({
   logLevel: 'INFO',
-  serviceName: 'email-sender'
+  serviceName: 'email-sender-buyer'
 })
 
 interface OnboardingData {
@@ -25,7 +22,8 @@ interface OnboardingData {
   legalperson_contact_name: string
   legalperson_contact_email: string
   legalperson_address: string
-  loan_follow_up_emails?: number | null
+  loan_debtor_email: string // Field for debtor email
+  loan_debtor_follow_up_emails?: number | null // Field for debtor follow-up count
 }
 
 export interface DirectApiEvent {
@@ -78,7 +76,8 @@ async function getOnboardingById(url: string, apiKey: string, id: string): Promi
         legalperson_contact_name
         legalperson_contact_email
         legalperson_address
-        loan_follow_up_emails
+        loan_debtor_email
+        loan_debtor_follow_up_emails
       }
     }
   `
@@ -103,7 +102,8 @@ async function listAllOnboarding(url: string, apiKey: string): Promise<Onboardin
           legalperson_contact_name
           legalperson_contact_email
           legalperson_address
-          loan_follow_up_emails
+          loan_debtor_email
+          loan_debtor_follow_up_emails
         }
         nextToken
       }
@@ -140,6 +140,7 @@ async function listAllOnboarding(url: string, apiKey: string): Promise<Onboardin
 
 /**
  * Generates email content with spintax variations based on follow-up count
+ * specifically tailored for a non-recourse factoring facility
  * @param onboarding The onboarding data
  * @param followUpCount Current follow-up count
  * @returns Email subject and body text
@@ -148,79 +149,96 @@ function generateEmailContent(
   onboarding: OnboardingData,
   followUpCount: number
 ): { subject: string; bodyText: string } {
-  const name = onboarding.legalperson_name || onboarding.legalperson_contact_name || 'Valued Customer'
+  const name = onboarding.legalperson_name || onboarding.legalperson_contact_name || 'Valued Client'
   const amount = onboarding.loan_amount ? `$${onboarding.loan_amount}` : 'your requested amount'
 
   // Email variations based on follow-up count
   if (followUpCount === 0) {
-    // Initial email
+    // Initial email - non-recourse factoring focused
     const subject = processSpintax(
-      `{Thank you for starting|Thanks for beginning} your loan application with Originate Capital`
+      `{Action Required: Additional Information|Important: Documentation Needed} for ${name}'s Non-Recourse Factoring Application`
     )
 
     const bodyText = processSpintax(`
 {Dear|Hello|Hi} ${name},
 
-{Thank you for starting|Thanks for beginning|We appreciate you initiating} your loan application with Originate Capital. Your application is currently {pending completion|awaiting your input|in progress}.
+Your client ${name} has submitted an application for a working capital line of credit through our non-recourse factoring facility. To proceed with the underwriting process, we need additional documentation and information.
 
-{Please click the button below|Click the link below|Follow the link below} to continue with your application process. The current loan amount requested is ${amount}.
+This non-recourse factoring facility will allow your client to {access immediate working capital|improve cash flow|optimize their receivables} without the risk of customer non-payment. The current requested facility amount is ${amount}.
 
-{If you do not complete this application within 7 days, it may be archived.|Your application will remain active for 7 days.|We'll keep your application open for 7 days.}
+{Please use the secure link below|Click the secure link below|Access our secure portal via the link below} to provide the required documentation and complete the application process. 
 
-{If you have any questions, please don't hesitate to reach out.|Feel free to contact us if you need assistance.|Our team is ready to help if you have questions.}
+{The required documentation includes:|We need the following items to proceed:|Please submit these essential documents:}
+- Recent accounts receivable aging report
+- Sample invoices and purchase orders
+- Last 3 months of bank statements
+- Customer concentration information
+- {Historical factoring experience, if applicable|Past factoring experience, if any|Any previous factoring arrangements}
+
+{If we do not receive this information within 7 days, the application may be delayed.|Your prompt response within 7 days will ensure timely processing.|We recommend submitting these documents within 7 days to avoid delays.}
+
+{If you have any questions about this non-recourse facility, please contact us.|If you need clarification on any requirements, our team is ready to assist.|For any questions regarding the non-recourse structure, please reach out.}
     `)
 
     return { subject, bodyText }
   } else if (followUpCount < 3) {
-    // Early follow-ups (gentle reminder)
+    // Early follow-ups - emphasizing non-recourse benefits
     const subject = processSpintax(
-      `{Reminder: Complete|Don't forget to finish|Quick reminder about} your loan application`
+      `{Reminder: Documentation Needed|Follow-up: Additional Information Required} for ${name}'s Non-Recourse Factoring Facility`
     )
 
     const bodyText = processSpintax(`
 {Dear|Hello|Hi} ${name},
 
-{This is a friendly reminder|Just a quick reminder|We wanted to remind you} that you have an incomplete loan application with Originate Capital.
+{This is a friendly reminder|We wanted to follow up|We're reaching out again} regarding the non-recourse factoring facility application for ${name}.
 
-Your application for ${amount} is still {pending|awaiting completion|in progress}. {To complete the process, please click the button below.|Please use the button below to continue your application.|Follow the link below to finish your application.}
+To proceed with underwriting for this ${amount} non-recourse facility, we still need {additional documentation|the requested information|important documents} from you. {The non-recourse structure offers significant protection against customer non-payment risk.|This facility will transfer the credit risk to us, protecting your client from non-payment.|Our non-recourse solution will safeguard your client against customer default.}
 
-{If you have any questions or need assistance, our support team is here to help.|Our team is standing by if you need any help completing your application.|Please let us know if you encounter any issues or have questions.}
+{Please use the secure link below to upload the required documentation.|Click the secure link below to provide the necessary information.|Access our secure portal to submit the outstanding documents.}
+
+{If you're experiencing any difficulties gathering the required documentation, please let us know.|Need assistance collecting the required information? Our team can help.|Having trouble with any of the documentation requirements? Contact us for support.}
     `)
 
     return { subject, bodyText }
   } else if (followUpCount < 7) {
-    // Middle follow-ups (stronger reminder)
+    // Middle follow-ups - more urgent, emphasizing benefits lost
     const subject = processSpintax(
-      `{Important: Action required|Your application needs attention|Please complete} your loan application`
+      `{Urgent: Action Required|Important Follow-up Needed} for ${name}'s Non-Recourse Factoring Application`
     )
 
     const bodyText = processSpintax(`
 {Dear|Hello|Hi} ${name},
 
-{We noticed you haven't completed|We see that you still need to finish|Your loan application is still pending completion for} your loan application for ${amount}.
+{We have not yet received|We are still waiting for|We still need} the required documentation for ${name}'s non-recourse factoring facility application for ${amount}.
 
-{Taking just a few minutes to complete your application could help secure the financing you need.|Completing your application only takes a few minutes and could help you access needed capital.|A few minutes of your time now could help secure your business financing.}
+{Delaying this process may impact your client's ability to secure this valuable financing solution.|Without the required documentation, we cannot proceed with underwriting this non-recourse facility.|The benefits of non-recourse factoring – including credit risk protection – are on hold pending your submission.}
 
-{Click the button below to continue where you left off.|Use the link below to resume your application.|Follow the button below to pick up where you left off.}
+{The non-recourse feature provides significant value by protecting your client from customer non-payment risks.|This facility would transfer the customer credit risk to Originate Capital, a benefit that's currently on hold.|Your client stands to gain substantial protection against bad debt through this non-recourse arrangement.}
 
-{If you're experiencing any difficulties, our team is ready to assist you.|Need help? Our support team is just a call away.|Having trouble? We're here to help you through the process.}
+{Please use the secure link below to provide the outstanding information immediately.|Click the secure link below to upload the required documentation without delay.|Access our secure portal now to submit the necessary documents.}
+
+{If there are specific challenges preventing you from submitting these documents, please contact us immediately.|Facing obstacles with document collection? Let us know how we can help.|If you need assistance with any aspect of the application, our team is standing by.}
     `)
 
     return { subject, bodyText }
   } else {
-    // Later follow-ups (urgent reminder)
-    const subject = processSpintax(`{Final reminder|Last chance|Important: Final notice} for your loan application`)
+    // Later follow-ups - final notice, last chance
+    const subject = processSpintax(
+      `{Final Notice|Last Opportunity|Critical Update}: ${name}'s Non-Recourse Factoring Application`
+    )
 
     const bodyText = processSpintax(`
 {Dear|Hello|Hi} ${name},
 
-{This may be our final reminder about|We wanted to send one last reminder regarding|This is your final notice concerning} your incomplete loan application for ${amount}.
+{This is our final outreach|This is our last attempt to contact you|We're making a final effort to reach you} regarding ${name}'s incomplete non-recourse factoring facility application for ${amount}.
 
-{If you're still interested in financing, we encourage you to complete your application soon.|Your application will soon be archived unless you take action.|To prevent your application from being archived, please complete it soon.}
+{Without the required documentation, we will need to close this application within 48 hours.|Your client's opportunity to secure this non-recourse facility will expire in the next 48 hours without action.|We must conclude this application process within 48 hours if we don't receive the required information.}
 
-{Click the button below to complete your application.|Use the link below to finish your application process.|Follow the button below to finalize your application.}
+{The non-recourse protection – which shields your client from customer default risk – is a significant benefit that will be forfeited.|Your client will miss the opportunity to transfer credit risk to us through this non-recourse arrangement.|The valuable bad debt protection offered by our non-recourse structure remains unavailable without completed documentation.}
 
-{If you no longer need financing or have any questions, please let us know.|If your financing needs have changed, please contact us.|Need assistance? Our team is ready to help you complete your application.}
+{Please use the secure link below immediately to complete this process.|Click the secure link now to provide the required information.|Access our secure portal right away to submit the outstanding documentation.}
+
+{If your client's financing needs have changed, please let us know.|If you wish to withdraw this application or discuss alternatives, please contact us.|Should you need to discuss the status of this application, our team is available to assist.}
     `)
 
     return { subject, bodyText }
@@ -239,7 +257,7 @@ async function sendEmail(recipient: string, subject: string, bodyText: string, o
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Your Loan Application</title>
+    <title>Non-Recourse Factoring Application</title>
     <style>
       @media only screen and (max-width: 620px) {
         table.body h1 {
@@ -328,7 +346,7 @@ async function sendEmail(recipient: string, subject: string, bodyText: string, o
   
   <!-- Main content with card-like design -->
   <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-top: -20px; padding: 30px; position: relative;">
-    <h1 style="font-weight: 300; color: #333; font-size: 24px; margin-bottom: 25px;">Your Application Status</h1>
+    <h1 style="font-weight: 300; color: #333; font-size: 24px; margin-bottom: 25px;">Non-Recourse Factoring Application</h1>
     
     <p style="margin-bottom: 20px; color: #555;">${processedBodyText.split('\n\n').join('</p><p style="margin-bottom: 20px; color: #555;">')}</p>
     
@@ -336,21 +354,38 @@ async function sendEmail(recipient: string, subject: string, bodyText: string, o
     <div style="text-align: center; margin: 35px 0;">
       <a href="https://app.originatecapital.co/register?onboardingId=${onboarding.id}" 
          style="display: inline-block; background-color: #2e9787; color: white; padding: 14px 28px; text-decoration: none; border-radius: 4px; font-weight: 500; transition: all 0.2s ease; border: none;">
-         Complete Your Application
+         Provide Required Information
       </a>
     </div>
     
-    <!-- Timeline element -->
+    <!-- Non-recourse benefits callout -->
+    <div style="background-color: #f5f9f8; border-left: 4px solid #2e9787; padding: 15px; margin: 30px 0;">
+      <h3 style="margin-top: 0; color: #2e9787;">Benefits of Non-Recourse Factoring</h3>
+      <ul style="padding-left: 20px;">
+        <li>Transfer credit risk to the factor</li>
+        <li>Protection against customer bankruptcy or default</li>
+        <li>Improve cash flow without increasing debt</li>
+        <li>Secure working capital backed by accounts receivable</li>
+        <li>Outsource collections and credit management</li>
+      </ul>
+    </div>
+    
+    <!-- Application progress -->
     <div style="margin: 40px 0 30px; border-left: 2px solid #e0e0e0; padding-left: 20px;">
       <div style="margin-bottom: 15px; position: relative;">
         <div style="width: 10px; height: 10px; border-radius: 50%; background: #2e9787; position: absolute; left: -25px; top: 6px;"></div>
-        <p style="margin: 0; font-weight: 500;">Application Started</p>
-        <p style="margin: 5px 0 0; color: #888; font-size: 14px;">Step 1 of 3 completed</p>
+        <p style="margin: 0; font-weight: 500;">Application Initiated</p>
+        <p style="margin: 5px 0 0; color: #888; font-size: 14px;">Initial submission complete</p>
       </div>
       <div style="margin-bottom: 15px; position: relative;">
         <div style="width: 10px; height: 10px; border-radius: 50%; background: #e0e0e0; position: absolute; left: -25px; top: 6px;"></div>
-        <p style="margin: 0; font-weight: 500; color: #888;">Financial Details</p>
+        <p style="margin: 0; font-weight: 500; color: #888;">Documentation Required</p>
         <p style="margin: 5px 0 0; color: #888; font-size: 14px;">Waiting for completion</p>
+      </div>
+      <div style="margin-bottom: 15px; position: relative;">
+        <div style="width: 10px; height: 10px; border-radius: 50%; background: #e0e0e0; position: absolute; left: -25px; top: 6px;"></div>
+        <p style="margin: 0; font-weight: 500; color: #888;">Underwriting</p>
+        <p style="margin: 5px 0 0; color: #888; font-size: 14px;">Pending documentation</p>
       </div>
     </div>
   </div>
@@ -359,9 +394,10 @@ async function sendEmail(recipient: string, subject: string, bodyText: string, o
   <div style="max-width: 600px; margin: 0 auto; padding: 20px; text-align: center; color: #888; font-size: 14px;">
     <p>Originate Capital Inc, 8 The Green, Dover DE 19901</p>
     <div style="margin: 15px 0;">
-      <a href="#" style="color: #2e9787; text-decoration: none; margin: 0 10px;">Privacy Policy</a>
-      <a href="#" style="color: #2e9787; text-decoration: none; margin: 0 10px;">Contact Us</a>
+      <a href="https://originatecapital.co/privacy-policy/" style="color: #2e9787; text-decoration: none; margin: 0 10px;">Privacy Policy</a>
+      <a href="https://originatecapital.co/contact/" style="color: #2e9787; text-decoration: none; margin: 0 10px;">Contact Us</a>
     </div>
+    <p style="font-size: 12px; color: #aaa;">This message contains confidential information and is intended only for the recipient. If you received this in error, please contact us immediately.</p>
   </div>
 </body>
 </html>
@@ -405,7 +441,7 @@ async function updateFollowUpCount(url: string, apiKey: string, id: string, curr
     mutation updateOnboarding($input: UpdateOnboardingInput!) {
       updateOnboarding(input: $input) {
         id
-        loan_follow_up_emails
+        loan_debtor_follow_up_emails
       }
     }
   `
@@ -413,7 +449,7 @@ async function updateFollowUpCount(url: string, apiKey: string, id: string, curr
   await queryGraphQL(url, apiKey, mutation, {
     input: {
       id,
-      loan_follow_up_emails: newCount
+      loan_debtor_follow_up_emails: newCount
     }
   })
 
@@ -421,8 +457,9 @@ async function updateFollowUpCount(url: string, apiKey: string, id: string, curr
 }
 
 export const handler = async (event: HandlerEvent) => {
-  const apiKey = String('da2-4o76updeb5bkbfgdik63uj7qjy')
-  const url = env.AMPLIFY_DATA_GRAPHQL_ENDPOINT
+  const apiKey = 'da2-4o76updeb5bkbfgdik63uj7qjy'
+
+  const url = 'https://q54x3izgzneh5oq22py5d7batq.appsync-api.us-east-2.amazonaws.com/graphql'
 
   try {
     if (event.type === 'direct') {
@@ -433,14 +470,24 @@ export const handler = async (event: HandlerEvent) => {
         throw new Error(`Onboarding not found for ID: ${event.onboardingId}`)
       }
 
+      // Check if debtor email exists
+      if (!onboarding.loan_debtor_email) {
+        logger.warn(`No debtor email found for onboarding ID: ${event.onboardingId}`)
+
+        return {
+          statusCode: 400,
+          body: 'No debtor email found for this application'
+        }
+      }
+
       // Initialize follow-up count if null
-      const followUpCount = onboarding.loan_follow_up_emails ?? 0
+      const followUpCount = onboarding.loan_debtor_follow_up_emails ?? 0
 
       // Generate appropriate email content based on follow-up count
       const { subject, bodyText } = generateEmailContent(onboarding, followUpCount)
 
-      // Send email for the specific onboarding
-      await sendEmail(onboarding.legalperson_contact_email, subject, bodyText, onboarding)
+      // Send email to the debtor email address
+      await sendEmail(onboarding.loan_debtor_email, subject, bodyText, onboarding)
 
       // Update the follow-up count
       await updateFollowUpCount(url, apiKey, onboarding.id, followUpCount)
@@ -449,8 +496,14 @@ export const handler = async (event: HandlerEvent) => {
       const onboardings = await listAllOnboarding(url, apiKey)
 
       for (const onboarding of onboardings) {
+        // Skip if no debtor email is provided
+        if (!onboarding.loan_debtor_email) {
+          logger.warn(`Skipping onboarding ID: ${onboarding.id} - No debtor email found`)
+          continue
+        }
+
         // Handle null follow-up count
-        const followUpCount = onboarding.loan_follow_up_emails ?? 0
+        const followUpCount = onboarding.loan_debtor_follow_up_emails ?? 0
 
         // Skip if max follow-ups reached or in last step
         if (followUpCount >= 40 || onboarding.loan_progress_step === 'laststep') {
@@ -460,8 +513,8 @@ export const handler = async (event: HandlerEvent) => {
         // Generate appropriate email content based on follow-up count
         const { subject, bodyText } = generateEmailContent(onboarding, followUpCount)
 
-        // Send follow-up email
-        await sendEmail(onboarding.legalperson_contact_email, subject, bodyText, onboarding)
+        // Send follow-up email to the debtor email
+        await sendEmail(onboarding.loan_debtor_email, subject, bodyText, onboarding)
 
         // Update follow-up count
         await updateFollowUpCount(url, apiKey, onboarding.id, followUpCount)

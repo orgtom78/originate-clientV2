@@ -36,7 +36,7 @@ type FormData = {
   legalperson_contact_phone: string
 }
 
-const StepLoanApplicant = ({ handlePrev, formData, updateFormData, onSubmit }: StepProps) => {
+const StepLoanApplicant = ({ handlePrev, formData, allFormData, updateFormData, onSubmit }: StepProps) => {
   const {
     control,
     handleSubmit,
@@ -51,6 +51,10 @@ const StepLoanApplicant = ({ handlePrev, formData, updateFormData, onSubmit }: S
   useEffect(() => {
     reset(formData)
   }, [formData, reset])
+
+  const applicantType = allFormData?.loanType?.applicantType
+
+  console.log('Applicant Type:', applicantType)
 
   // Single submission handler
   const onFormSubmit = async (data: FormData) => {

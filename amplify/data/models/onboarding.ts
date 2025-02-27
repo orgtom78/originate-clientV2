@@ -8,6 +8,8 @@ export const Onboarding = a.customType({
   loan_type: a.string().array(),
   loan_progress_step: a.string(),
   loan_follow_up_emails: a.string(),
+  loan_debtor_email: a.string(),
+  loan_debtor_follow_up_emails: a.string(),
 
   // Identity and relationship fields
   legalpersonId: a.string(),

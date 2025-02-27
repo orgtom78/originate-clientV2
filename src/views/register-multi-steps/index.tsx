@@ -1,13 +1,9 @@
-// src/views/register-multi-steps/index.tsx
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-
-// Custom Components
-import { Alert, AlertTitle } from '@mui/material'
 
 import { useOnboardingFlow } from '../../hooks/useOnboardingFlow'
 import Logo from '@components/layout/shared/Logo'
@@ -18,6 +14,7 @@ import StepLoanApplicant from './StepLoanApplicant'
 import StepLoanFinancials from './StepLoanFinancials'
 import StepLoanBusiness from './StepLoanBusiness'
 import StepLoanDocuments from './StepLoanDocuments'
+import SuccessMessage from './SuccessMessage'
 
 const steps = [
   { title: 'Amount', subtitle: 'Loan Details' },
@@ -29,72 +26,34 @@ const steps = [
   { title: 'Additional', subtitle: 'Optional Details', optional: true }
 ]
 
-interface SuccessMessageProps {
-  onboardingId: string
-  onContinue: () => void
-  allFormData: Record<string, Record<string, string>>
-}
-
-const SuccessMessage = ({ onboardingId, onContinue, allFormData }: SuccessMessageProps) => {
-  const loanAmount = allFormData.loanDetails?.loan_amount || 'N/A'
-  const loanType = allFormData.loanType?.loan_type || 'N/A'
-  const applicantName = allFormData.loanApplicant?.legalperson_name || 'N/A'
-
-  return (
-    <div className='space-y-6 p-6'>
-      <Alert severity='success'>
-        <AlertTitle>Application Submitted Successfully!</AlertTitle>
-        Your application has been received. You will receive an email with further instructions.
-      </Alert>
-
-      <div className='space-y-2 bg-gray-50 p-4 rounded-lg'>
-        <p className='text-gray-600'>
-          Application ID: <span className='font-mono'>{onboardingId}</span>
-        </p>
-        <p className='text-sm text-gray-600'>
-          Loan Amount: <span className='font-semibold'>${loanAmount}</span>
-        </p>
-        <p className='text-sm text-gray-600'>
-          Loan Type: <span className='font-semibold'>{loanType}</span>
-        </p>
-        <p className='text-sm text-gray-600'>
-          Applicant: <span className='font-semibold'>{applicantName}</span>
-        </p>
-        <p className='text-sm text-gray-500 mt-4'>
-          Please save this ID for your reference. A confirmation email will be sent shortly.
-        </p>
-      </div>
-
-      <div className='flex justify-between items-center pt-4'>
-        <button
-          onClick={() => (window.location.href = '/')}
-          className='px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 flex items-center gap-2'
-        >
-          <span className='text-sm'>←</span>
-          Return Home
-        </button>
-
-        <button
-          onClick={onContinue}
-          className='px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center gap-2'
-        >
-          Continue with Additional Info
-          <span className='text-sm'>→</span>
-        </button>
-      </div>
-    </div>
-  )
-}
-
 const RegisterMultiSteps = () => {
   const searchParams = useSearchParams()
-  const onboardingIdFromUrl = searchParams.get('onboardingId') || undefined
+  const onboardingIdFromUrl = searchParams.get('onboardingId') || searchParams.get('partnerId') || undefined
   const [showSuccess, setShowSuccess] = useState(false)
   const isProcessingSubmitRef = useRef(false)
   const [showAllSteps, setShowAllSteps] = useState(false)
+  const initialLoadRef = useRef(true)
 
   const { onboardingId, activeStep, formData, loading, error, handleNext, handlePrev, updateFormData, resetError } =
     useOnboardingFlow(onboardingIdFromUrl)
+
+  // Check if we need to show all steps based on loaded data
+  // This effect runs when formData or activeStep changes
+  useEffect(() => {
+    if (!loading && initialLoadRef.current) {
+      initialLoadRef.current = false
+
+      // If we loaded data with an onboardingId and we're past step 3, or progress is completed
+      if (onboardingIdFromUrl) {
+        const progress = formData.loanApplicant?.loan_progress_step || ''
+
+        // Show all steps if we're beyond step 3 or progress is marked as completed
+        if (activeStep >= 3 || progress === 'completed') {
+          setShowAllSteps(true)
+        }
+      }
+    }
+  }, [formData, activeStep, loading, onboardingIdFromUrl])
 
   // Show loading state
   if (loading) {
@@ -125,11 +84,17 @@ const RegisterMultiSteps = () => {
     )
   }
 
+  // Check URL parameters for buyer flow
+  const isBuyerFlow = searchParams.get('type') === 'buyer'
+
   // Create a combined object with all form data
   const allFormData = {
     loanDetails: formData.loanDetails || {},
     loanType: formData.loanType || {},
-    loanApplicant: formData.loanApplicant || {}
+    loanApplicant: formData.loanApplicant || {},
+    loanBusiness: formData.loanBusiness || {},
+    loanFinancials: formData.loanFinancials || {},
+    loanDocuments: formData.loanDocuments || {}
   }
 
   const handleStepThreeComplete = async (formData: Record<string, string>) => {
@@ -141,10 +106,9 @@ const RegisterMultiSteps = () => {
       // Merge form data with data from previous steps
       const completeData = {
         ...formData,
-        loan_progress_step: 'completed',
+        loan_progress_step: 'loanApplicant',
 
         // Now TypeScript knows these properties exist
-
         loan_amount: allFormData.loanDetails.loan_amount,
         loan_type: allFormData.loanType.loan_type
       }
@@ -246,24 +210,26 @@ const RegisterMultiSteps = () => {
             <>
               <div className='mb-6 md:mb-12'>
                 <div className='flex justify-between items-center'>
-                  {/* Only show the first 4 steps initially, or all steps after step 3 completion */}
-                  {(showAllSteps ? steps : steps.slice(0, 4)).map((step, index) => {
-                    // Adjust the index for display after transition to all steps
-                    const displayIndex = showAllSteps ? index : index
-
+                  {/* 
+                    Show all steps if:
+                    1. showAllSteps is true (completed step 3)
+                    2. activeStep >= 3 (we're on step 4+)
+                    3. isBuyerFlow is true (partner/buyer flow)
+                  */}
+                  {(showAllSteps || activeStep >= 3 || isBuyerFlow ? steps : steps.slice(0, 4)).map((step, index) => {
                     return (
                       <div
                         key={index}
                         className={`flex flex-col items-center ${
-                          displayIndex === activeStep ? 'text-blue-600' : 'text-gray-500'
+                          index === activeStep ? 'text-blue-600' : 'text-gray-500'
                         }`}
                       >
                         <div className='relative'>
                           <div
                             className={`w-8 h-8 rounded-full flex items-center justify-center border-2 
-                            ${displayIndex === activeStep ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}
+                            ${index === activeStep ? 'border-blue-600 bg-blue-50' : 'border-gray-300'}`}
                           >
-                            {displayIndex + 1}
+                            {index + 1}
                           </div>
                         </div>
                         <div className='text-center mt-2'>

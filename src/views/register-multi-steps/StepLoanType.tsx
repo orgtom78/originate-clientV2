@@ -75,19 +75,48 @@ const StepLoanType = ({ onboardingId, handleNext, handlePrev, formData, loanDeta
   } = useForm<FormData>({
     resolver: valibotResolver(schema),
     defaultValues: {
-      loan_type: formData.loan_type ? JSON.parse(formData.loan_type) : initialSelected
+      loan_type: (() => {
+        if (formData.loan_type) {
+          try {
+            const parsed = JSON.parse(formData.loan_type)
+
+            return Array.isArray(parsed) ? parsed : [formData.loan_type]
+          } catch (error) {
+            console.log('Error parsing loan_type:', error)
+
+            return [formData.loan_type] // Treat as single string value
+          }
+        }
+
+        return initialSelected
+      })()
     }
   })
 
   // Prepopulate form fields with existing data
   useEffect(() => {
     if (formData.loan_type) {
-      const parsedTypes = JSON.parse(formData.loan_type)
+      let typeArray = []
 
-      setSelected(parsedTypes)
-      setValue('loan_type', parsedTypes)
+      // Handle string, array, or JSON string
+      if (Array.isArray(formData.loan_type)) {
+        typeArray = formData.loan_type
+      } else if (typeof formData.loan_type === 'string') {
+        try {
+          const parsed = JSON.parse(formData.loan_type)
+
+          typeArray = Array.isArray(parsed) ? parsed : [formData.loan_type]
+        } catch (error) {
+          console.log('Non-JSON loan_type:', formData.loan_type)
+          typeArray = [formData.loan_type]
+        }
+      }
+
+      // Now use the typeArray
+      setSelected(typeArray)
+      setValue('loan_type', typeArray)
     }
-  }, [formData, setValue])
+  }, [formData.loan_type, setValue])
 
   const handleChange = (value: string) => {
     const updatedSelected = selected.includes(value) ? selected.filter(item => item !== value) : [...selected, value]
@@ -103,7 +132,23 @@ const StepLoanType = ({ onboardingId, handleNext, handlePrev, formData, loanDeta
 
   const onSubmit: SubmitHandler<FormData> = async data => {
     console.log('Validated Data:', data)
-    updateFormData({ ...formData, loan_type: JSON.stringify(data.loan_type) })
+
+    // Declare applicantType outside the conditional blocks
+    let applicantType: string
+
+    if (data.loan_type.includes('importfinance') || data.loan_type.includes('scf')) {
+      applicantType = 'supplier'
+    } else {
+      applicantType = 'debtor'
+    }
+
+    // Now applicantType is in scope here
+    updateFormData({
+      ...formData,
+      loan_type: JSON.stringify(data.loan_type),
+      applicantType: applicantType
+    })
+
     handleNext()
   }
 
